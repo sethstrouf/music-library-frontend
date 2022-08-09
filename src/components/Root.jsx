@@ -3,7 +3,6 @@ import Axios from "axios"
 import { alertService } from '../services/alert'
 import SubscribeForm from "./SubscribeForm"
 import UserTable from "./UserTable"
-import { API_HOST } from "../config"
 
 class Root extends React.Component {
 
@@ -46,7 +45,7 @@ class Root extends React.Component {
       })
       return alertService.showError('Please input email!')
     }
-    Axios.post(`${API_HOST}/users`, {
+    Axios.post(`${process.env.REACT_APP_API_HOST}/users`, {
       name: this.state.name,
       email: this.state.email,
     }).then(res => {

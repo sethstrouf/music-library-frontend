@@ -1,7 +1,6 @@
 import React from "react"
 import { alertService } from '../services/alert'
 import Axios from "axios"
-import { API_HOST } from "../config"
 class UserTable extends React.Component {
 
   constructor(props) {
@@ -13,7 +12,7 @@ class UserTable extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get(`${API_HOST}/users`).then(res => {
+    Axios.get(`${process.env.REACT_APP_API_HOST}/users`).then(res => {
       this.setState({
         users: res.data
       })
