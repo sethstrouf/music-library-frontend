@@ -1,87 +1,66 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Axios from "axios"
 import { alertService } from '../services/alert'
 import SubscribeForm from "./SubscribeForm"
 import UserTable from "./UserTable"
 
-class Root extends React.Component {
+const Root = () => {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      name: '',
-      email: '',
-      sendingRequest: false,
-      subscription: false,
-    }
-    this.changeName = this.changeName.bind(this)
-    this.changeEmail = this.changeEmail.bind(this)
-    this.subscribe = this.subscribe.bind(this)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [isSendingRequest, setIsSendingRequest] = useState(false)
+  const [isSubscribed, setIsSubscribed] = useState(false)
+
+  const changeName = (e) => {
+    setName(e.target.value)
   }
 
-  changeName(e) {
-    let name = e.target.value
-    this.setState({name})
+  const changeEmail = (e) => {
+    setEmail(e.target.value)
   }
 
-  changeEmail(e) {
-    let email = e.target.value
-    this.setState({email})
-  }
-
-  subscribe() {
-    this.setState({
-      sendingRequest: true
-    })
-    if (!this.state.name) {
-      this.setState({
-        sendingRequest: false
-      })
+  const subscribe = () => {
+    setIsSendingRequest(true)
+    if (!name) {
+      setIsSendingRequest(false)
       return alertService.showError('Please input name!')
     }
-    if (!this.state.email) {
-      this.setState({
-        sendingRequest: false
-      })
+    if (!email) {
+      setIsSendingRequest(false)
       return alertService.showError('Please input email!')
     }
     Axios.post(`${process.env.REACT_APP_API_HOST}/users`, {
-      name: this.state.name,
-      email: this.state.email,
+      name: name,
+      email: email,
     }).then(res => {
-      if (res.data) {
-        this.setState({
-          subscription: true
-        })
+      if (res.data && res.data.id) {
+        alertService.showSuccess(`Welcome, ${res.data.name}!`)
+        setIsSubscribed(true)
       } else {
         alertService.showError('Subscription failed!')
       }
     }).finally(() => {
-      this.setState({
-        sendingRequest: false
-      })
+      setIsSendingRequest(false)
     })
   }
 
-  render() {
-    return (
-      <div className="container">
-          <>
-            <UserTable
-              subscription={this.state.subscription}
-            />
-            <SubscribeForm
-            name={this.state.name}
-            email={this.state.email}
-            changeName={this.changeName}
-            changeEmail={this.changeEmail}
-            subscribe={this.subscribe}
-            sendingRequest={this.state.sendingRequest}
-            />
-          </>
-      </div>
-    )
-  }
+  return (
+    <div className="container">
+        <>
+          <UserTable
+            subscription={isSubscribed}
+          />
+          <SubscribeForm
+            name={name}
+            email={email}
+            changeName={changeName}
+            changeEmail={changeEmail}
+            subscribe={subscribe}
+            sendingRequest={isSendingRequest}
+          />
+        </>
+    </div>
+  )
 }
 
 export default Root
