@@ -1,68 +1,57 @@
-import React from "react"
+import React, { useEffect, useState } from 'react'
 import { alertService } from '../services/alert'
-import Axios from "axios"
-class UserTable extends React.Component {
+import Axios from 'axios'
 
-  constructor(props) {
-    super(props)
-    this.state={
-      loading: true,
-      users: []
-    }
-  }
+const UserTable = () => {
 
-  componentDidMount() {
+  const [users, setUsers] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
     Axios.get(`${process.env.REACT_APP_API_HOST}/users`).then(res => {
-      this.setState({
-        users: res.data
-      })
+      setUsers(res.data)
     }).catch(e => {
       alertService.showError('Cannot get user data...')
     }).finally(() => {
-      this.setState({
-        loading: false
-      })
+      setIsLoading(false)
     })
-  }
+  }, [])
 
-  render() {
-    return (
-      <div className="row mt-5 justify-content-center">
-        <div className="col-12 col-lg-8">
-          <table className="table table-hover table-striped">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Name</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-            {this.state.loading ? (
-              <tr><td>Loading...</td></tr>
-            ) : (
-              <>
-                {this.state.users.map((user, index) => {
-                  return (
-                    <tr key={index}>
-                      <thd>{index+1}</thd>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                    </tr>
-                  )
-                })}
-                {!this.state.users.length && (
-                  <tr><td>Loading...</td></tr>
-                  )}
-              </>
-            )}
-            </tbody>
-          </table>
-          <hr></hr>
-        </div>
+  return (
+    <div className="row mt-5 justify-content-center">
+      <div className="col-12 col-lg-8">
+        <table className="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Name</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+          {isLoading ? (
+            <tr><td>Loading...</td></tr>
+          ) : (
+            <>
+              {users.map((user) => {
+                return (
+                  <tr key={user.id}>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                  </tr>
+                )
+              })}
+              {!users.length && (
+                <tr><td>Loading...</td></tr>
+                )}
+            </>
+          )}
+          </tbody>
+        </table>
+        <hr></hr>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default UserTable

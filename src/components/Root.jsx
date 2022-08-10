@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react"
-import Axios from "axios"
+import React, { useState } from 'react'
+import Axios from 'axios'
 import { alertService } from '../services/alert'
-import SubscribeForm from "./SubscribeForm"
-import UserTable from "./UserTable"
+import SubscribeForm from './SubscribeForm'
+import UserTable from './UserTable'
 
 const Root = () => {
 
@@ -47,9 +47,7 @@ const Root = () => {
   return (
     <div className="container">
         <>
-          <UserTable
-            subscription={isSubscribed}
-          />
+          <UserTable />
           <SubscribeForm
             name={name}
             email={email}
