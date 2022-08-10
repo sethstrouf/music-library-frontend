@@ -33,7 +33,7 @@ const UserTable = () => {
             <tr><td>Loading...</td></tr>
           ) : (
             <>
-              {Array.from(users).map((user) => {
+              {users.map((user) => {
                 return (
                   <tr key={user.id}>
                     <td>{user.name}</td>
