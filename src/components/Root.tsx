@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import Axios from 'axios'
 import { alertService } from '../services/alert'
 import SubscribeForm from './SubscribeForm'
@@ -11,11 +11,11 @@ const Root = () => {
   const [isSendingRequest, setIsSendingRequest] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
 
-  const changeName = (e) => {
+  const changeName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
   }
 
-  const changeEmail = (e) => {
+  const changeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
   }
 
@@ -54,7 +54,7 @@ const Root = () => {
             changeName={changeName}
             changeEmail={changeEmail}
             subscribe={subscribe}
-            sendingRequest={isSendingRequest}
+            isSendingRequest={isSendingRequest}
           />
         </>
     </div>

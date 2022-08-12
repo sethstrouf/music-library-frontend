@@ -1,6 +1,15 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 
-const SubscribeForm = ({ name, email, changeName, changeEmail, subscribe, isSendingRequest }) => {
+interface ISubscribeFormProps {
+  name: string;
+  email: string;
+  changeName: (e: ChangeEvent<HTMLInputElement>) => void;
+  changeEmail: (e: ChangeEvent<HTMLInputElement>) => void;
+  subscribe: () => void;
+  isSendingRequest: boolean;
+}
+
+const SubscribeForm = ({ name, email, changeName, changeEmail, subscribe, isSendingRequest }: ISubscribeFormProps) => {
 
   return (
     <div className="row mt-5 justify-content-center">
