@@ -3,11 +3,11 @@ import { toast } from 'react-toastify'
 
 class AlertService {
   showSuccess(title: string, content = '') {
-    toast.success(<div dangerouslySetInnerHTML={{ __html : title + '<br/>' + content }}></div>);
+    toast.success(<div dangerouslySetInnerHTML={{ __html : title + '<br/>' + content }} />);
   }
 
   showError(title: string, content = '') {
-    toast.error(<div dangerouslySetInnerHTML={{ __html : title + '<br/>' + content }}></div>);
+    toast.error(<div dangerouslySetInnerHTML={{ __html : title + '<br/>' + content }} />);
   }
 }
 

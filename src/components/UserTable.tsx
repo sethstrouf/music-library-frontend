@@ -18,9 +18,9 @@ const UserTable = () => {
   }, [])
 
   return (
-    <div className="row mt-5 justify-content-center">
-      <div className="col-12 col-lg-8">
-        <table className="table table-hover table-striped">
+    <div>
+      <div>
+        <table>
           <thead>
             <tr>
               <th>No</th>

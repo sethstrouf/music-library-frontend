@@ -45,7 +45,7 @@ const Root = () => {
   }
 
   return (
-    <div className="container">
+    <div>
         <>
           <UserTable />
           <SubscribeForm
