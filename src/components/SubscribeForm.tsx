@@ -1,27 +1,50 @@
-import React, { ChangeEvent } from 'react'
+import React, { FormEvent, useState } from 'react'
+import useStore from '../store'
+import { alertService } from '../services/alert'
 
-interface ISubscribeFormProps {
-  name: string;
-  email: string;
-  changeName: (e: ChangeEvent<HTMLInputElement>) => void;
-  changeEmail: (e: ChangeEvent<HTMLInputElement>) => void;
-  subscribe: () => void;
-  isSendingRequest: boolean;
-}
+const SubscribeForm = () => {
 
-const SubscribeForm = ({ name, email, changeName, changeEmail, subscribe, isSendingRequest }: ISubscribeFormProps) => {
+  const postUser = useStore(state => state.postUser)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [isSendingRequest, setIsSendingRequest] = useState(false)
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSendingRequest(true)
+    validateForm()
+    postUser({name, email})
+    setIsSendingRequest(false)
+    clearForm()
+  }
+
+  const validateForm = () => {
+    if (!name) {
+      setIsSendingRequest(false)
+      return alertService.showError('Please input name!')
+    }
+    if (!email) {
+      setIsSendingRequest(false)
+      return alertService.showError('Please input email!')
+    }
+  }
+
+  const clearForm = () => {
+    setName('')
+    setEmail('')
+  }
 
   return (
     <div>
       <div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div>
             <label>Name</label>
             <input
               type="text"
               placeholder="Please input your name"
               value={name}
-              onChange={changeName} />
+              onChange={e => setName(e.target.value)} />
           </div>
           <div>
             <label>Email </label>
@@ -29,14 +52,14 @@ const SubscribeForm = ({ name, email, changeName, changeEmail, subscribe, isSend
               type="text"
               placeholder="Please input your email"
               value={email}
-              onChange={changeEmail} />
+              onChange={e => setEmail(e.target.value)} />
           </div>
           <hr />
           <div>
             {isSendingRequest ? (
-              <button type="button" disabled>Sending Request...</button>
+              <button type="submit" disabled>Sending Request...</button>
             ) : (
-              <button type="button" onClick={subscribe}>Subscribe</button>
+              <button type="submit">Subscribe</button>
             )}
           </div>
         </form>

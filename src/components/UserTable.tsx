@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { alertService } from '../services/alert'
-import Axios from 'axios'
+import useStore from '../store'
 
 const UserTable = () => {
 
-  const [users, setUsers] = useState([])
+  const getUsers = useStore(state => state.getUsers)
+  const tempUsers = useStore(state => state.users)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    Axios.get(`${process.env.REACT_APP_API_HOST}/users`).then(res => {
-      setUsers(res.data)
-    }).catch(e => {
-      alertService.showError('Cannot get user data...')
-    }).finally(() => {
-      setIsLoading(false)
-    })
+    getUsers()
+    setIsLoading(false)
   }, [])
 
   return (
@@ -33,7 +28,7 @@ const UserTable = () => {
             <tr><td>Loading...</td></tr>
           ) : (
             <>
-              {users.map((user: {id: number, name: string, email: string}) => {
+              {tempUsers.map(user => {
                 return (
                   <tr key={user.id}>
                     <td>{user.id}</td>
@@ -42,7 +37,7 @@ const UserTable = () => {
                   </tr>
                 )
               })}
-              {!users.length && (
+              {!tempUsers.length && (
                 <tr><td>Loading...</td></tr>
                 )}
             </>

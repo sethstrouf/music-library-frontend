@@ -18,7 +18,8 @@
     "tailwindcss": "^1",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4",
-    "yarn": "^1.22.19"
+    "yarn": "^1.22.19",
+    "zustand": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "simple-zustand-devtools": "^1.1.0"
   }
 }
