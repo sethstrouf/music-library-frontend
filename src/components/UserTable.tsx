@@ -13,39 +13,36 @@ const UserTable = () => {
   }, [])
 
   return (
-    <div>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Name</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-          {isLoading ? (
-            <tr><td>Loading...</td></tr>
-          ) : (
-            <>
-              {tempUsers.map(user => {
-                return (
-                  <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                  </tr>
-                )
-              })}
-              {!tempUsers.length && (
-                <tr><td>Loading...</td></tr>
-                )}
-            </>
-          )}
-          </tbody>
-        </table>
-        <hr></hr>
-      </div>
+    <div className='pb-6'>
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody className='striped'>
+        {isLoading ? (
+          <tr><td>Loading...</td></tr>
+        ) : (
+          <>
+            {tempUsers.map(user => {
+              return (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                </tr>
+              )
+            })}
+            {!tempUsers.length && (
+              <tr><td>Loading...</td></tr>
+              )}
+          </>
+        )}
+        </tbody>
+      </table>
     </div>
   )
 }

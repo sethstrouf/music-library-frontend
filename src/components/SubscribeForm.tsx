@@ -36,34 +36,38 @@ const SubscribeForm = () => {
 
   return (
     <div>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Name</label>
-            <input
-              type="text"
-              placeholder="Please input your name"
-              value={name}
-              onChange={e => setName(e.target.value)} />
-          </div>
-          <div>
-            <label>Email </label>
-            <input
-              type="text"
-              placeholder="Please input your email"
-              value={email}
-              onChange={e => setEmail(e.target.value)} />
-          </div>
-          <hr />
-          <div>
-            {isSendingRequest ? (
-              <button type="submit" disabled>Sending Request...</button>
-            ) : (
-              <button type="submit">Subscribe</button>
-            )}
-          </div>
-        </form>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Name</label>
+          <input
+            className='ml-2 mb-1 bg-purple-50 border border-purple-500'
+            type="text"
+            placeholder="Please input your name"
+            value={name}
+            onChange={e => setName(e.target.value)} />
+        </div>
+        <div>
+          <label>Email </label>
+          <input
+            className='ml-2 bg-purple-50 border border-purple-500'
+            type="text"
+            placeholder="Please input your email"
+            value={email}
+            onChange={e => setEmail(e.target.value)} />
+        </div>
+        <div className='pt-2'>
+          {isSendingRequest ? (
+            <button type="submit" disabled>Sending Request...</button>
+          ) : (
+            <button
+              type="submit"
+              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+            >
+              Subscribe
+            </button>
+          )}
+        </div>
+      </form>
     </div>
   )
 }
