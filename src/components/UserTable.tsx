@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import useStore from '../store'
 
 const UserTable = () => {
 
   const getUsers = useStore(state => state.getUsers)
-  const tempUsers = useStore(state => state.users)
+  const users = useStore(state => state.users)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    getUsers()
+    if (users.length === 0) {
+      getUsers()
+    }
     setIsLoading(false)
-  }, [])
+  }, [getUsers, users.length])
 
   return (
     <div className='pb-6'>
@@ -27,16 +30,17 @@ const UserTable = () => {
           <tr><td>Loading...</td></tr>
         ) : (
           <>
-            {tempUsers.map(user => {
+            {users.map(user => {
               return (
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
+                  <td><NavLink className={'hover:underline'} to={`/users/${user.id}`}>Display User</NavLink></td>
                 </tr>
               )
             })}
-            {!tempUsers.length && (
+            {!users.length && (
               <tr><td>Loading...</td></tr>
               )}
           </>

@@ -1,15 +1,16 @@
 import React from 'react'
-import SubscribeForm from './SubscribeForm'
-import UserTable from './UserTable'
+import { BrowserRouter } from 'react-router-dom'
+import MainRouter from '../routes/routes'
+import NavBar from './NavBar'
 
 const Root = () => {
   return (
-    <div>
-        <>
-          <UserTable />
-          <SubscribeForm />
-        </>
-    </div>
+    <>
+      <BrowserRouter>
+        <NavBar />
+        <MainRouter />
+      </BrowserRouter>
+    </>
   )
 }
 

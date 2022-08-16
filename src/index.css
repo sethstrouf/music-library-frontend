@@ -16,8 +16,18 @@ code {
     monospace;
 }
 
+@layer base {
+  h1 {
+    @apply text-orange-600 text-lg pb-4 font-extrabold
+  }
+}
+
 @layer utilities {
   .striped tr:nth-child(odd) {
     @apply bg-purple-100
   }
+}
+
+.active {
+  @apply text-orange-600 font-semibold
 }
