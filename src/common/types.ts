@@ -9,5 +9,7 @@ export interface IStoreState {
   user: IUser | null,
   getUser: (id: number) => void,
   getUsers: () => void,
-  postUser: (user: IUser) => void;
+  createUser: (user: IUser) => void;
+  updateUser: (user: IUser) => void;
+  destroyUser: (id: number) => void;
 }

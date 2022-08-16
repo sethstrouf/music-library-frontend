@@ -4,7 +4,7 @@ import { alertService } from '../services/alert'
 
 const SubscribeForm = () => {
 
-  const postUser = useStore(state => state.postUser)
+  const createUser = useStore(state => state.createUser)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [isSendingRequest, setIsSendingRequest] = useState(false)
@@ -13,7 +13,7 @@ const SubscribeForm = () => {
     e.preventDefault()
     setIsSendingRequest(true)
     validateForm()
-    postUser({name, email})
+    createUser({name, email})
     setIsSendingRequest(false)
     clearForm()
   }

@@ -5,6 +5,7 @@ import useStore from '../store'
 const UserTable = () => {
 
   const getUsers = useStore(state => state.getUsers)
+  const destroyUser = useStore(state => state.destroyUser)
   const users = useStore(state => state.users)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -37,6 +38,7 @@ const UserTable = () => {
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td><NavLink className={'hover:underline'} to={`/users/${user.id}`}>Display User</NavLink></td>
+                  <td><button className={'hover:underline'} onClick={()=> {destroyUser(Number(user.id))}}>Delete User</button></td>
                 </tr>
               )
             })}
