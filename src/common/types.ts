@@ -1,7 +1,7 @@
 export interface IUser {
   id?: number,
-  name: string,
-  email: string
+  type?: string,
+  attributes: {name: string, email: string}
 }
 
 export interface IStoreState {

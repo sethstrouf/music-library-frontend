@@ -10,7 +10,7 @@ const useStore = create<IStoreState>((set) => ({
   getUser: async (id) => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_HOST}/users/${id}`)
-      set({ user: await res.data })
+      set({ user: await res.data.data })
     } catch (error) {
       alertService.showError('Cannot find user...')
       console.log(error)
@@ -19,7 +19,7 @@ const useStore = create<IStoreState>((set) => ({
   getUsers: async () => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_HOST}/users`)
-      set({ users: await res.data })
+      set({ users: await res.data.data })
     } catch (error) {
       alertService.showError('Cannot get user data...')
       console.log(error)
@@ -27,16 +27,16 @@ const useStore = create<IStoreState>((set) => ({
   },
   createUser: async (user) => {
     const res = await axios.post(`${process.env.REACT_APP_API_HOST}/users`, {user})
-    if (res.data && res.data.id) {
+    if (res.data.data && res.data.data.id) {
       alertService.showSuccess(`Welcome, ${res.data.name}!`)
-      set(state => ({ users: [...state.users, res.data] }))
+      set(state => ({ users: [...state.users, res.data.data] }))
     } else {
       alertService.showError('Subscription failed...')
     }
   },
   updateUser: async (user) => {
     const res = await axios.put(`${process.env.REACT_APP_API_HOST}/users/${user.id}`, {user})
-    if (res.data && res.data.id) {
+    if (res.data.data && res.data.data.id) {
       alertService.showSuccess('User updated!')
       set({ users: [] })
     } else {
@@ -46,7 +46,8 @@ const useStore = create<IStoreState>((set) => ({
   destroyUser: async (id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_API_HOST}/users/${id}`)
-      set(state => ({ users: state.users.filter(user => user.id !== id) }))
+      console.log(id)
+      set(state => ({ users: state.users.filter(user => Number(user.id) !== id) }))
       alertService.showSuccess('User removed!')
     } catch (error) {
       alertService.showError('Cannot delete user...')

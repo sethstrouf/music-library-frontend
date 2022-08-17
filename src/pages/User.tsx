@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useStore from '../store'
 
@@ -16,7 +16,7 @@ const User = () => {
       getUser(Number(id))
     }
     if (user) {
-      setEmail(user.email)
+      setEmail(user.attributes.email)
       setIsLoading(false)
     }
   }, [getUser, id, user?.id])
@@ -24,7 +24,7 @@ const User = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (user) {
-      user.email = email
+      user.attributes.email = email
       updateUser(user)
     }
 
@@ -38,7 +38,7 @@ const User = () => {
             <>
               {user && (
                 <div className='ml-3 p-2 w-96 border border-red-900 text-center'>
-                  <h1>{user.name}</h1>
+                  <h1>{user.attributes.name}</h1>
                   <form onSubmit={handleSubmit}>
                     <label className='font-bold'>Edit Email</label>
                     <br />

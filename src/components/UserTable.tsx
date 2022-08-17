@@ -35,8 +35,8 @@ const UserTable = () => {
               return (
                 <tr key={user.id}>
                   <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
+                  <td>{user.attributes.name}</td>
+                  <td>{user.attributes.email}</td>
                   <td><NavLink className={'hover:underline'} to={`/users/${user.id}`}>Display User</NavLink></td>
                   <td><button className={'hover:underline'} onClick={()=> {destroyUser(Number(user.id))}}>Delete User</button></td>
                 </tr>

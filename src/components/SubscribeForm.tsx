@@ -10,10 +10,11 @@ const SubscribeForm = () => {
   const [isSendingRequest, setIsSendingRequest] = useState(false)
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const attributes = {name: name, email: email }
     e.preventDefault()
     setIsSendingRequest(true)
     validateForm()
-    createUser({name, email})
+    createUser({attributes})
     setIsSendingRequest(false)
     clearForm()
   }
