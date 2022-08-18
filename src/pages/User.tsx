@@ -1,3 +1,4 @@
+import produce from 'immer'
 import React, { FormEvent, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useStore from '../store'
@@ -25,10 +26,9 @@ const User = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (user) {
-      user.attributes.email = email
-      updateUser(user)
+      const updatedUser = produce(user, draft => {draft.attributes.email = email})
+      updateUser(updatedUser)
     }
-
   }
 
   return (

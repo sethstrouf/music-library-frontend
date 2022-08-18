@@ -29,7 +29,7 @@ const useStore = create<IStoreState>((set, get) => ({
   createUser: async (user) => {
     const res = await axios.post(`${process.env.REACT_APP_API_HOST}/users`, {user})
     if (res.data.data && res.data.data.id) {
-      alertService.showSuccess(`Welcome, ${res.data.name}!`)
+      alertService.showSuccess(`Welcome, ${res.data.data.attributes.name}!`)
       set(state => ({ users: [...state.users, res.data.data] }))
     } else {
       alertService.showError('Subscription failed...')
