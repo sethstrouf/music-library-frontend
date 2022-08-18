@@ -19,6 +19,7 @@ const User = () => {
       setEmail(user.attributes.email)
       setIsLoading(false)
     }
+    // eslint-disable-next-line
   }, [getUser, id, user?.id])
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

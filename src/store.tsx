@@ -3,8 +3,9 @@ import axios from 'axios'
 import create from 'zustand'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { IStoreState } from './common/types'
+import produce from 'immer'
 
-const useStore = create<IStoreState>((set) => ({
+const useStore = create<IStoreState>((set, get) => ({
   users: [],
   user: null,
   getUser: async (id) => {
@@ -38,7 +39,8 @@ const useStore = create<IStoreState>((set) => ({
     const res = await axios.put(`${process.env.REACT_APP_API_HOST}/users/${user.id}`, {user})
     if (res.data.data && res.data.data.id) {
       alertService.showSuccess('User updated!')
-      set({ users: [] })
+      const index = get().users.findIndex(obj => obj.id === user.id)
+      set(state => ({ users: produce(state.users, draft => { draft[index] = user })}))
     } else {
       alertService.showError('Cannot update user...')
     }
@@ -46,7 +48,6 @@ const useStore = create<IStoreState>((set) => ({
   destroyUser: async (id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_API_HOST}/users/${id}`)
-      console.log(id)
       set(state => ({ users: state.users.filter(user => Number(user.id) !== id) }))
       alertService.showSuccess('User removed!')
     } catch (error) {
