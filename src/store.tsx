@@ -10,7 +10,11 @@ const useStore = create<IStoreState>((set, get) => ({
   user: null,
   getUser: async (id) => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_HOST}/users/${id}`)
+      const res = await axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_HOST}/users/${id}`,
+        headers: { Authorization: `${process.env.REACT_APP_BEARER_TOKEN}` }
+      })
       set({ user: await res.data.data })
     } catch (error) {
       alertService.showError('Cannot find user...')
@@ -19,24 +23,38 @@ const useStore = create<IStoreState>((set, get) => ({
   },
   getUsers: async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_HOST}/users`)
-      set({ users: await res.data.data })
+      const res = await axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_HOST}/users`,
+        headers: { Authorization: `${process.env.REACT_APP_BEARER_TOKEN}` }
+      })
+      set({ users: res.data.data })
     } catch (error) {
       alertService.showError('Cannot get user data...')
       console.log(error)
     }
   },
   createUser: async (user) => {
-    const res = await axios.post(`${process.env.REACT_APP_API_HOST}/users`, {user})
+    const res = await axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_API_HOST}/users`,
+      data: {user},
+      headers: { Authorization: `${process.env.REACT_APP_BEARER_TOKEN}` }
+    })
     if (res.data.data && res.data.data.id) {
       alertService.showSuccess(`Welcome, ${res.data.data.attributes.name}!`)
-      set(state => ({ users: [...state.users, res.data.data] }))
+      set(state => ({ users: produce(state.users, draft => { draft.push(res.data.data) })}))
     } else {
       alertService.showError('Subscription failed...')
     }
   },
   updateUser: async (user) => {
-    const res = await axios.put(`${process.env.REACT_APP_API_HOST}/users/${user.id}`, {user})
+    const res = await axios({
+      method: 'put',
+      url: `${process.env.REACT_APP_API_HOST}/users/${user.id}`,
+      data: {user},
+      headers: { Authorization: `${process.env.REACT_APP_BEARER_TOKEN}` }
+    })
     if (res.data.data && res.data.data.id) {
       alertService.showSuccess('User updated!')
       const index = get().users.findIndex(obj => obj.id === user.id)
@@ -47,7 +65,11 @@ const useStore = create<IStoreState>((set, get) => ({
   },
   destroyUser: async (id) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_API_HOST}/users/${id}`)
+      await axios({
+        method: 'delete',
+        url: `${process.env.REACT_APP_API_HOST}/users/${id}`,
+        headers: { Authorization: `${process.env.REACT_APP_BEARER_TOKEN}` }
+      })
       set(state => ({ users: state.users.filter(user => Number(user.id) !== id) }))
       alertService.showSuccess('User removed!')
     } catch (error) {
