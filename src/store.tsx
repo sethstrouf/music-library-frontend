@@ -4,6 +4,7 @@ import create from 'zustand'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { IStoreState } from './common/types'
 import produce from 'immer'
+import getToken from './services/auth_token'
 
 const useStore = create<IStoreState>((set, get) => ({
   users: [],
@@ -13,7 +14,7 @@ const useStore = create<IStoreState>((set, get) => ({
       const res = await axios({
         method: 'get',
         url: `${process.env.REACT_APP_API_HOST}/users/${id}`,
-        headers: { Authorization: `${process.env.REACT_APP_BEARER_TOKEN}` }
+        headers: { Authorization: `${await getToken()}` }
       })
       set({ user: await res.data.data })
     } catch (error) {
@@ -26,7 +27,7 @@ const useStore = create<IStoreState>((set, get) => ({
       const res = await axios({
         method: 'get',
         url: `${process.env.REACT_APP_API_HOST}/users`,
-        headers: { Authorization: `${process.env.REACT_APP_BEARER_TOKEN}` }
+        headers: { Authorization: `${await getToken()}` }
       })
       set({ users: res.data.data })
     } catch (error) {
@@ -39,7 +40,7 @@ const useStore = create<IStoreState>((set, get) => ({
       method: 'post',
       url: `${process.env.REACT_APP_API_HOST}/users`,
       data: {user},
-      headers: { Authorization: `${process.env.REACT_APP_BEARER_TOKEN}` }
+      headers: { Authorization: `${await getToken()}` }
     })
     if (res.data.data && res.data.data.id) {
       alertService.showSuccess(`Welcome, ${res.data.data.attributes.name}!`)
@@ -53,7 +54,7 @@ const useStore = create<IStoreState>((set, get) => ({
       method: 'put',
       url: `${process.env.REACT_APP_API_HOST}/users/${user.id}`,
       data: {user},
-      headers: { Authorization: `${process.env.REACT_APP_BEARER_TOKEN}` }
+      headers: { Authorization: `${await getToken()}` }
     })
     if (res.data.data && res.data.data.id) {
       alertService.showSuccess('User updated!')
@@ -68,7 +69,7 @@ const useStore = create<IStoreState>((set, get) => ({
       await axios({
         method: 'delete',
         url: `${process.env.REACT_APP_API_HOST}/users/${id}`,
-        headers: { Authorization: `${process.env.REACT_APP_BEARER_TOKEN}` }
+        headers: { Authorization: `${await getToken()}` }
       })
       set(state => ({ users: state.users.filter(user => Number(user.id) !== id) }))
       alertService.showSuccess('User removed!')

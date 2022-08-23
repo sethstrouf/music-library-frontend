@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import './App.css';
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'
 import Root from "./components/Root"
-import {ToastContainer, Slide} from "react-toastify";
+import {ToastContainer, Slide} from "react-toastify"
 
 const App = () => (
   <>

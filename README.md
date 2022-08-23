@@ -72,3 +72,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#yarn-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#yarn-run-build-fails-to-minify)
+
+* Auth0 Domain and Audience Keys - Development: .env.development.local, Production: Heroku config
+
+* React version - 18.2
