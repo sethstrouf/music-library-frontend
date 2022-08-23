@@ -4,17 +4,26 @@ import create from 'zustand'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { IStoreState } from './common/types'
 import produce from 'immer'
-import getToken from './services/auth_token'
+import getApiAuthToken from './services/api_auth_token'
 
 const useStore = create<IStoreState>((set, get) => ({
+  api_token: null,
+  isApiAuthorized: false,
   users: [],
   user: null,
+  getApiToken: async () => {
+    const token = getApiAuthToken()
+    set({api_token: await token })
+    if (get().api_token !== null) {
+      set({isApiAuthorized: true})
+    }
+  },
   getUser: async (id) => {
     try {
       const res = await axios({
         method: 'get',
         url: `${process.env.REACT_APP_API_HOST}/users/${id}`,
-        headers: { Authorization: `${await getToken()}` }
+        headers: { Authorization: `${get().api_token}` }
       })
       set({ user: await res.data.data })
     } catch (error) {
@@ -27,7 +36,7 @@ const useStore = create<IStoreState>((set, get) => ({
       const res = await axios({
         method: 'get',
         url: `${process.env.REACT_APP_API_HOST}/users`,
-        headers: { Authorization: `${await getToken()}` }
+        headers: { Authorization: `${get().api_token}` }
       })
       set({ users: res.data.data })
     } catch (error) {
@@ -40,7 +49,7 @@ const useStore = create<IStoreState>((set, get) => ({
       method: 'post',
       url: `${process.env.REACT_APP_API_HOST}/users`,
       data: {user},
-      headers: { Authorization: `${await getToken()}` }
+      headers: { Authorization: `${get().api_token}` }
     })
     if (res.data.data && res.data.data.id) {
       alertService.showSuccess(`Welcome, ${res.data.data.attributes.name}!`)
@@ -54,7 +63,7 @@ const useStore = create<IStoreState>((set, get) => ({
       method: 'put',
       url: `${process.env.REACT_APP_API_HOST}/users/${user.id}`,
       data: {user},
-      headers: { Authorization: `${await getToken()}` }
+      headers: { Authorization: `${get().api_token}` }
     })
     if (res.data.data && res.data.data.id) {
       alertService.showSuccess('User updated!')
@@ -69,7 +78,7 @@ const useStore = create<IStoreState>((set, get) => ({
       await axios({
         method: 'delete',
         url: `${process.env.REACT_APP_API_HOST}/users/${id}`,
-        headers: { Authorization: `${await getToken()}` }
+        headers: { Authorization: `${get().api_token}` }
       })
       set(state => ({ users: state.users.filter(user => Number(user.id) !== id) }))
       alertService.showSuccess('User removed!')

@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const getToken = async () => {
+const getApiAuthToken = async () => {
   const res = await axios({
     method: 'post',
     url: `https://${process.env.REACT_APP_AUTH0_DOMAIN}/oauth/token`,
@@ -15,4 +15,4 @@ const getToken = async () => {
   return `${res.data.token_type} ${res.data.access_token}`
 }
 
-export default getToken
+export default getApiAuthToken
