@@ -41,7 +41,7 @@ const SubscribeForm = () => {
         <div>
           <label>Name</label>
           <input
-            className='ml-2 mb-1 bg-purple-50 border border-purple-500'
+            className='ml-2 mb-1 bg-sky-50 border border-sky-500'
             type="text"
             placeholder="Please input your name"
             value={name}
@@ -50,7 +50,7 @@ const SubscribeForm = () => {
         <div>
           <label>Email </label>
           <input
-            className='ml-2 bg-purple-50 border border-purple-500'
+            className='ml-2 bg-sky-50 border border-sky-500'
             type="text"
             placeholder="Please input your email"
             value={email}
@@ -62,7 +62,7 @@ const SubscribeForm = () => {
           ) : (
             <button
               type="submit"
-              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
             >
               Subscribe
             </button>

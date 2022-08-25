@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const About = () => {
+
+  useEffect(() => {
+    document.title = 'About'
+  }, [])
+
   return (
-    <main>
-      <h1>About Page</h1>
+    <>
+      <h1 className='text-center'>About</h1>
       <p>This will eventually be a functioning website! My name is Seth.</p>
-    </main>
+    </>
   )
 }
 
