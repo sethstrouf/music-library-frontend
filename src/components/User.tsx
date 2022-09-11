@@ -43,7 +43,7 @@ const User = () => {
                   <form onSubmit={handleSubmit}>
                     <label className='font-bold'>Edit Email</label>
                     <br />
-                    <input type='text' value={email} onChange={e => setEmail(e.target.value)} className='text-center border border-purple-900 bg-purple-100 p-1'></input>
+                    <input type='text' value={email} onChange={e => setEmail(e.target.value)} className='text-center border border-sky-900 bg-sky-100 p-1'></input>
                   </form>
 
                 </div>

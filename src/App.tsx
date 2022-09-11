@@ -6,6 +6,7 @@ import {ToastContainer, Slide} from "react-toastify"
 import useStore from './store';
 
 const App = () => {
+
   const getApiToken = useStore(state => state.getApiToken)
   const isApiAuthorized = useStore(state => state.isApiAuthorized)
 

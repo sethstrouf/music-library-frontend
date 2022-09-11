@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import useStore from '../store'
+import { v4 as uuidv4 } from 'uuid'
 
 const UserTable = () => {
 
@@ -35,7 +36,7 @@ const UserTable = () => {
           <>
             {users.map(user => {
               return (
-                <tr key={user.id}>
+                <tr key={uuidv4()}>
                   <td className='text-center'>{user.id}</td>
                   <td>{user.attributes.name}</td>
                   <td>{user.attributes.email}</td>

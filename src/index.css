@@ -17,17 +17,17 @@ code {
 }
 
 @layer base {
-  h1 {
-    @apply text-orange-600 text-lg pb-4 font-extrabold
+  body {
+    @apply text-gray-800
   }
 }
 
 @layer utilities {
-  .striped tr:nth-child(odd) {
-    @apply bg-purple-100
+  .striped tr:nth-child(even) {
+    @apply bg-sky-50
   }
 }
 
 .active {
-  @apply text-orange-600 font-semibold
+  @apply font-bold text-gray-800
 }

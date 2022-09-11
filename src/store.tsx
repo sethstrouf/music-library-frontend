@@ -7,10 +7,46 @@ import produce from 'immer'
 import getApiAuthToken from './services/api_auth_token'
 
 const useStore = create<IStoreState>((set, get) => ({
+  currentUser: null,
   api_token: null,
   isApiAuthorized: false,
   users: [],
   user: null,
+  getCurrentUser: async () => {
+    if (localStorage.hasOwnProperty('user')) {
+      const user = localStorage.getItem('user')
+      if (user) {
+        set({ currentUser: JSON.parse(user) })
+      }
+    } else {
+      try {
+        const res = await axios.get(`${process.env.REACT_APP_API_HOST}/api/v1/current_user`, {withCredentials: true})
+        set({ currentUser: await res.data })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  },
+  signInUser: async (user) => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/login`, {user: user}, {withCredentials: true})
+      localStorage.setItem('user', JSON.stringify(res.data))
+      set({ currentUser: await res.data })
+    } catch (error) {
+      alertService.showError('Could not sign in...')
+      console.log(error)
+    }
+  },
+  signOutUser: async () => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_HOST}/api/logout`, {withCredentials: true})
+      localStorage.clear()
+      set({ currentUser: null })
+    } catch (error) {
+      alertService.showError('Could not sign out...')
+      console.log(error)
+    }
+  },
   getApiToken: async () => {
     const token = getApiAuthToken()
     set({api_token: await token })
@@ -22,7 +58,7 @@ const useStore = create<IStoreState>((set, get) => ({
     try {
       const res = await axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_HOST}/users/${id}`,
+        url: `${process.env.REACT_APP_API_HOST}/api/v1/users/${id}`,
         headers: { Authorization: `${get().api_token}` }
       })
       set({ user: await res.data.data })
@@ -35,7 +71,7 @@ const useStore = create<IStoreState>((set, get) => ({
     try {
       const res = await axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_HOST}/users`,
+        url: `${process.env.REACT_APP_API_HOST}/api/v1/users`,
         headers: { Authorization: `${get().api_token}` }
       })
       set({ users: res.data.data })
@@ -44,32 +80,19 @@ const useStore = create<IStoreState>((set, get) => ({
       console.log(error)
     }
   },
-  createUser: async (user) => {
-    const res = await axios({
-      method: 'post',
-      url: `${process.env.REACT_APP_API_HOST}/users`,
-      data: {user},
-      headers: { Authorization: `${get().api_token}` }
-    })
-    if (res.data.data && res.data.data.id) {
-      alertService.showSuccess(`Welcome, ${res.data.data.attributes.name}!`)
-      set(state => ({ users: produce(state.users, draft => { draft.push(res.data.data) })}))
-    } else {
-      alertService.showError('Subscription failed...')
-    }
-  },
   updateUser: async (user) => {
-    const res = await axios({
-      method: 'put',
-      url: `${process.env.REACT_APP_API_HOST}/users/${user.id}`,
-      data: {user},
-      headers: { Authorization: `${get().api_token}` }
-    })
-    if (res.data.data && res.data.data.id) {
+    try {
+      await axios({
+        method: 'post',
+        url: `${process.env.REACT_APP_API_HOST}/api/v1/users`,
+        data: {user},
+        headers: { Authorization: `${get().api_token}` }
+      })
       alertService.showSuccess('User updated!')
       const index = get().users.findIndex(obj => obj.id === user.id)
       set(state => ({ users: produce(state.users, draft => { draft[index] = user })}))
-    } else {
+    } catch (error) {
+      console.log(error);
       alertService.showError('Cannot update user...')
     }
   },
@@ -77,7 +100,7 @@ const useStore = create<IStoreState>((set, get) => ({
     try {
       await axios({
         method: 'delete',
-        url: `${process.env.REACT_APP_API_HOST}/users/${id}`,
+        url: `${process.env.REACT_APP_API_HOST}/api/v1/users/${id}`,
         headers: { Authorization: `${get().api_token}` }
       })
       set(state => ({ users: state.users.filter(user => Number(user.id) !== id) }))

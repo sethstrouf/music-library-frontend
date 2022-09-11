@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import UserTable from '../components/UserTable'
 
 const Users = () => {
+
+  useEffect(() => {
+    document.title = 'Users'
+  }, [])
+
   return (
-    <main>
-      <h1>Users Page</h1>
+    <main className='max-w-7xl mx-auto'>
+      <h1 className='text-center pb-12'>Users</h1>
       <UserTable />
       <Outlet />
     </main>
