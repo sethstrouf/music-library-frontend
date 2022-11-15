@@ -1,8 +1,11 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import useStore from '../store'
 import { IUser } from '../common/types'
 
 const MyLibrary = () => {
+
+  const authToken = useStore(state => state.authToken)
 
   const [users, setUsers] = useState<IUser[]>()
 
@@ -10,32 +13,30 @@ const MyLibrary = () => {
     document.title = 'My Library'
   }, [])
 
+  const getUsers = async () => {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_HOST}/api/v1/users`,
+        headers: { Authorization: `${authToken}` }
+      })
+      console.log('Users: ', res.data.data)
+      setUsers(res.data.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   useEffect(() => {
-    let isMounted = true
-    const controller = new AbortController()
-
-    const getUsers = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_API_HOST}/api/v1/users`, { signal: controller.signal })
-        console.log(response.data.data)
-        isMounted && setUsers(response.data.data)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
     getUsers()
-
-    return () => {
-      isMounted = false
-      controller.abort()
-    }
-  }, [])
+    // eslint-disable-next-line
+  }, [authToken])
 
   return (
     <>
       <article>
         <h1 className='text-center'>My Library</h1>
+        <br />
         {users?.length
           ? (
               <ul>

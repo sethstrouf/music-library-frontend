@@ -11,6 +11,7 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,25}$/
 const SubscribeForm = () => {
 
   const setAuthUser = useStore(state => state.setAuthUser)
+  const setAuthToken = useStore(state => state.setAuthToken)
 
   const navigate = useNavigate()
 
@@ -52,6 +53,7 @@ const SubscribeForm = () => {
       alertService.showSuccess('Subscribed! Welcome!')
       localStorage.setItem('user', JSON.stringify(res.data.data))
       setAuthUser(res.data.data)
+      setAuthToken(res.headers.authorization)
       setEmail('')
       setPwd('')
       navigate('/mylibrary', { replace: true })

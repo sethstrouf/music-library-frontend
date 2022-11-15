@@ -8,6 +8,7 @@ import getApiAuthToken from './services/api_auth_token'
 
 const useStore = create<IStoreState>((set, get) => ({
   authUser: null,
+  authToken: null,
   api_token: null,
   isApiAuthorized: false,
   users: [],
@@ -15,21 +16,21 @@ const useStore = create<IStoreState>((set, get) => ({
   setAuthUser: (user) => {
     set({ authUser: user })
   },
-  signInUser: async (user) => {
-    try {
-      const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/login`, {user: user}, {withCredentials: true})
-      localStorage.setItem('user', JSON.stringify(res.data))
-      set({ authUser: await res.data })
-    } catch (error) {
-      alertService.showError('Could not sign in...')
-      console.log(error)
-    }
+  setAuthToken: (token) => {
+    set({ authToken: token })
   },
   signOutUser: async () => {
     try {
-      await axios.delete(`${process.env.REACT_APP_API_HOST}/api/logout`, {withCredentials: true})
+      await axios({
+        method: 'delete',
+        url: `${process.env.REACT_APP_API_HOST}/api/logout`,
+        headers: { Authorization: `${get().authToken}` },
+        withCredentials: true
+      })
+      // await axios.delete(`${process.env.REACT_APP_API_HOST}/api/logout`, {withCredentials: true})
       localStorage.clear()
       set({ authUser: null })
+      set({ authToken: null })
     } catch (error) {
       alertService.showError('Could not sign out...')
       console.log(error)
@@ -52,19 +53,6 @@ const useStore = create<IStoreState>((set, get) => ({
       set({ user: await res.data.data })
     } catch (error) {
       alertService.showError('Cannot find user...')
-      console.log(error)
-    }
-  },
-  getUsers: async () => {
-    try {
-      const res = await axios({
-        method: 'get',
-        url: `${process.env.REACT_APP_API_HOST}/api/v1/users`,
-        headers: { Authorization: `${get().api_token}` }
-      })
-      set({ users: res.data.data })
-    } catch (error) {
-      alertService.showError('Cannot get user data...')
       console.log(error)
     }
   },

@@ -10,6 +10,7 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,25}$/
 const SignInForm = () => {
 
   const setAuthUser = useStore(state => state.setAuthUser)
+  const setAuthToken = useStore(state => state.setAuthToken)
 
   const navigate = useNavigate()
   const location: any = useLocation()
@@ -51,6 +52,7 @@ const SignInForm = () => {
       const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/login`, {user: {email: email, password: pwd}}, {withCredentials: true})
       localStorage.setItem('user', JSON.stringify(res.data.data))
       setAuthUser(res.data.data)
+      setAuthToken(res.headers.authorization)
       setEmail('')
       setPwd('')
       navigate(from, { replace: true })

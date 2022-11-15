@@ -5,17 +5,17 @@ import { v4 as uuidv4 } from 'uuid'
 
 const UserTable = () => {
 
-  const getUsers = useStore(state => state.getUsers)
+  // const getUsers = useStore(state => state.getUsers)
   const destroyUser = useStore(state => state.destroyUser)
   const users = useStore(state => state.users)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (users.length === 0) {
-      getUsers()
+      // getUsers()
     }
     setIsLoading(false)
-  }, [getUsers, users.length])
+  }, [users.length])
 
   return (
     <div className='pb-6'>
