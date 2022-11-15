@@ -2,17 +2,24 @@ import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import MainRouter from '../routes/MainRouter'
 import Footer from './Footer'
-import NavBar from './NavBar'
-import NavBarUnauth from './NavBarUnauth'
+import NavBarSignedOut from './NavBarSignedOut'
+import NavBarSignedIn from './NavBarSignedIn'
+import useStore from '../store';
 
 const Root = () => {
+
+  const authUser = useStore(state => state.authUser)
+
   return (
-    <div className='bg-gray-50 flex flex-col min-h-screen'>
+    <div className='flex flex-col min-h-screen'>
       <BrowserRouter>
       <nav>
-        <NavBarUnauth />
+        {authUser ?
+          <NavBarSignedIn />
+          :
+          <NavBarSignedOut />
+        }
       </nav>
-        {/* <NavBar /> */}
       <main className='flex-grow max-w-7xl mx-auto'>
         <MainRouter />
       </main>

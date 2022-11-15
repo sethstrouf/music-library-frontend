@@ -8,9 +8,7 @@ const Home = () => {
 
   return (
     <>
-      <div id='tagline' className='text-center p-24 text-9xl'>
-        <p className='leading-normal'>Tagline for <span className='text-sky-700 underline'>product</span> here</p>
-      </div>
+      <p className='text-center p-24 text-9xl leading-normal'>Tagline for <span className='text-sky-700 underline'>product</span> here</p>
     </>
   )
 }
