@@ -7,9 +7,12 @@ const NavBarSignedIn = () => {
   const signOutUser = useStore(state => state.signOutUser)
 
   const navigation = [
+    { name: 'Home', to: '/'},
     { name: 'Features', to: '/features' },
     { name: 'Demo', to: '/demo' },
     { name: 'Pricing', to: '/pricing' },
+    { name: 'My Library', to: '/mylibrary' },
+    { name: 'User Profile', to: '/myprofile' },
   ]
 
   return (
@@ -31,7 +34,6 @@ const NavBarSignedIn = () => {
             </div>
           </div>
           <div className="ml-10 space-x-4">
-            <NavLink className="inline-block mr-4 text-base font-medium hover:text-gray-800" to='/signin'>Sign in</NavLink>
             <button
               className="inline-block py-1.5 px-4 border border-transparent rounded-md text-base font-medium bg-red-500 text-white hover:bg-red-600"
               onClick={signOutUser}>

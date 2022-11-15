@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import MainRouter from '../routes/MainRouter'
 import Footer from './Footer'
@@ -8,30 +8,18 @@ import useStore from '../store';
 
 const Root = () => {
 
-  const getCurrentUser = useStore(state => state.getCurrentUser)
-  const currentUser = useStore(state => state.currentUser)
-
-  useEffect(() => {
-    getCurrentUser()
-    // eslint-disable-next-line
-  }, [])
+  const authUser = useStore(state => state.authUser)
 
   return (
-    <div className='bg-gray-50 flex flex-col min-h-screen'>
+    <div className='flex flex-col min-h-screen'>
       <BrowserRouter>
-      {currentUser ?
-        <p className='text-center text-3xl font-bold text-pink-600'>{currentUser.email}</p>
-        :
-        <p className='text-center text-3xl font-bold text-pink-600'>No current user</p>
-      }
       <nav>
-        {currentUser ?
+        {authUser ?
           <NavBarSignedIn />
           :
           <NavBarSignedOut />
         }
       </nav>
-        {/* <NavBar /> */}
       <main className='flex-grow max-w-7xl mx-auto'>
         <MainRouter />
       </main>

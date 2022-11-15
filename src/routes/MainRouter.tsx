@@ -2,28 +2,40 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from '../pages/Home'
 import About from '../pages/About'
-import User from '../components/User'
-import Users from '../pages/Users'
 import NotFound from '../pages/NotFound'
 import Demo from '../pages/Demo'
 import Features from '../pages/Features'
 import Pricing from '../pages/Pricing'
 import SignInForm from '../components/SignInForm'
 import SubscribeForm from '../components/SubscribeForm'
+import MyProfile from '../pages/MyProfile'
+import MyLibrary from '../pages/MyLibrary'
+import RequireAuth from '../components/RequireAuth'
+import RequireUnAuth from '../components/RequireUnAuth'
 
 const MainRouter = () => {
   return (
     <Routes>
+      {/* public routes */}
       <Route path="/" element={<Home />} />
       <Route path="/features" element={<Features />} />
       <Route path="/demo" element={<Demo />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/about" element={<About />} />
+
+      {/* only access if unauthorized */}
+      <Route element={<RequireUnAuth />}>
       <Route path="/signin" element={<SignInForm />} />
       <Route path="/signup" element={<SubscribeForm />} />
-      <Route path="/users" element={<Users />} >
-        <Route path="/users/:id" element={<User />} />
       </Route>
+
+      {/* protected routes */}
+      <Route element={<RequireAuth />}>
+        <Route path="/myprofile" element={<MyProfile />} />
+        <Route path="/mylibrary" element={<MyLibrary />} />
+      </Route>
+
+      {/* catch all */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

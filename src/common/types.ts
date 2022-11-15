@@ -7,12 +7,12 @@ export interface IUser {
 }
 
 export interface IStoreState {
-  currentUser: IUser | null,
+  authUser: IUser | null,
   api_token: string | null,
   isApiAuthorized: boolean,
   users: IUser[],
   user: IUser | null,
-  getCurrentUser: () => void,
+  setAuthUser: (user: IUser) => void,
   signInUser: (user: {email: string, password: string}) => void,
   signOutUser: () => void,
   getApiToken: () => void,

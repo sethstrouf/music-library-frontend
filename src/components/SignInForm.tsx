@@ -1,94 +1,138 @@
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useState, useRef, useEffect } from 'react'
+import axios from 'axios'
 import useStore from '../store'
-import { alertService } from '../services/alert'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-const SubscribeForm = () => {
+/*eslint no-control-regex: 0*/
+const EMAIL_REGEX = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,25}$/
 
-  const signInUser = useStore(state => state.signInUser)
-  const signOutUser = useStore(state => state.signOutUser)
-  const getCurrentUser = useStore(state => state.getCurrentUser)
+const SignInForm = () => {
+
+  const setAuthUser = useStore(state => state.setAuthUser)
+
+  const navigate = useNavigate()
+  const location: any = useLocation()
+  const from = location.state?.from?.pathname || '/mylibrary'
+
+  const emailRef = useRef<any>()
+  const errorRef = useRef<any>()
+
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [isSendingRequest, setIsSendingRequest] = useState(false)
+  const [validEmail, setValidEmail] = useState(false)
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    const userAttributes = {email: email, password: password }
+  const [pwd, setPwd] = useState('')
+  const [validPwd, setValidPwd] = useState(false)
+
+  const [errorMsg, setErrorMsg] = useState('')
+
+  useEffect(() => {
+    if (emailRef.current) {
+      emailRef.current.focus()
+    }
+  }, [])
+
+  useEffect(() => {
+    setValidEmail(EMAIL_REGEX.test(email))
+  }, [email])
+
+  useEffect(() => {
+    setValidPwd(PWD_REGEX.test(pwd))
+  }, [pwd])
+
+  useEffect(() => {
+    setErrorMsg('')
+  }, [email, pwd])
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsSendingRequest(true)
-    if(validateForm()) {
-      signInUser(userAttributes)
-      setIsSendingRequest(false)
-      clearForm()
+
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/login`, {user: {email: email, password: pwd}}, {withCredentials: true})
+      localStorage.setItem('user', JSON.stringify(res.data.data))
+      setAuthUser(res.data.data)
+      setEmail('')
+      setPwd('')
+      navigate(from, { replace: true })
+    } catch (err: any) {
+      if (err?.response.status === 0) {
+        setErrorMsg('No Server Response')
+      } else if (err?.response.status === 401) {
+        setErrorMsg('Invalid Email or Password')
+      } else {
+        setErrorMsg('Sign In Failed')
+      }
+      errorRef.current.focus()
     }
-  }
-
-  const validateForm = () => {
-    if (!email) {
-      setIsSendingRequest(false)
-      alertService.showError('Please input your email')
-      return false
-    }
-    if (!password || password.length < 8) {
-      setIsSendingRequest(false)
-      alertService.showError('Please input a valid password')
-      return false
-    }
-    return true
-  }
-
-  const clearForm = () => {
-    setEmail('')
-    setPassword('')
-  }
-
-  const handleClick = () => {
-    getCurrentUser()
-  }
-
-  const handleLogOut = () => {
-    signOutUser()
   }
 
   return (
-    <div>
-      <h1 className='pb-4 text-center font-bold text-lg'>Sign In</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email</label>
-          <input
-            className='ml-2 bg-sky-50 border border-sky-500'
-            type="text"
-            placeholder="Please input your email"
-            value={email}
-            onChange={e => setEmail(e.target.value)} />
+    <>
+      <section className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
+        <div className='md:w-96 w-72 space-y-8'>
+          <div>
+            <h1 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-700'>
+              Sign in to your account
+            </h1>
+          </div>
+
+          <div>
+            <div className={`p-1 bg-red-300 border rounded-md font-medium ${!errorMsg && 'hidden'}`}>
+              <i className='fa-regular fa-circle-xmark px-2' />
+              <span>{errorMsg}</span>
+            </div>
+          </div>
+
+          <form className='mt-8 space-y-6' onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor='email' className='sr-only'>
+                Email:
+              </label>
+              <input
+                type='text'
+                id='email'
+                className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
+                placeholder='Email address'
+                ref={emailRef}
+                autoComplete='off'
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                aria-invalid={validEmail ? 'false' : 'true'}
+                />
+            </div>
+
+            <div>
+              <label htmlFor='password' className='sr-only'>
+                Password:
+              </label>
+              <input
+                type='password'
+                id='password'
+                className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
+                placeholder='Password'
+                onChange={(e) => setPwd(e.target.value)}
+                required
+                aria-invalid={validPwd ? 'false' : 'true'}
+              />
+            </div>
+
+            <div className='text-sm text-right'>
+              <p className='cursor-pointer font-medium text-sky-600 hover:text-sky-500'>
+                Forgot your password?
+              </p>
+            </div>
+            <div>
+              <button
+                disabled={!validEmail || !validPwd}
+                className='group relative flex w-full justify-center rounded-md border border-transparent bg-sky-600 py-2 px-4 text-sm font-medium text-white hover:bg-sky-700 disabled:bg-gray-400'>
+                  Sign In
+              </button>
+            </div>
+          </form>
         </div>
-        <div>
-          <label>Password</label>
-          <input
-            className='ml-2 bg-sky-50 border border-sky-500'
-            type="password"
-            placeholder="Please input your email"
-            value={password}
-            onChange={e => setPassword(e.target.value)} />
-        </div>
-        <div className='pt-2'>
-          {isSendingRequest ? (
-            <button type="submit" disabled>Sending Request...</button>
-          ) : (
-            <button
-              type="submit"
-              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-            >
-              Sign In
-            </button>
-          )}
-        </div>
-      </form>
-      <button className='border border-black mt-4 bg-blue-200 p-1 hover:bg-blue-300' onClick={handleClick}>Get Current User</button>
-      <br />
-      <button className='border border-black mt-4 bg-red-200 p-1 hover:bg-red-300' onClick={handleLogOut}>Log Out</button>
-    </div>
+      </section>
+    </>
   )
 }
 
-export default SubscribeForm
+export default SignInForm

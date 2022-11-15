@@ -7,31 +7,19 @@ import produce from 'immer'
 import getApiAuthToken from './services/api_auth_token'
 
 const useStore = create<IStoreState>((set, get) => ({
-  currentUser: null,
+  authUser: null,
   api_token: null,
   isApiAuthorized: false,
   users: [],
   user: null,
-  getCurrentUser: async () => {
-    if (localStorage.hasOwnProperty('user')) {
-      const user = localStorage.getItem('user')
-      if (user) {
-        set({ currentUser: JSON.parse(user) })
-      }
-    } else {
-      try {
-        const res = await axios.get(`${process.env.REACT_APP_API_HOST}/api/v1/current_user`, {withCredentials: true})
-        set({ currentUser: await res.data })
-      } catch (error) {
-        console.log(error)
-      }
-    }
+  setAuthUser: (user) => {
+    set({ authUser: user })
   },
   signInUser: async (user) => {
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/login`, {user: user}, {withCredentials: true})
       localStorage.setItem('user', JSON.stringify(res.data))
-      set({ currentUser: await res.data })
+      set({ authUser: await res.data })
     } catch (error) {
       alertService.showError('Could not sign in...')
       console.log(error)
@@ -41,7 +29,7 @@ const useStore = create<IStoreState>((set, get) => ({
     try {
       await axios.delete(`${process.env.REACT_APP_API_HOST}/api/logout`, {withCredentials: true})
       localStorage.clear()
-      set({ currentUser: null })
+      set({ authUser: null })
     } catch (error) {
       alertService.showError('Could not sign out...')
       console.log(error)
