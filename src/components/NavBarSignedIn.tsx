@@ -1,10 +1,31 @@
+import axios from "axios"
 import { NavLink } from "react-router-dom"
 import { v4 as uuidv4 } from 'uuid'
+import { alertService } from "../services/alert"
 import useStore from '../store'
 
 const NavBarSignedIn = () => {
 
-  const signOutUser = useStore(state => state.signOutUser)
+  const setAuthUser = useStore(state => state.setAuthUser)
+  const setAuthToken = useStore(state => state.setAuthToken)
+  const authToken = useStore(state => state.authToken)
+
+  const signOutUser = async () => {
+    try {
+      await axios({
+        method: 'delete',
+        url: `${process.env.REACT_APP_API_HOST}/api/logout`,
+        headers: { Authorization: `${authToken}` },
+        withCredentials: true
+      })
+      localStorage.clear()
+      setAuthUser(null)
+      setAuthToken(null)
+    } catch (error) {
+      alertService.showError('Could not sign out...')
+      console.error(error)
+    }
+  }
 
   const navigation = [
     { name: 'Home', to: '/'},

@@ -45,7 +45,7 @@ const SignInForm = () => {
     setErrorMsg('')
   }, [email, pwd])
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const signInUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     try {
@@ -85,7 +85,7 @@ const SignInForm = () => {
             </div>
           </div>
 
-          <form className='mt-8 space-y-6' onSubmit={handleSubmit}>
+          <form className='mt-8 space-y-6' onSubmit={signInUser}>
             <div>
               <label htmlFor='email' className='sr-only'>
                 Email:

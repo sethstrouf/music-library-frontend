@@ -20,7 +20,6 @@ const MyLibrary = () => {
         url: `${process.env.REACT_APP_API_HOST}/api/v1/users`,
         headers: { Authorization: `${authToken}` }
       })
-      console.log('Users: ', res.data.data)
       setUsers(res.data.data)
     } catch (error) {
       console.error(error)

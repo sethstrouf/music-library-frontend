@@ -46,7 +46,7 @@ const SubscribeForm = () => {
     setErrorMsg('')
   }, [email, pwd])
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const registerUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/signup`, {user: {email: email, password: pwd}}, {withCredentials: true})
@@ -86,7 +86,7 @@ const SubscribeForm = () => {
             </div>
           </div>
 
-          <form className='mt-8 space-y-6' onSubmit={handleSubmit}>
+          <form className='mt-8 space-y-6' onSubmit={registerUser}>
             <div>
               <label htmlFor='email' className='sr-only'>
                 Email:
