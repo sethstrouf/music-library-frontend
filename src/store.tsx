@@ -1,5 +1,4 @@
 import create from 'zustand'
-import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { IStoreState } from './common/types'
 
 const useStore = create<IStoreState>((set, get) => ({
@@ -12,9 +11,5 @@ const useStore = create<IStoreState>((set, get) => ({
     set({ authToken: token })
   },
 }))
-
-if (import.meta.env.NODE_ENV === 'development') {
-  mountStoreDevtool('Store', useStore)
-}
 
 export default useStore

@@ -54,7 +54,6 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.8",
-    "postcss": "^8.4.16",
-    "simple-zustand-devtools": "^1.1.0"
+    "postcss": "^8.4.16"
   }
 }
