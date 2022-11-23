@@ -1,4 +1,5 @@
 import axios from "axios"
+import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { v4 as uuidv4 } from 'uuid'
 import { alertService } from "../services/alert"
@@ -9,6 +10,26 @@ const NavBarSignedIn = () => {
   const setAuthUser = useStore(state => state.setAuthUser)
   const setAuthToken = useStore(state => state.setAuthToken)
   const authToken = useStore(state => state.authToken)
+  const [currentUser, setCurrentUser] = useState('')
+
+  useEffect(() => {
+    fetchCurrentUser()
+  }, [authToken])
+
+  const fetchCurrentUser = async () => {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: `${import.meta.env.VITE_API_HOST}/api/v1/current_user`,
+        headers: { Authorization: `${authToken}` },
+        withCredentials: true
+      })
+      setCurrentUser(res.data.email);
+    } catch (error) {
+      setCurrentUser('')
+      console.error(error)
+    }
+  }
 
   const signOutUser = async () => {
     try {
@@ -55,6 +76,7 @@ const NavBarSignedIn = () => {
             </div>
           </div>
           <div className="ml-10 space-x-4">
+            <span className="text-pink-400 font-bold">{currentUser}</span>
             <button
               className="inline-block py-1.5 px-4 border border-transparent rounded-md text-base font-medium bg-red-500 text-white hover:bg-red-600"
               onClick={signOutUser}>
