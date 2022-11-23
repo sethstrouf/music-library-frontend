@@ -14,7 +14,7 @@ const NavBarSignedIn = () => {
     try {
       await axios({
         method: 'delete',
-        url: `${process.env.REACT_APP_API_HOST}/api/logout`,
+        url: `${import.meta.env.VITE_API_HOST}/api/logout`,
         headers: { Authorization: `${authToken}` },
         withCredentials: true
       })

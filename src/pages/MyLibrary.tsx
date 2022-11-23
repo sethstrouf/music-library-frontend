@@ -17,7 +17,7 @@ const MyLibrary = () => {
     try {
       const res = await axios({
         method: 'get',
-        url: `${process.env.REACT_APP_API_HOST}/api/v1/users`,
+        url: `${import.meta.env.VITE_API_HOST}/api/v1/users`,
         headers: { Authorization: `${authToken}` }
       })
       setUsers(res.data.data)

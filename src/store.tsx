@@ -13,7 +13,7 @@ const useStore = create<IStoreState>((set, get) => ({
   },
 }))
 
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.NODE_ENV === 'development') {
   mountStoreDevtool('Store', useStore)
 }
 

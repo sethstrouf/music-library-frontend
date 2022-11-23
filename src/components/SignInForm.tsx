@@ -49,7 +49,7 @@ const SignInForm = () => {
     e.preventDefault()
 
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/login`, {user: {email: email, password: pwd}}, {withCredentials: true})
+      const res = await axios.post(`${import.meta.env.VITE_API_HOST}/api/login`, {user: {email: email, password: pwd}}, {withCredentials: true})
       localStorage.setItem('user', JSON.stringify(res.data.data))
       setAuthUser(res.data.data)
       setAuthToken(res.headers.authorization)

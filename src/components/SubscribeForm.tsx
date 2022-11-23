@@ -49,7 +49,7 @@ const SubscribeForm = () => {
   const registerUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_HOST}/api/signup`, {user: {email: email, password: pwd}}, {withCredentials: true})
+      const res = await axios.post(`${import.meta.env.VITE_API_HOST}/api/signup`, {user: {email: email, password: pwd}}, {withCredentials: true})
       alertService.showSuccess('Subscribed! Welcome!')
       localStorage.setItem('user', JSON.stringify(res.data.data))
       setAuthUser(res.data.data)
