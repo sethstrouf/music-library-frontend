@@ -10,8 +10,8 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,25}$/
 
 const SubscribeForm = () => {
 
-  const setAuthUser = useStore(state => state.setAuthUser)
-  const setAuthToken = useStore(state => state.setAuthToken)
+  const setCurrentUser = useStore(state => state.setCurrentUser)
+  const setAccessToken = useStore(state => state.setAccessToken)
 
   const navigate = useNavigate()
 
@@ -51,9 +51,9 @@ const SubscribeForm = () => {
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_HOST}/api/signup`, {user: {email: email, password: pwd}}, {withCredentials: true})
       alertService.showSuccess('Subscribed! Welcome!')
-      localStorage.setItem('user', JSON.stringify(res.data.data))
-      setAuthUser(res.data.data)
-      setAuthToken(res.headers.authorization)
+      localStorage.setItem('accessToken', res.headers.authorization)
+      setCurrentUser(res.data.data)
+      setAccessToken(res.headers.authorization)
       setEmail('')
       setPwd('')
       navigate('/mylibrary', { replace: true })

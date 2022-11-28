@@ -1,5 +1,5 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import Home from '../pages/Home'
 import About from '../pages/About'
 import NotFound from '../pages/NotFound'
@@ -12,8 +12,44 @@ import MyProfile from '../pages/MyProfile'
 import MyLibrary from '../pages/MyLibrary'
 import RequireAuth from '../components/RequireAuth'
 import RequireUnAuth from '../components/RequireUnAuth'
+import useStore from '../store'
+import axios from 'axios'
 
 const MainRouter = () => {
+
+  const setCurrentUser = useStore(state => state.setCurrentUser)
+  const setAccessToken = useStore(state => state.setAccessToken)
+
+  const navigate = useNavigate()
+  const location: any = useLocation()
+  const from = location.pathname || '/mylibrary'
+
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      signInUser()
+    }
+  }, [])
+
+  const signInUser = async () => {
+    try {
+      const res = await axios({
+        method: 'post',
+        url: `${import.meta.env.VITE_API_HOST}/api/login`,
+        headers: { Authorization: `${localStorage.getItem('accessToken')}` },
+        withCredentials: true
+      })
+      setCurrentUser(res.data.data)
+      setAccessToken(res.headers.authorization)
+      if (from === '/') {
+        navigate('mylibrary', { replace: true })
+      } else {
+        navigate(from, { replace: true })
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <Routes>
       {/* public routes */}

@@ -3,11 +3,11 @@ import useStore from "../store"
 
 const RequireAuth = () => {
 
-  const authUser = useStore(state => state.authUser)
+  const currentUser = useStore(state => state.currentUser)
   const location = useLocation()
 
   return (
-    authUser
+    currentUser
       ? <Outlet />
       : <Navigate to='/signin' state={{ from: location }} replace />
   )

@@ -3,11 +3,11 @@ import useStore from "../store"
 
 const RequireUnAuth = () => {
 
-  const authUser = useStore(state => state.authUser)
+  const currentUser = useStore(state => state.currentUser)
   const location = useLocation()
 
   return (
-    !authUser
+    !currentUser
       ? <Outlet />
       : <Navigate to='/mylibrary' state={{ from: location }} replace />
   )

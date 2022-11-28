@@ -7,26 +7,26 @@ import useStore from '../store'
 
 const NavBarSignedIn = () => {
 
-  const setAuthUser = useStore(state => state.setAuthUser)
-  const setAuthToken = useStore(state => state.setAuthToken)
-  const authToken = useStore(state => state.authToken)
-  const [currentUser, setCurrentUser] = useState('')
+  const setCurrentUser = useStore(state => state.setCurrentUser)
+  const setAccessToken = useStore(state => state.setAccessToken)
+  const accessToken = useStore(state => state.accessToken)
+  const [userFromApi, setUserFromApi] = useState('')
 
   useEffect(() => {
     fetchCurrentUser()
-  }, [authToken])
+  }, [accessToken])
 
   const fetchCurrentUser = async () => {
     try {
       const res = await axios({
         method: 'get',
         url: `${import.meta.env.VITE_API_HOST}/api/v1/current_user`,
-        headers: { Authorization: `${authToken}` },
+        headers: { Authorization: `${accessToken}` },
         withCredentials: true
       })
-      setCurrentUser(res.data.email);
+      setUserFromApi(res.data.email);
     } catch (error) {
-      setCurrentUser('')
+      setUserFromApi('')
       console.error(error)
     }
   }
@@ -36,12 +36,12 @@ const NavBarSignedIn = () => {
       await axios({
         method: 'delete',
         url: `${import.meta.env.VITE_API_HOST}/api/logout`,
-        headers: { Authorization: `${authToken}` },
+        headers: { Authorization: `${accessToken}` },
         withCredentials: true
       })
       localStorage.clear()
-      setAuthUser(null)
-      setAuthToken(null)
+      setCurrentUser(null)
+      setAccessToken(null)
     } catch (error) {
       alertService.showError('Could not sign out...')
       console.error(error)
@@ -76,7 +76,7 @@ const NavBarSignedIn = () => {
             </div>
           </div>
           <div className="ml-10 space-x-4">
-            <span className="text-pink-400 font-bold">{currentUser}</span>
+            <span className="text-pink-400 font-bold">{userFromApi}</span>
             <button
               className="inline-block py-1.5 px-4 border border-transparent rounded-md text-base font-medium bg-red-500 text-white hover:bg-red-600"
               onClick={signOutUser}>

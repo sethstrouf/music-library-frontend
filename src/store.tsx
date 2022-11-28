@@ -2,14 +2,18 @@ import create from 'zustand'
 import { IStoreState } from './common/types'
 
 const useStore = create<IStoreState>((set, get) => ({
-  authUser: null,
-  authToken: null,
-  setAuthUser: (user) => {
-    set({ authUser: user })
+  currentUser: null,
+  accessToken: null,
+  users: [],
+  setCurrentUser: (user) => {
+    set({ currentUser: user })
   },
-  setAuthToken: (token) => {
-    set({ authToken: token })
+  setAccessToken: (token) => {
+    set({ accessToken: token })
   },
+  setUsers: (users) => {
+    set({ users: users })
+  }
 }))
 
 export default useStore

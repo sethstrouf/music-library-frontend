@@ -1,13 +1,13 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import useStore from '../store'
 import { IUser } from '../common/types'
 
 const MyLibrary = () => {
 
-  const authToken = useStore(state => state.authToken)
-
-  const [users, setUsers] = useState<IUser[]>()
+  const accessToken = useStore(state => state.accessToken)
+  const users = useStore(state => state.users)
+  const setUsers = useStore(state => state.setUsers)
 
   useEffect(() => {
     document.title = 'My Library'
@@ -18,7 +18,7 @@ const MyLibrary = () => {
       const res = await axios({
         method: 'get',
         url: `${import.meta.env.VITE_API_HOST}/api/v1/users`,
-        headers: { Authorization: `${authToken}` }
+        headers: { Authorization: `${accessToken}` }
       })
       setUsers(res.data.data)
     } catch (error) {
@@ -27,9 +27,11 @@ const MyLibrary = () => {
   }
 
   useEffect(() => {
-    getUsers()
+    if (!users?.length) {
+      getUsers()
+    }
     // eslint-disable-next-line
-  }, [authToken])
+  }, [])
 
   return (
     <>
@@ -39,7 +41,7 @@ const MyLibrary = () => {
         {users?.length
           ? (
               <ul>
-                {users.map((user, i) => <li key={i}>{user?.attributes?.email}</li>)}
+                {users.map((user, i) => <li key={i}>{user['attributes']['email']}</li>)}
               </ul>
           ) : <p>No users to display</p>
         }
