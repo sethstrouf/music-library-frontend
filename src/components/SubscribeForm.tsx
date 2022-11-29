@@ -18,6 +18,10 @@ const SubscribeForm = () => {
   const emailRef = useRef<any>()
   const errorRef = useRef<any>()
 
+  const [firstName, setFirstName] = useState('')
+
+  const [lastName, setLastName] = useState('')
+
   const [email, setEmail] = useState('')
   const [validEmail, setValidEmail] = useState(false)
   const [emailFocus, setEmailFocus] = useState(false)
@@ -49,7 +53,7 @@ const SubscribeForm = () => {
   const registerUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_HOST}/api/signup`, {user: {email: email, password: pwd}}, {withCredentials: true})
+      const res = await axios.post(`${import.meta.env.VITE_API_HOST}/api/signup`, {user: {email: email, password: pwd, first_name: firstName, last_name: lastName}}, {withCredentials: true})
       alertService.showSuccess('Subscribed! Welcome!')
       localStorage.setItem('accessToken', res.headers.authorization)
       setCurrentUser(res.data.data)
@@ -88,6 +92,36 @@ const SubscribeForm = () => {
 
           <form className='mt-8 space-y-6' onSubmit={registerUser}>
             <div>
+              <label htmlFor='firstName' className='sr-only'>
+                First Name:
+              </label>
+              <input
+                type='text'
+                id='firstName'
+                className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
+                placeholder='First name'
+                autoComplete='off'
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+                />
+            </div>
+
+            <div>
+              <label htmlFor='lastName' className='sr-only'>
+                Last Name:
+              </label>
+              <input
+                type='text'
+                id='lastName'
+                className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
+                placeholder='Last name'
+                autoComplete='off'
+                onChange={(e) => setLastName(e.target.value)}
+                required
+                />
+            </div>
+
+            <div>
               <label htmlFor='email' className='sr-only'>
                 Email:
               </label>
@@ -96,7 +130,6 @@ const SubscribeForm = () => {
                 id='email'
                 className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
                 placeholder='Email address'
-                ref={emailRef}
                 autoComplete='off'
                 onChange={(e) => setEmail(e.target.value)}
                 required

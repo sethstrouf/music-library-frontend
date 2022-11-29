@@ -2,6 +2,9 @@ export interface IUser {
   id?: number,
   type?: string,
   email: string,
+  first_name: string,
+  last_name: string,
+  name: string,
   password: string,
   attributes: {name?: string, email: string}
 }

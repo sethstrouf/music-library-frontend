@@ -54,7 +54,6 @@ const NavBarSignedIn = () => {
     { name: 'Demo', to: '/demo' },
     { name: 'Pricing', to: '/pricing' },
     { name: 'My Library', to: '/mylibrary' },
-    { name: 'User Profile', to: '/myprofile' },
   ]
 
   return (
@@ -76,7 +75,9 @@ const NavBarSignedIn = () => {
             </div>
           </div>
           <div className="ml-10 space-x-4">
-            <span className="text-pink-400 font-bold">{userFromApi}</span>
+            <NavLink key={uuidv4()} to={'/myprofile'} className="text-base font-medium underline decoration-pink-300 hover:decoration-pink-400">
+              <span className="text-pink-500 font-bold hover:text-pink-600">{userFromApi}</span>
+            </NavLink>
             <button
               className="inline-block py-1.5 px-4 border border-transparent rounded-md text-base font-medium bg-red-500 text-white hover:bg-red-600"
               onClick={signOutUser}>
