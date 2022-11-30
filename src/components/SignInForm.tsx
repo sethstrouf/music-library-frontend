@@ -97,7 +97,7 @@ const SignInForm = () => {
                 placeholder='Email address'
                 ref={emailRef}
                 autoComplete='off'
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.toLowerCase())}
                 required
                 aria-invalid={validEmail ? 'false' : 'true'}
                 />

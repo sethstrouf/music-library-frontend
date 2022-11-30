@@ -69,7 +69,7 @@ const MyProfile = () => {
   }
 
 return (
-    <>
+    <div className='mx-auto w-4/5 md:w-full'>
       <form onSubmit={updateUser} className="space-y-8 divide-y divide-gray-200">
         <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
           <div className="space-y-6 sm:space-y-5">
@@ -199,7 +199,7 @@ return (
           </div>
         </div>
       </form>
-    </>
+    </div>
   )
 }
 

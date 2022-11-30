@@ -131,7 +131,7 @@ const SubscribeForm = () => {
                 className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
                 placeholder='Email address'
                 autoComplete='off'
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.toLowerCase())}
                 required
                 aria-invalid={validEmail ? 'false' : 'true'}
                 aria-describedby='emailidnote'
