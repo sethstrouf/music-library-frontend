@@ -23,6 +23,9 @@ code {
   body {
     @apply h-full text-gray-800
   }
+  h1 {
+    @apply text-2xl
+  }
 }
 
 @layer utilities {
