@@ -49,7 +49,7 @@ const SignInForm = () => {
     e.preventDefault()
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_HOST}/api/login`, {user: {email: email, password: pwd}}, {withCredentials: true})
+      const res = await axios.post(`${import.meta.env.VITE_API_HOST}/api/login`, {user: {email: email, password: pwd}})
       localStorage.setItem('accessToken', res.headers.authorization)
       setCurrentUser(res.data.data)
       setAccessToken(res.headers.authorization)
