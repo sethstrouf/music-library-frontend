@@ -8,7 +8,7 @@ const Pricing = () => {
 
   return (
     <div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:px-8">
-      <h2 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">Pricing</h2>
+      <h1 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">Pricing</h1>
       <p className="mt-6 max-w-4xl text-xl text-gray-500">Choose an affordable plan that's packed with the best features for you and your organization.</p>
 
       {/* Tiers */}

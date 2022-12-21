@@ -12,7 +12,7 @@ export interface IUser {
 export interface IStoreState {
   currentUser: IUser | null,
   accessToken: string | null,
-  users: [] | null,
+  users: IUser[] | null,
   setCurrentUser: (user: IUser | null) => void,
   setAccessToken: (token: string | null) => void,
   setUsers: (users: [] | null) => void,
