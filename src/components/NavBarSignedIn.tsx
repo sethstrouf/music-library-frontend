@@ -21,8 +21,7 @@ const NavBarSignedIn = () => {
       const res = await axios({
         method: 'get',
         url: `${import.meta.env.VITE_API_HOST}/api/v1/current_user`,
-        headers: { Authorization: `${accessToken}` },
-        withCredentials: true
+        headers: { Authorization: `${accessToken}` }
       })
       setUserFromApi(res.data.email);
     } catch (error) {

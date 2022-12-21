@@ -21,8 +21,7 @@ const PersistLogin = () => {
       const res = await axios({
         method: 'post',
         url: `${import.meta.env.VITE_API_HOST}/api/login`,
-        headers: { Authorization: `${localStorage.getItem('accessToken')}` },
-        withCredentials: true
+        headers: { Authorization: `${localStorage.getItem('accessToken')}` }
       })
       setCurrentUser(res.data.data)
       setAccessToken(res.headers.authorization)

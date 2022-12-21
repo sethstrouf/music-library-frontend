@@ -39,8 +39,7 @@ const MyProfile = () => {
           method: 'patch',
           url: `${import.meta.env.VITE_API_HOST}/api/signup`,
           data: {user: {first_name: firstName, last_name: lastName}},
-          headers: { Authorization: `${accessToken}` },
-          withCredentials: true
+          headers: { Authorization: `${accessToken}` }
         })
       alertService.showSuccess('Your profile has updated successfully!')
       setCurrentUser(res.data.data)
@@ -57,8 +56,7 @@ const MyProfile = () => {
           method: 'patch',
           url: `${import.meta.env.VITE_API_HOST}/api/signup`,
           data: {user: {password: pwd, password_confirmation: confirmPwd}},
-          headers: { Authorization: `${accessToken}` },
-          withCredentials: true
+          headers: { Authorization: `${accessToken}` }
         })
       alertService.showSuccess('Your password has been changed!')
       setCurrentUser(res.data.data)
