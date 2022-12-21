@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { v4 as uuidv4 } from 'uuid'
+import { IUser } from "../common/types"
 import { alertService } from "../services/alert"
 import useStore from '../store'
 
@@ -10,7 +11,7 @@ const NavBarSignedIn = () => {
   const setCurrentUser = useStore(state => state.setCurrentUser)
   const setAccessToken = useStore(state => state.setAccessToken)
   const accessToken = useStore(state => state.accessToken)
-  const [userFromApi, setUserFromApi] = useState('')
+  const [userFromApi, setUserFromApi] = useState<IUser | null>(null)
 
   useEffect(() => {
     fetchCurrentUser()
@@ -23,9 +24,9 @@ const NavBarSignedIn = () => {
         url: `${import.meta.env.VITE_API_HOST}/api/v1/current_user`,
         headers: { Authorization: `${accessToken}` }
       })
-      setUserFromApi(res.data.email);
+      setUserFromApi(res.data);
     } catch (error) {
-      setUserFromApi('')
+      setUserFromApi(null)
       console.error(error)
     }
   }
@@ -74,8 +75,8 @@ const NavBarSignedIn = () => {
             </div>
           </div>
           <div className="ml-10 space-x-4">
-            <NavLink key={uuidv4()} to={'/myprofile'} className="text-base font-medium underline decoration-pink-300 hover:decoration-pink-400">
-              <span className="text-pink-500 font-bold hover:text-pink-600">{userFromApi}</span>
+            <NavLink key={uuidv4()} to={'/myprofile'} className="text-base font-medium">
+              <span className="p-3 mr-4 text-pink-500 font-bold border border-pink-600 rounded-full bg-pink-100 hover:bg-pink-200">{userFromApi !== null && userFromApi.first_name[0] + userFromApi.last_name[0]}</span>
             </NavLink>
             <button
               className="inline-block py-1.5 px-4 border border-transparent rounded-md text-base font-medium bg-red-500 text-white hover:bg-red-600"
