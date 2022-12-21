@@ -7,16 +7,16 @@ const Pricing = () => {
   }, [])
 
   return (
-    <div className="mx-auto max-w-7xl py-24 px-4 sm:px-6 lg:px-8">
-      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-none lg:text-6xl">Pricing plans</h2>
+    <div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:px-8">
+      <h2 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">Pricing</h2>
       <p className="mt-6 max-w-4xl text-xl text-gray-500">Choose an affordable plan that's packed with the best features for you and your organization.</p>
 
       {/* Tiers */}
       <div className="mt-24 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
         <div className="relative flex flex-col rounded-2xl border border-gray-200 bg-white p-8 shadow-md">
           <div className="flex-1">
-            <h3 className="text-xl font-semibold text-gray-900">Free</h3>
-            <p className="mt-4 flex items-baseline text-gray-900">
+            <h3 className="text-xl font-semibold text-gray-800">Free</h3>
+            <p className="mt-4 flex items-baseline text-gray-800">
               <span className="text-5xl font-bold tracking-tight">$0</span>
               <span className="ml-1 text-xl font-semibold">/year</span>
             </p>
@@ -63,10 +63,10 @@ const Pricing = () => {
 
         <div className="relative flex flex-col rounded-2xl border border-gray-200 bg-white p-8 shadow-md">
           <div className="flex-1">
-            <h3 className="text-xl font-semibold text-gray-900">Individual</h3>
+            <h3 className="text-xl font-semibold text-gray-800">Individual</h3>
 
             <p className="absolute top-0 -translate-y-1/2 transform rounded-full bg-sky-500 py-1.5 px-4 text-sm font-semibold text-white">Most popular</p>
-            <p className="mt-4 flex items-baseline text-gray-900">
+            <p className="mt-4 flex items-baseline text-gray-800">
               <span className="text-5xl font-bold tracking-tight">$49</span>
               <span className="ml-1 text-xl font-semibold">/year</span>
             </p>
@@ -113,8 +113,8 @@ const Pricing = () => {
 
         <div className="relative flex flex-col rounded-2xl border border-gray-200 bg-white p-8 shadow-md">
           <div className="flex-1">
-            <h3 className="text-xl font-semibold text-gray-900">Organization</h3>
-            <p className="mt-4 flex items-baseline text-gray-900">
+            <h3 className="text-xl font-semibold text-gray-800">Organization</h3>
+            <p className="mt-4 flex items-baseline text-gray-800">
               <span className="text-5xl font-bold tracking-tight">$99</span>
               <span className="ml-1 text-xl font-semibold">/year</span>
             </p>

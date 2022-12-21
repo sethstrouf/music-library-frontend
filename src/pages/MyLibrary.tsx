@@ -34,19 +34,9 @@ const MyLibrary = () => {
   }, [])
 
   return (
-    <>
-      <article>
-        <h1 className='text-center'>My Library</h1>
-        <br />
-        {users?.length
-          ? (
-              <ul>
-                {users.map((user, i) => <li key={i}>{user['attributes']['email']}</li>)}
-              </ul>
-          ) : <p>No users to display</p>
-        }
-      </article>
-    </>
+    <div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:px-8">
+      <h2 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">My Library</h2>
+    </div>
   )
 }
 
