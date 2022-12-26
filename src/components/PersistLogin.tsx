@@ -7,10 +7,16 @@ const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true)
   const setCurrentUser = useStore(state => state.setCurrentUser)
   const setAccessToken = useStore(state => state.setAccessToken)
+  const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
 
   useEffect(() => {
-    if (localStorage.getItem('accessToken')) {
-      signInUser()
+    if (localStorage.getItem('accessToken') || localStorage.getItem('currentLibraryId')) {
+      if (localStorage.getItem('accessToken')) {
+        signInUser()
+      }
+      if (localStorage.getItem('currentLibraryId')) {
+        fetchAndSetCurrentLibrary()
+      }
     } else {
       setIsLoading(false)
     }
@@ -32,14 +38,29 @@ const PersistLogin = () => {
     }
   }
 
-    return (
-      <>
-        {isLoading
-          ? <i className="animate-spin fa-solid fa-spinner text-2xl"></i>
-          : <Outlet />
-        }
-      </>
-    )
+  const fetchAndSetCurrentLibrary = async () => {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: `${import.meta.env.VITE_API_HOST}/api/v1/libraries/${localStorage.getItem('currentLibraryId')}`,
+        headers: { Authorization: `${localStorage.getItem('accessToken')}` }
+      })
+      setCurrentLibrary(res.data)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <>
+      {isLoading
+        ? <i className="animate-spin fa-solid fa-spinner text-2xl"></i>
+        : <Outlet />
+      }
+    </>
+  )
 }
 
 export default PersistLogin

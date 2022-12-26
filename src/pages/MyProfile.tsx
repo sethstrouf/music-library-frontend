@@ -55,7 +55,7 @@ const MyProfile = () => {
       const res = await axios({
           method: 'patch',
           url: `${import.meta.env.VITE_API_HOST}/api/signup`,
-          data: {user: {password: pwd, password_confirmation: confirmPwd}},
+          data: { user: { password: pwd, password_confirmation: confirmPwd } },
           headers: { Authorization: `${accessToken}` }
         })
       alertService.showSuccess('Your password has been changed!')
@@ -67,7 +67,7 @@ const MyProfile = () => {
   }
 
 return (
-    <div className='mx-auto py-12 w-4/5 md:w-full'>
+    <div className='mx-auto py-12 w-10/12 md:w-8/12 lg:w-6/12'>
       <form onSubmit={updateUser} className="space-y-8 divide-y divide-gray-200">
         <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
           <div className="space-y-6 sm:space-y-5">

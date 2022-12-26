@@ -11,6 +11,7 @@ const SignInForm = () => {
 
   const setCurrentUser = useStore(state => state.setCurrentUser)
   const setAccessToken = useStore(state => state.setAccessToken)
+  const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
 
   const navigate = useNavigate()
   const location: any = useLocation()
@@ -53,6 +54,9 @@ const SignInForm = () => {
       localStorage.setItem('accessToken', res.headers.authorization)
       setCurrentUser(res.data.data)
       setAccessToken(res.headers.authorization)
+      if(res.data.data.libraries.length) {
+        fetchAndSetCurrentLibrary(res.data.data.libraries[0].id)
+      }
       setEmail('')
       setPwd('')
       navigate(from, { replace: true })
@@ -64,7 +68,23 @@ const SignInForm = () => {
       } else {
         setErrorMsg('Sign In Failed')
       }
-      errorRef.current.focus()
+      if (emailRef.current) {
+        emailRef.current.focus()
+      }
+    }
+  }
+
+  const fetchAndSetCurrentLibrary = async (libraryId: number) => {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: `${import.meta.env.VITE_API_HOST}/api/v1/libraries/${libraryId}`,
+        headers: { Authorization: `${localStorage.getItem('accessToken')}` }
+      })
+      localStorage.setItem('currentLibraryId', libraryId.toString())
+      setCurrentLibrary(res.data)
+    } catch (error) {
+      console.error(error)
     }
   }
 

@@ -10,6 +10,8 @@ const NavBarSignedIn = () => {
 
   const setCurrentUser = useStore(state => state.setCurrentUser)
   const setAccessToken = useStore(state => state.setAccessToken)
+  const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
+  const setLibraryWorks = useStore(state => state.setLibraryWorks)
   const accessToken = useStore(state => state.accessToken)
   const [userFromApi, setUserFromApi] = useState<IUser | null>(null)
 
@@ -42,6 +44,8 @@ const NavBarSignedIn = () => {
       localStorage.clear()
       setCurrentUser(null)
       setAccessToken(null)
+      setCurrentLibrary(null)
+      setLibraryWorks(null)
     } catch (error) {
       alertService.showError('Could not sign out...')
       console.error(error)

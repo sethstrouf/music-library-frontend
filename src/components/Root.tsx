@@ -4,8 +4,6 @@ import Footer from './Footer'
 import NavBarSignedOut from './NavBarSignedOut'
 import NavBarSignedIn from './NavBarSignedIn'
 import useStore from '../store';
-import { useEffect } from 'react'
-import axios from 'axios'
 
 const Root = () => {
 
@@ -21,7 +19,7 @@ const Root = () => {
           <NavBarSignedOut />
         }
       </nav>
-      <main className='flex-grow max-w-7xl mx-auto'>
+      <main className='flex-grow md:w-10/12 max-w-7xl mx-auto'>
         <MainRouter />
       </main>
       <footer className='p-8 md:mt-0 md:order-1'>

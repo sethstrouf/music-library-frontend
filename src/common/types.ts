@@ -6,14 +6,37 @@ export interface IUser {
   last_name: string,
   name: string,
   password: string,
+  libraries: ILibrary[],
   attributes: {name?: string, email: string}
+}
+
+export interface IWork {
+  id?: number,
+  index: number,
+  title: string,
+  composer: string
+}
+
+export interface ILibrary {
+  id?: number,
+  name?: string,
+  attributes: {name: string}
+}
+
+export interface ILibraryWork {
+  id?: number,
+  attributes: {quantity: number, last_performed: Date, library: ILibrary, work: IWork}
 }
 
 export interface IStoreState {
   currentUser: IUser | null,
   accessToken: string | null,
   users: IUser[] | null,
+  currentLibrary: ILibrary | null,
+  libraryWorks: ILibraryWork[] | null,
   setCurrentUser: (user: IUser | null) => void,
   setAccessToken: (token: string | null) => void,
   setUsers: (users: [] | null) => void,
+  setCurrentLibrary: (library: ILibrary | null) => void,
+  setLibraryWorks: (libraryWorks: [] | null) => void
 }
