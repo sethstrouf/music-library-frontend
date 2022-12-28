@@ -72,7 +72,7 @@ return (
         <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
           <div className="space-y-6 sm:space-y-5">
             <div>
-              <h3 className="text-lg font-medium leading-6 text-gray-900">Profile</h3>
+              <h3 className="text-lg font-medium leading-6 text-gray-800">Profile</h3>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
                 This information will be displayed publicly so be careful what you share.
               </p>
@@ -139,7 +139,7 @@ return (
         <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
           <div className="space-y-6 sm:space-y-5">
             <div>
-              <h3 className="text-lg font-medium leading-6 text-gray-900">Change Password</h3>
+              <h3 className="text-lg font-medium leading-6 text-gray-800">Change Password</h3>
               <ul className='mt-1 max-w-2xl text-sm text-gray-500 list-disc ml-6'>
                 <li>8 to 25 characters.</li>
                 <li>Must include uppercase and lowercase letters, a number, and a special character.</li>

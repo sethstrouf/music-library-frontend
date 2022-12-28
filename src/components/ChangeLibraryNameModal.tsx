@@ -68,7 +68,7 @@ const ChangeLibraryNameModal = ({ showChangeLibraryNameModal, setShowChangeLibra
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <form onSubmit={(e) => changeLibraryName(e)} className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <form onSubmit={(e) => changeLibraryName(e)} className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -81,7 +81,7 @@ const ChangeLibraryNameModal = ({ showChangeLibraryNameModal, setShowChangeLibra
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 <div>
                   <div className="mt-3 text-center sm:mt-5">
-                    <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                    <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-800">
                       Change Library Name
                     </Dialog.Title>
                     <div className="mt-2">
