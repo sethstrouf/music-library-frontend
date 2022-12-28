@@ -12,7 +12,6 @@ export interface IUser {
 
 export interface IWork {
   id?: number,
-  index: number,
   title: string,
   composer: string
 }
@@ -25,7 +24,7 @@ export interface ILibrary {
 
 export interface ILibraryWork {
   id?: number,
-  attributes: {quantity: number, last_performed: Date, library: ILibrary, work: IWork}
+  attributes: {index: number, quantity: number, last_performed: Date, library: ILibrary, work: IWork}
 }
 
 export interface IStoreState {
