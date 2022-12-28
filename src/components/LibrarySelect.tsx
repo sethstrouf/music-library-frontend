@@ -27,14 +27,14 @@ const LibrarySelect = () => {
   return (
     <>
       {currentUser?.libraries && currentUser?.libraries.length > 1 && currentLibrary &&
-        <div className='pt-4 flex flex-col md:flex-row gap-4'>
-          <label htmlFor="librarySelect" className="pt-2.5 ml-1 text-sm font-medium text-gray-700 hidden">
+        <div className='w-full'>
+          <label htmlFor="librarySelect" className="sr-only">
             Choose Library
           </label>
           <select
             id="librarySelect"
             name="librarySelect"
-            className="mt-1 w-72 block rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
+            className="w-72 block rounded-md border-gray-300 text-base focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
             onChange={e => handleDropdownChange(e)}
             value={currentLibrary.id}
             >

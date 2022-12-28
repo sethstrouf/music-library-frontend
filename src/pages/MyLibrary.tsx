@@ -67,7 +67,9 @@ const MyLibrary = () => {
         <div className="sm:flex-auto">
           {currentLibrary && <h1 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">{currentLibrary.attributes.name.toString()}</h1>}
           {!currentLibrary && <h1 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">No Current Library</h1>}
-          <LibrarySelect />
+          <div className='pt-4 flex flex-col md:flex-row gap-4'>
+            <LibrarySelect />
+          </div>
           <div className="pt-1 text-sky-600">
             <button
               type="button"

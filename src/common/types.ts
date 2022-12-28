@@ -14,6 +14,9 @@ export interface IWork {
   id?: number,
   title: string,
   composer: string
+  genre: string
+  publishing_year: number
+  attributes: {title: string, composer: string, genre: string, publishing_year: number}
 }
 
 export interface ILibrary {

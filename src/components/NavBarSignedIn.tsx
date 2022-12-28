@@ -79,9 +79,10 @@ const NavBarSignedIn = () => {
               ))}
             </div>
           </div>
-          <div className="ml-10 space-x-4">
-            <NavLink key={uuidv4()} to={'/myprofile'} className="text-base font-medium">
-              <span className="p-3 mr-4 text-pink-500 font-bold border border-pink-600 rounded-full bg-pink-100 hover:bg-pink-200">{userFromApi !== null && userFromApi.first_name[0] + userFromApi.last_name[0]}</span>
+          <div className="ml-10 space-x-4 group">
+            <NavLink key={uuidv4()} to={'/myprofile'}>
+              <span className="p-3 mr-6 text-pink-500 font-bold border border-pink-600 rounded-full bg-pink-100 group-hover:bg-pink-200">{userFromApi !== null && userFromApi.first_name[0] + userFromApi.last_name[0]}</span>
+              <span className="absolute -translate-x-20 translate-y-10 text-sm group-hover:text-gray-800">My Profile</span>
             </NavLink>
             <button
               className="inline-block py-1.5 px-4 border border-transparent rounded-md text-base font-medium bg-red-500 text-white hover:bg-red-600"
