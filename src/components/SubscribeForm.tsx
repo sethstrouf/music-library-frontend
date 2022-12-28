@@ -1,4 +1,4 @@
-import React, { FormEvent, useState, useRef, useEffect } from 'react'
+import { FormEvent, useState, useRef, useEffect } from 'react'
 import { alertService } from '../services/alert'
 import axios from 'axios'
 import useStore from '../store'

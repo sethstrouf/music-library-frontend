@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import useStore from '../store'
 import qs from 'qs';
@@ -6,6 +6,7 @@ import AddLibraryModal from '../components/AddLibraryModal';
 import LibrarySelect from '../components/LibrarySelect';
 import ChangeLibraryNameModal from '../components/ChangeLibraryNameModal';
 import LibraryTable from '../components/LibraryTable';
+import { NavLink } from 'react-router-dom';
 
 const MyLibrary = () => {
   const accessToken = useStore(state => state.accessToken)
@@ -86,12 +87,14 @@ const MyLibrary = () => {
           </div>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:w-auto"
-            >
-            + Add new item
-          </button>
+          <NavLink to={'/searchworks'}>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:w-auto"
+              >
+              + Add to library
+            </button>
+          </NavLink>
         </div>
       </div>
       <div className="mt-8 flex flex-col">

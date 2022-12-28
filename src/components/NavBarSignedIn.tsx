@@ -58,6 +58,7 @@ const NavBarSignedIn = () => {
     { name: 'Demo', to: '/demo' },
     { name: 'Pricing', to: '/pricing' },
     { name: 'My Library', to: '/mylibrary' },
+    { name: 'Add to Library', to: '/searchworks' },
   ]
 
   return (

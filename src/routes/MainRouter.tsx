@@ -12,6 +12,7 @@ import MyLibrary from '../pages/MyLibrary'
 import RequireAuth from '../components/RequireAuth'
 import RequireUnAuth from '../components/RequireUnAuth'
 import PersistLogin from '../components/PersistLogin'
+import SearchWorks from '../pages/SearchWorks'
 
 const MainRouter = () => {
   return (
@@ -34,6 +35,7 @@ const MainRouter = () => {
         <Route element={<RequireAuth />}>
           <Route path="/myprofile" element={<MyProfile />} />
           <Route path="/mylibrary" element={<MyLibrary />} />
+          <Route path="/searchworks" element={<SearchWorks />} />
         </Route>
 
         {/* catch all */}
