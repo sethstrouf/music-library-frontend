@@ -1,22 +1,21 @@
 import { FormEvent, Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import useStore from '../store'
-import LibrarySelect from './LibrarySelect'
-import { ILibraryWork } from '../common/types'
+import useStore from '../../store'
+import { ILibraryWork } from '../../common/types'
 import axios from 'axios'
 import qs from 'qs'
 
 type Props = {
   libraryWorkToUpdate: ILibraryWork
   setLibraryWorkToUpdate: (active: ILibraryWork) => void
-  showEditLibraryWorkModal: boolean
-  setShowEditLibraryWorkModal: (active: boolean) => void
 }
 
-const EditLibraryWorkModal = ({ libraryWorkToUpdate, setLibraryWorkToUpdate, showEditLibraryWorkModal, setShowEditLibraryWorkModal} : Props) => {
+const EditLibraryWorkModal = ({ libraryWorkToUpdate, setLibraryWorkToUpdate} : Props) => {
   const accessToken = useStore(state => state.accessToken)
   const currentLibrary = useStore(state => state.currentLibrary)
   const setLibraryWorks = useStore(state => state.setLibraryWorks)
+  const showEditLibraryWorkModal = useStore(state => state.showEditLibraryWorkModal)
+  const setShowEditLibraryWorkModal = useStore(state => state.setShowEditLibraryWorkModal)
 
   const [index, setIndex] = useState<any>('')
   const [quantity, setQuantity] = useState<any>('')

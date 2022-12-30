@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import useStore from '../store'
 import qs from 'qs';
-import AddLibraryModal from '../components/AddLibraryModal';
+import AddLibraryModal from '../components/modals/AddLibraryModal';
 import LibrarySelect from '../components/LibrarySelect';
-import ChangeLibraryNameModal from '../components/ChangeLibraryNameModal';
+import ChangeLibraryNameModal from '../components/modals/ChangeLibraryNameModal';
 import LibraryTable from '../components/LibraryTable';
 import { NavLink } from 'react-router-dom';
 
@@ -15,11 +15,12 @@ const MyLibrary = () => {
   const currentLibrary = useStore(state => state.currentLibrary)
   const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
   const setCurrentUser = useStore(state => state.setCurrentUser)
+  const showChangeLibraryNameModal = useStore(state => state.showChangeLibraryNameModal)
+  const setShowChangeLibraryNameModal = useStore(state => state.setShowChangeLibraryNameModal)
+  const showAddLibraryModal = useStore(state => state.showAddLibraryModal)
+  const setShowAddLibraryModal = useStore(state => state.setShowAddLibraryModal)
 
   const [selectedLibraryWorks, setSelectedLibraryWorks] = useState<any[]>([])
-
-  const [showAddLibaryModal, setShowAddLibraryModal] = useState(false)
-  const [showChangeLibraryNameModal, setShowChangeLibraryNameModal] = useState(false)
 
   useEffect(() => {
     if (currentLibrary) {
@@ -109,8 +110,8 @@ const MyLibrary = () => {
 
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8">
-      {showAddLibaryModal && <AddLibraryModal showAddLibaryModal={showAddLibaryModal} setShowAddLibraryModal={setShowAddLibraryModal} />}
-      {showChangeLibraryNameModal && <ChangeLibraryNameModal showChangeLibraryNameModal={showChangeLibraryNameModal} setShowChangeLibraryNameModal={setShowChangeLibraryNameModal} />}
+      {showAddLibraryModal && <AddLibraryModal />}
+      {showChangeLibraryNameModal && <ChangeLibraryNameModal />}
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           {currentLibrary && <h1 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">{currentLibrary.attributes.name.toString()}</h1>}

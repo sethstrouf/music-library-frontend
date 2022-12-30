@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { ILibraryWork } from "../common/types";
 import useStore from "../store";
-import EditLibraryWorkModal from "./EditLibraryWorkModal";
+import EditLibraryWorkModal from "./modals/EditLibraryWorkModal";
 
 function classNames(...classes : any) {
   return classes.filter(Boolean).join(' ')
@@ -12,13 +12,14 @@ type Props = {
   setSelectedLibraryWorks: (active: ILibraryWork[]) => void
 }
 
-  const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props) => {
+const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props) => {
   const libraryWorks = useStore(state => state.libraryWorks)
+  const showEditLibraryWorkModal = useStore(state => state.showEditLibraryWorkModal)
+  const setShowEditLibraryWorkModal = useStore(state => state.setShowEditLibraryWorkModal)
 
   const checkbox = useRef<any>();
   const [checked, setChecked] = useState<boolean>(false)
   const [indeterminate, setIndeterminate] = useState(false)
-  const [showEditLibraryWorkModal, setShowEditLibraryWorkModal] = useState(false)
   const [libraryWorkToUpdate, setLibraryWorkToUpdate] = useState<ILibraryWork>()
 
   useLayoutEffect(() => {
@@ -48,8 +49,7 @@ type Props = {
 
   return (
     <div className="w-screen md:w-full overflow-x-scroll">
-      {showEditLibraryWorkModal && <EditLibraryWorkModal libraryWorkToUpdate={libraryWorkToUpdate!} setLibraryWorkToUpdate={setLibraryWorkToUpdate}
-                                                         showEditLibraryWorkModal={showEditLibraryWorkModal} setShowEditLibraryWorkModal={setShowEditLibraryWorkModal} />}
+      {showEditLibraryWorkModal && <EditLibraryWorkModal libraryWorkToUpdate={libraryWorkToUpdate!} setLibraryWorkToUpdate={setLibraryWorkToUpdate} />}
       <table className="min-w-full table-fixed divide-y divide-gray-300">
         <thead className="bg-gray-100">
           <tr>

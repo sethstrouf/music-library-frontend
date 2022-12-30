@@ -1,20 +1,17 @@
 import { FormEvent, Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import axios from 'axios'
-import useStore from '../store'
+import useStore from '../../store'
 
-type Props = {
-  showChangeLibraryNameModal: boolean
-  setShowChangeLibraryNameModal: (active: boolean) => void
-}
-
-const ChangeLibraryNameModal = ({ showChangeLibraryNameModal, setShowChangeLibraryNameModal } : Props) => {
+const AddLibraryModal = () => {
   const accessToken = useStore(state => state.accessToken)
-  const currentLibrary = useStore(state => state.currentLibrary)
+  const setLibraryWorks = useStore(state => state.setLibraryWorks)
   const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
   const setCurrentUser = useStore(state => state.setCurrentUser)
+  const showAddLibraryModal = useStore(state => state.showAddLibraryModal)
+  const setShowAddLibraryModal = useStore(state => state.setShowAddLibraryModal)
 
-  const [libraryName, setLibraryName] = useState(currentLibrary?.attributes.name)
+  const [libraryName, setLibraryName] = useState('')
   const libraryNameInput = useRef(null)
 
   const updateCurrentUser = async () => {
@@ -30,31 +27,32 @@ const ChangeLibraryNameModal = ({ showChangeLibraryNameModal, setShowChangeLibra
     }
   }
 
-  const changeLibraryName = async (e: FormEvent | MouseEvent) => {
+  const createLibrary = async (e: FormEvent | MouseEvent) => {
     e.preventDefault()
 
-    if(libraryName && currentLibrary) {
+    if(libraryName) {
       try {
         const res = await axios({
-          method: 'patch',
-          url: `${import.meta.env.VITE_API_HOST}/api/v1/libraries/${currentLibrary.id}`,
+          method: 'post',
+          url: `${import.meta.env.VITE_API_HOST}/api/v1/libraries`,
           data: {library: {name: `${libraryName}` }},
           headers: { Authorization: `${accessToken}` }
         })
+        setLibraryWorks([])
         setCurrentLibrary(res.data)
       } catch (err) {
         console.error(err)
       } finally {
         setLibraryName('')
-        setShowChangeLibraryNameModal(false)
+        setShowAddLibraryModal(false)
         updateCurrentUser()
       }
     }
   }
 
   return (
-    <Transition.Root show={showChangeLibraryNameModal} as={Fragment}>
-      <Dialog as="div" className="relative z-10" initialFocus={libraryNameInput} onClose={() => setShowChangeLibraryNameModal(false)}>
+    <Transition.Root show={showAddLibraryModal} as={Fragment}>
+      <Dialog as="div" className="relative z-10" initialFocus={libraryNameInput} onClose={() => setShowAddLibraryModal(false)}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -68,7 +66,7 @@ const ChangeLibraryNameModal = ({ showChangeLibraryNameModal, setShowChangeLibra
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <form onSubmit={(e) => changeLibraryName(e)} className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+          <form onSubmit={(e) => createLibrary(e)} className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -82,17 +80,18 @@ const ChangeLibraryNameModal = ({ showChangeLibraryNameModal, setShowChangeLibra
                 <div>
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-800">
-                      Change Library Name
+                      Create Library
                     </Dialog.Title>
                     <div className="mt-2">
                       <label htmlFor="libraryName" className="sr-only">
-                        New Library Name
+                        Library Name
                       </label>
                       <input
                         type="text"
                         name="libraryName"
                         id="libraryName"
                         className="mt-4 mb-8 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
+                        placeholder="Name your library"
                         value={libraryName}
                         ref={libraryNameInput}
                         onChange={(e) => setLibraryName(e.target.value)}
@@ -104,14 +103,14 @@ const ChangeLibraryNameModal = ({ showChangeLibraryNameModal, setShowChangeLibra
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
-                    onClick={(e) => changeLibraryName(e)}
+                    onClick={(e) => createLibrary(e)}
                   >
-                    Update Name
+                    Create Library
                   </button>
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"
-                    onClick={() => setShowChangeLibraryNameModal(false)}
+                    onClick={() => setShowAddLibraryModal(false)}
                   >
                     Cancel
                   </button>
@@ -125,4 +124,4 @@ const ChangeLibraryNameModal = ({ showChangeLibraryNameModal, setShowChangeLibra
   )
 }
 
-export default ChangeLibraryNameModal
+export default AddLibraryModal

@@ -8,6 +8,10 @@ const useStore = create<IStoreState>((set, get) => ({
   users: [],
   currentLibrary: null,
   libraryWorks: [],
+  showAddLibraryModal: false,
+  showAddWorkToLibraryModal: false,
+  showChangeLibraryNameModal: false,
+  showEditLibraryWorkModal: false,
   setCurrentUser: (user) => {
     set({ currentUser: user })
   },
@@ -22,7 +26,19 @@ const useStore = create<IStoreState>((set, get) => ({
   },
   setLibraryWorks: (libraryWorks) => {
     set({ libraryWorks: libraryWorks})
-  }
+  },
+  setShowAddLibraryModal: (boolean) => {
+    set({ showAddLibraryModal: boolean})
+  },
+  setShowAddWorkToLibraryModal: (boolean) => {
+    set({ showAddWorkToLibraryModal: boolean})
+  },
+  setShowChangeLibraryNameModal: (boolean) => {
+    set({ showChangeLibraryNameModal: boolean})
+  },
+  setShowEditLibraryWorkModal: (boolean) => {
+    set({ showEditLibraryWorkModal: boolean})
+  },
 }))
 
 export default useStore

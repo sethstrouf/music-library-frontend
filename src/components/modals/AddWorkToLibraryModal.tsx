@@ -1,22 +1,22 @@
 import { FormEvent, Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { alertService } from '../services/alert'
+import { alertService } from '../../services/alert'
 import axios from 'axios'
-import useStore from '../store'
-import LibrarySelect from './LibrarySelect'
-import { IWork } from '../common/types'
+import useStore from '../../store'
+import LibrarySelect from './../LibrarySelect'
+import { IWork } from '../../common/types'
 
 type Props = {
-  showAddWorkToLibraryModal: boolean
-  setShowAddWorkToLibraryModal: (active: boolean) => void
   selectedWork: IWork | null
   worksAlreadyInLibrary: number[]
   setWorksAlreadyInLibrary: (active: number[]) => void
 }
 
-const AddWorkToLibraryModal = ({ showAddWorkToLibraryModal, setShowAddWorkToLibraryModal, selectedWork, worksAlreadyInLibrary, setWorksAlreadyInLibrary } : Props) => {
+const AddWorkToLibraryModal = ({selectedWork, worksAlreadyInLibrary, setWorksAlreadyInLibrary } : Props) => {
   const accessToken = useStore(state => state.accessToken)
   const currentLibrary = useStore(state => state.currentLibrary)
+  const showAddWorkToLibraryModal = useStore(state => state.showAddWorkToLibraryModal)
+  const setShowAddWorkToLibraryModal = useStore(state => state.setShowAddWorkToLibraryModal)
 
   const [index, setIndex] = useState<any>('')
   const [quantity, setQuantity] = useState<any>('')

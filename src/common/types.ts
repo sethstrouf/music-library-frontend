@@ -37,9 +37,17 @@ export interface IStoreState {
   users: IUser[] | null,
   currentLibrary: ILibrary | null,
   libraryWorks: ILibraryWork[] | null,
+  showAddLibraryModal: boolean,
+  showAddWorkToLibraryModal: boolean,
+  showChangeLibraryNameModal: boolean,
+  showEditLibraryWorkModal: boolean,
   setCurrentUser: (user: IUser | null) => void,
   setAccessToken: (token: string | null) => void,
   setUsers: (users: [] | null) => void,
   setCurrentLibrary: (library: ILibrary | null) => void,
   setLibraryWorks: (libraryWorks: [] | null) => void
+  setShowAddLibraryModal: (boolean: boolean) => void
+  setShowAddWorkToLibraryModal: (boolean: boolean) => void
+  setShowChangeLibraryNameModal: (boolean: boolean) => void
+  setShowEditLibraryWorkModal: (boolean: boolean) => void
 }
