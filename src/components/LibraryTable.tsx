@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { ILibraryWork } from "../common/types";
 import useStore from "../store";
+import EditLibraryWorkModal from "./EditLibraryWorkModal";
 
 function classNames(...classes : any) {
   return classes.filter(Boolean).join(' ')
@@ -13,11 +14,12 @@ type Props = {
 
   const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props) => {
   const libraryWorks = useStore(state => state.libraryWorks)
-  const setLibraryWorks = useStore(state => state.setLibraryWorks)
 
   const checkbox = useRef<any>();
   const [checked, setChecked] = useState<boolean>(false)
   const [indeterminate, setIndeterminate] = useState(false)
+  const [showEditLibraryWorkModal, setShowEditLibraryWorkModal] = useState(false)
+  const [libraryWorkToUpdate, setLibraryWorkToUpdate] = useState<ILibraryWork>()
 
   useLayoutEffect(() => {
     if (libraryWorks) {
@@ -39,8 +41,15 @@ type Props = {
     }
   }
 
+  const handleUpdateClick = (libraryWork: ILibraryWork) => {
+    setLibraryWorkToUpdate(libraryWork)
+    setShowEditLibraryWorkModal(true)
+  }
+
   return (
     <div className="w-screen md:w-full overflow-x-scroll">
+      {showEditLibraryWorkModal && <EditLibraryWorkModal libraryWorkToUpdate={libraryWorkToUpdate!} setLibraryWorkToUpdate={setLibraryWorkToUpdate}
+                                                         showEditLibraryWorkModal={showEditLibraryWorkModal} setShowEditLibraryWorkModal={setShowEditLibraryWorkModal} />}
       <table className="min-w-full table-fixed divide-y divide-gray-300">
         <thead className="bg-gray-100">
           <tr>
@@ -53,7 +62,7 @@ type Props = {
                 onChange={toggleAll}
               />
             </th>
-            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-800">
+            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-800">
               Index
             </th>
             <th scope="col" className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-800">
@@ -62,14 +71,11 @@ type Props = {
             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-800">
               Composer
             </th>
-            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-800">
+            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-800">
               Quantity
             </th>
-            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-800">
+            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-800">
               Last Performed
-            </th>
-            <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-              <span className="sr-only">Edit</span>
             </th>
           </tr>
         </thead>
@@ -94,23 +100,20 @@ type Props = {
                   }
                 />
               </td>
-              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{libraryWork.attributes.index}</td>
+              <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{libraryWork.attributes.index}</td>
               <td
                 className={classNames(
                   'whitespace-nowrap py-4 pr-3 text-sm font-medium',
                   selectedLibraryWorks.includes(libraryWork) ? 'text-sky-600' : 'text-gray-800'
                 )}
               >
-                {libraryWork.attributes.work.title}
+                <button onClick={() => handleUpdateClick(libraryWork)} className='hover:underline'>
+                  {libraryWork.attributes.work.title}
+                </button>
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{libraryWork.attributes.work.composer}</td>
-              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{libraryWork.attributes.quantity}</td>
-              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{new Date(libraryWork.attributes.last_performed).toDateString()}</td>
-              <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                <a href="#" className="text-sky-600 hover:text-sky-900">
-                  Edit<span className="sr-only">, {libraryWork.attributes.work.title}</span>
-                </a>
-              </td>
+              <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{libraryWork.attributes.quantity}</td>
+              <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{new Date(libraryWork.attributes.last_performed).toDateString()}</td>
             </tr>
           ))}
         </tbody>

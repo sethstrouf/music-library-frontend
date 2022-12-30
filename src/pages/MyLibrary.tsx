@@ -87,6 +87,7 @@ const MyLibrary = () => {
         })
         updateCurrentUser()
         setCurrentLibrary(null)
+        localStorage.removeItem('currentLibraryId');
       } catch (error) {
         console.error(error)
       }
