@@ -22,9 +22,7 @@ const SearchWorks = () => {
     document.title = 'SearchWorks'
   }, [])
 
-  const handleSearch = async (e: FormEvent) => {
-    e.preventDefault()
-
+  const handleSearch = async () => {
     try {
       const res = await axios({
         method: 'get',
@@ -52,7 +50,7 @@ const SearchWorks = () => {
       <LibrarySelect />
 
       <div className='mx-auto pt-12'>
-        <form onSubmit={(e) => handleSearch(e)}>
+        <form onChange={() => handleSearch()}>
           <WorkSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         </form>
       </div>
