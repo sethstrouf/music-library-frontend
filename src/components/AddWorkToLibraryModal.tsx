@@ -10,9 +10,11 @@ type Props = {
   showAddWorkToLibraryModal: boolean
   setShowAddWorkToLibraryModal: (active: boolean) => void
   selectedWork: IWork | null
+  worksAlreadyInLibrary: number[]
+  setWorksAlreadyInLibrary: (active: number[]) => void
 }
 
-const AddWorkToLibraryModal = ({ showAddWorkToLibraryModal, setShowAddWorkToLibraryModal, selectedWork } : Props) => {
+const AddWorkToLibraryModal = ({ showAddWorkToLibraryModal, setShowAddWorkToLibraryModal, selectedWork, worksAlreadyInLibrary, setWorksAlreadyInLibrary } : Props) => {
   const accessToken = useStore(state => state.accessToken)
   const currentLibrary = useStore(state => state.currentLibrary)
 
@@ -32,15 +34,14 @@ const AddWorkToLibraryModal = ({ showAddWorkToLibraryModal, setShowAddWorkToLibr
             index: `${index}`,
             quantity: `${quantity}`,
             last_performed: `${lastPerformedDate}`,
-            // last_performed: Date.new(2022, 12, 18),
             work_id: `${selectedWork!.id}`,
             library_id: `${currentLibrary!.id}`
           }
         },
         headers: { Authorization: `${accessToken}` }
       })
-      console.log(res.data);
-      alertService.showSuccess(`${selectedWork!.attributes.title} has been added to your library!`)
+      setWorksAlreadyInLibrary([...worksAlreadyInLibrary, res.data.data.attributes.work.id.toString()])
+      alertService.showSuccess(`${selectedWork!.attributes.title} has been added to ${currentLibrary?.attributes.name}!`)
     } catch (err) {
       console.error(err)
     } finally {
@@ -153,7 +154,7 @@ const AddWorkToLibraryModal = ({ showAddWorkToLibraryModal, setShowAddWorkToLibr
                     type="button"
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
                     onClick={(e) => addWorkToLibrary(e)}
-                    >
+                  >
                     Add to Library
                   </button>
                   <button

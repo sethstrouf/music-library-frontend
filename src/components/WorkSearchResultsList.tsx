@@ -1,15 +1,37 @@
+import { useEffect } from "react"
 import { IWork } from "../common/types"
+import useStore from "../store"
 
 type Props = {
   searchResults: IWork[]
   setShowAddWorkToLibraryModal: (active: boolean) => void
   setSelectedWork: (active: IWork) => void
+  worksAlreadyInLibrary: number[]
+  setWorksAlreadyInLibrary: (active: number[]) => void
 }
 
-const WorkSearchResultsList = ({ searchResults, setShowAddWorkToLibraryModal, setSelectedWork } : Props) => {
+const WorkSearchResultsList = ({ searchResults, setShowAddWorkToLibraryModal, setSelectedWork, worksAlreadyInLibrary, setWorksAlreadyInLibrary } : Props) => {
+  const currentLibrary = useStore(state => state.currentLibrary)
+
+  useEffect(() => {
+    getWorksAlreadyInLibrary()
+  }, [searchResults, currentLibrary])
+
   const handleClick = (work: IWork) => {
     setSelectedWork(work)
     setShowAddWorkToLibraryModal(true)
+  }
+
+  const getWorksAlreadyInLibrary = () => {
+    let tempArray: number[] = []
+    searchResults.forEach(result => {
+      currentLibrary?.attributes.library_works.forEach(libraryWork => {
+        if(libraryWork.work_id == result.id) {
+          tempArray.push(result.id)
+        }
+      })
+    })
+    setWorksAlreadyInLibrary(tempArray)
   }
 
   return (
@@ -43,13 +65,20 @@ const WorkSearchResultsList = ({ searchResults, setShowAddWorkToLibraryModal, se
                   </div>
                 </div>
                 <div>
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:w-auto"
-                  onClick={() => handleClick(result)}
-                >
-                  + Add
-                </button>
+                  {result.id && worksAlreadyInLibrary.includes(result.id)
+                  ?
+                    <p className="pr-3 text-sm text-gray-700 italic">In library</p>
+                  :
+                    <button
+                    type="button"
+                    className={`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium
+                    text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:w-auto
+                    ${!currentLibrary ? "bg-gray-400 pointer-events-none" : "bg-sky-600"}`}
+                    onClick={() => handleClick(result)}
+                    >
+                      + Add
+                    </button>
+                  }
                 </div>
               </div>
             </a>

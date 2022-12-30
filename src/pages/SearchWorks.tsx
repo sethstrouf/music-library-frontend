@@ -3,6 +3,7 @@ import qs from 'qs'
 import { FormEvent, useEffect, useState } from 'react'
 import { IWork } from '../common/types'
 import AddWorkToLibraryModal from '../components/AddWorkToLibraryModal'
+import LibrarySelect from '../components/LibrarySelect'
 import WorkSearchBar from '../components/WorkSearchBar'
 import WorkSearchResultsList from '../components/WorkSearchResultsList'
 import useStore from '../store'
@@ -14,6 +15,7 @@ const SearchWorks = () => {
   const [searchResults, setSearchResults] = useState<IWork[]>([])
   const [selectedWork, setSelectedWork] = useState<IWork | null>(null)
   const [showAddWorkToLibraryModal, setShowAddWorkToLibraryModal] = useState(false)
+  const [worksAlreadyInLibrary, setWorksAlreadyInLibrary] = useState<number[]>([])
 
   useEffect(() => {
     document.title = 'SearchWorks'
@@ -42,18 +44,22 @@ const SearchWorks = () => {
 
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8">
-      {showAddWorkToLibraryModal && <AddWorkToLibraryModal showAddWorkToLibraryModal={showAddWorkToLibraryModal} setShowAddWorkToLibraryModal={setShowAddWorkToLibraryModal} selectedWork={selectedWork} />}
+      {showAddWorkToLibraryModal && <AddWorkToLibraryModal showAddWorkToLibraryModal={showAddWorkToLibraryModal} setShowAddWorkToLibraryModal={setShowAddWorkToLibraryModal}
+                                                           selectedWork={selectedWork} worksAlreadyInLibrary={worksAlreadyInLibrary} setWorksAlreadyInLibrary={setWorksAlreadyInLibrary} />}
 
-      <h1 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">Search Works</h1>
+      <h1 className="text-3xl pb-6 font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">Search Works</h1>
 
-      <div className='mx-auto pt-24'>
+      <LibrarySelect />
+
+      <div className='mx-auto pt-12'>
         <form onSubmit={(e) => handleSearch(e)}>
           <WorkSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         </form>
       </div>
 
       <div className='pt-12'>
-        <WorkSearchResultsList searchResults={searchResults} setShowAddWorkToLibraryModal={setShowAddWorkToLibraryModal} setSelectedWork={setSelectedWork} />
+        <WorkSearchResultsList searchResults={searchResults} setShowAddWorkToLibraryModal={setShowAddWorkToLibraryModal} setSelectedWork={setSelectedWork}
+                               worksAlreadyInLibrary={worksAlreadyInLibrary} setWorksAlreadyInLibrary={setWorksAlreadyInLibrary} />
       </div>
     </div>
   )

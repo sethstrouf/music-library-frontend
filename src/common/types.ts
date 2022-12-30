@@ -22,11 +22,12 @@ export interface IWork {
 export interface ILibrary {
   id?: number,
   name?: string,
-  attributes: {name: string}
+  attributes: {name: string, library_works: ILibraryWork[]}
 }
 
 export interface ILibraryWork {
   id?: number,
+  work_id: number,
   attributes: {index: number, quantity: number, last_performed: Date, library: ILibrary, work: IWork}
 }
 
