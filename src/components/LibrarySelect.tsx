@@ -26,7 +26,7 @@ const LibrarySelect = () => {
 
   return (
     <>
-      {currentUser?.libraries && currentUser?.libraries.length > 1 && currentLibrary &&
+      {currentUser?.libraries &&
         <div className='w-full'>
           <label htmlFor="librarySelect" className="sr-only">
             Choose Library
@@ -36,8 +36,9 @@ const LibrarySelect = () => {
             name="librarySelect"
             className="w-72 block rounded-md border-gray-300 text-base focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
             onChange={e => handleDropdownChange(e)}
-            value={currentLibrary.id}
-            >
+            value={currentLibrary?.id}
+          >
+            {!currentLibrary && <option></option>}
             {currentUser.libraries.map((library) => (
               <option key={library.id} value={library.id}>{library.name}</option>
             ))}

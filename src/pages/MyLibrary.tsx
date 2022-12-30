@@ -13,6 +13,8 @@ const MyLibrary = () => {
   const libraryWorks = useStore(state => state.libraryWorks)
   const setLibraryWorks = useStore(state => state.setLibraryWorks)
   const currentLibrary = useStore(state => state.currentLibrary)
+  const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
+  const setCurrentUser = useStore(state => state.setCurrentUser)
 
   const [selectedLibraryWorks, setSelectedLibraryWorks] = useState<any[]>([])
 
@@ -24,6 +26,19 @@ const MyLibrary = () => {
       document.title = currentLibrary.attributes.name
     } else {
       document.title = 'My Library'
+    }
+  }, [currentLibrary])
+
+  useEffect(() => {
+    if (!libraryWorks?.length && currentLibrary !== null) {
+      getLibraryWorks()
+    }
+  }, [])
+
+  useEffect(() => {
+    setLibraryWorks([])
+    if (currentLibrary !== null) {
+      getLibraryWorks()
     }
   }, [currentLibrary])
 
@@ -46,18 +61,50 @@ const MyLibrary = () => {
     }
   }
 
-  useEffect(() => {
-    if (!libraryWorks?.length && currentLibrary !== null) {
-      getLibraryWorks()
-    }
-  }, [])
+  const deleteSelected = () => {
+    selectedLibraryWorks.forEach(async selectedWork => {
+      try {
+        await axios({
+          method: 'delete',
+          url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works/${selectedWork.id}`,
+          headers: { Authorization: `${accessToken}` }
+        })
+        getLibraryWorks()
+        setSelectedLibraryWorks([])
+      } catch (error) {
+        console.error(error)
+      }
+    })
+  }
 
-  useEffect(() => {
-    setLibraryWorks([])
-    if (currentLibrary !== null) {
-      getLibraryWorks()
+  const deleteLibrary = async () => {
+    if (currentLibrary) {
+      try {
+        await axios({
+          method: 'delete',
+          url: `${import.meta.env.VITE_API_HOST}/api/v1/libraries/${currentLibrary.id}`,
+          headers: { Authorization: `${accessToken}` }
+        })
+        updateCurrentUser()
+        setCurrentLibrary(null)
+      } catch (error) {
+        console.error(error)
+      }
     }
-  }, [currentLibrary])
+  }
+
+  const updateCurrentUser = async () => {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: `${import.meta.env.VITE_API_HOST}/api/v1/current_user`,
+        headers: { Authorization: `${accessToken}` }
+      })
+      setCurrentUser(res.data);
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8">
@@ -76,7 +123,7 @@ const MyLibrary = () => {
               className="pt-2 pl-2 w-max text-left text-sm font-medium underline hover:text-sky-700"
               onClick={() => setShowAddLibraryModal(true)}
             >
-              Add new library
+              Add library
             </button>
             &nbsp;&nbsp;&nbsp;|
             <button
@@ -84,7 +131,15 @@ const MyLibrary = () => {
               className="pt-2 pl-2 w-max text-left text-sm font-medium underline text-sky-600 hover:text-sky-700"
               onClick={() => setShowChangeLibraryNameModal(true)}
             >
-              Change library name
+              Change name
+            </button>
+            &nbsp;&nbsp;&nbsp;|
+            <button
+              type="button"
+              className="pt-2 pl-2 w-max text-left text-sm font-medium underline text-sky-600 hover:text-sky-700"
+              onClick={() => deleteLibrary()}
+            >
+              Delete library
             </button>
           </div>
         </div>
@@ -110,12 +165,7 @@ const MyLibrary = () => {
                     <button
                       type="button"
                       className="inline-flex items-center rounded border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
-                    >
-                      Bulk edit
-                    </button>
-                    <button
-                      type="button"
-                      className="inline-flex items-center rounded border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
+                      onClick={() => deleteSelected()}
                     >
                       Delete all
                     </button>
