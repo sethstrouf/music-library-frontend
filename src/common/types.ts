@@ -28,7 +28,7 @@ export interface ILibrary {
 export interface ILibraryWork {
   id?: number,
   work_id: number,
-  attributes: {index: number, quantity: number, last_performed: Date, library: ILibrary, work: IWork}
+  attributes: {index: number, quantity: number, last_performed: Date, checked_out: boolean, library: ILibrary, work: IWork}
 }
 
 export interface IStoreState {

@@ -45,7 +45,7 @@ const Pricing = () => {
                 <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
-                <span className="ml-3 text-gray-500">Basic analytics</span>
+                <span className="ml-3 text-gray-500">Access to basic reports</span>
               </li>
 
               <li className="flex">
@@ -95,7 +95,7 @@ const Pricing = () => {
                 <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
-                <span className="ml-3 text-gray-500">Advanced analytics</span>
+                <span className="ml-3 text-gray-500">Access to advanced reports</span>
               </li>
 
               <li className="flex">
@@ -143,7 +143,7 @@ const Pricing = () => {
                 <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
-                <span className="ml-3 text-gray-500">Advanced analytics</span>
+                <span className="ml-3 text-gray-500">Access to advanced reports</span>
               </li>
 
               <li className="flex">

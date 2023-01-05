@@ -54,7 +54,6 @@ const NavBarSignedIn = () => {
 
   const navigation = [
     { name: 'Home', to: '/'},
-    { name: 'Features', to: '/features' },
     { name: 'Demo', to: '/demo' },
     { name: 'Pricing', to: '/pricing' },
     { name: 'My Library', to: '/mylibrary' },

@@ -1,4 +1,6 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import axios from "axios";
+import qs from "qs";
+import { FormEvent, useLayoutEffect, useRef, useState } from "react";
 import { ILibraryWork } from "../common/types";
 import useStore from "../store";
 import EditLibraryWorkModal from "./modals/EditLibraryWorkModal";
@@ -13,7 +15,10 @@ type Props = {
 }
 
 const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props) => {
+  const accessToken = useStore(state => state.accessToken)
+  const currentLibrary = useStore(state => state.currentLibrary)
   const libraryWorks = useStore(state => state.libraryWorks)
+  const setLibraryWorks = useStore(state => state.setLibraryWorks)
   const showEditLibraryWorkModal = useStore(state => state.showEditLibraryWorkModal)
   const setShowEditLibraryWorkModal = useStore(state => state.setShowEditLibraryWorkModal)
 
@@ -47,6 +52,39 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props)
     setShowEditLibraryWorkModal(true)
   }
 
+  const handleCheckedOutChange = async (e: FormEvent<HTMLInputElement>, libraryWork: ILibraryWork) => {
+    try {
+      await axios({
+        method: 'patch',
+        url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works/${libraryWork.id}`,
+        data: {library_work: {checked_out: `${!libraryWork.attributes.checked_out}` }},
+        headers: { Authorization: `${accessToken}` }
+      })
+      fetchUpdatedLibraryWorks()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const fetchUpdatedLibraryWorks = async () => {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works`,
+        params: {
+          library_work: { library_id: currentLibrary?.id }
+        },
+        paramsSerializer: (params) => {
+          return qs.stringify(params)
+        },
+        headers: { Authorization: `${accessToken}` }
+      })
+      setLibraryWorks(res.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <div className="w-screen md:w-full overflow-x-scroll">
       {showEditLibraryWorkModal && <EditLibraryWorkModal libraryWorkToUpdate={libraryWorkToUpdate!} setLibraryWorkToUpdate={setLibraryWorkToUpdate} />}
@@ -77,11 +115,14 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props)
             <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-800">
               Last Performed
             </th>
+            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-800">
+              Checked Out?
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
           {libraryWorks?.map((libraryWork) => (
-            <tr key={libraryWork.id} className={selectedLibraryWorks.includes(libraryWork) ? 'bg-gray-50' : undefined}>
+            <tr key={libraryWork.id} className={selectedLibraryWorks.includes(libraryWork) && !libraryWork.attributes.checked_out ? 'bg-gray-50' : libraryWork.attributes.checked_out ? 'bg-red-200' : undefined}>
               <td className="relative w-12 px-6 sm:w-16 sm:px-8">
                 {selectedLibraryWorks.includes(libraryWork) && (
                   <div className="absolute inset-y-0 left-0 w-0.5 bg-sky-600" />
@@ -114,6 +155,9 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props)
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{libraryWork.attributes.work.composer}</td>
               <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{libraryWork.attributes.quantity}</td>
               <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{new Date(libraryWork.attributes.last_performed).toDateString()}</td>
+              <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
+                <input type="checkbox" checked={libraryWork.attributes.checked_out} onChange={(e) => handleCheckedOutChange(e, libraryWork)} />
+              </td>
             </tr>
           ))}
         </tbody>

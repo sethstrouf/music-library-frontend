@@ -3,7 +3,6 @@ import Home from '../pages/Home'
 import About from '../pages/About'
 import NotFound from '../pages/NotFound'
 import Demo from '../pages/Demo'
-import Features from '../pages/Features'
 import Pricing from '../pages/Pricing'
 import SignInForm from '../components/SignInForm'
 import SubscribeForm from '../components/SubscribeForm'
@@ -20,7 +19,6 @@ const MainRouter = () => {
       <Route element={<PersistLogin />}>
         {/* public routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/features" element={<Features />} />
         <Route path="/demo" element={<Demo />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/about" element={<About />} />
