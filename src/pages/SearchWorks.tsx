@@ -22,6 +22,15 @@ const SearchWorks = () => {
     document.title = 'SearchWorks'
   }, [])
 
+  useEffect(() => {
+    handleSearch()
+  }, [searchQuery])
+
+  const handleSearchSubmit = (e: any) => {
+    e.preventDefault()
+    handleSearch()
+  }
+
   const handleSearch = async () => {
     try {
       const res = await axios({
@@ -50,14 +59,14 @@ const SearchWorks = () => {
       <LibrarySelect />
 
       <div className='mx-auto pt-12'>
-        <form onChange={() => handleSearch()}>
+        <form onSubmit={(e) => handleSearchSubmit(e)}>
           <WorkSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         </form>
       </div>
 
       <div className='pt-12'>
         <WorkSearchResultsList searchResults={searchResults} setShowAddWorkToLibraryModal={setShowAddWorkToLibraryModal} setSelectedWork={setSelectedWork}
-                               worksAlreadyInLibrary={worksAlreadyInLibrary} setWorksAlreadyInLibrary={setWorksAlreadyInLibrary} />
+                               worksAlreadyInLibrary={worksAlreadyInLibrary} setWorksAlreadyInLibrary={setWorksAlreadyInLibrary} handleSearch={handleSearch} />
       </div>
     </div>
   )

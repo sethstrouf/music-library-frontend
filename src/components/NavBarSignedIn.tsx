@@ -80,7 +80,7 @@ const NavBarSignedIn = () => {
           </div>
           <div className="ml-10 space-x-4 group">
             <NavLink key={uuidv4()} to={'/myprofile'}>
-              <span className="p-3 mr-6 text-pink-500 font-bold border border-pink-600 rounded-full bg-pink-100 group-hover:bg-pink-200">{userFromApi !== null && userFromApi.first_name[0] + userFromApi.last_name[0]}</span>
+              <span className="p-3 mr-6 text-gray-600 font-bold border border-gray-700 rounded-full bg-gray-200 group-hover:bg-gray-300">{userFromApi !== null && userFromApi.first_name[0] + userFromApi.last_name[0]}</span>
               <span className="absolute -translate-x-20 translate-y-10 text-sm group-hover:text-gray-800">My Profile</span>
             </NavLink>
             <button

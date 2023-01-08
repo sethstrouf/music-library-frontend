@@ -70,12 +70,27 @@ const MyLibrary = () => {
           url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works/${selectedWork.id}`,
           headers: { Authorization: `${accessToken}` }
         })
+        getCurrentLibrary()
         getLibraryWorks()
         setSelectedLibraryWorks([])
       } catch (error) {
         console.error(error)
       }
     })
+  }
+
+  const getCurrentLibrary = async () => {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: `${import.meta.env.VITE_API_HOST}/api/v1/libraries/${currentLibrary!.id}`,
+        headers: { Authorization: `${accessToken}` }
+      })
+      localStorage.setItem('currentLibraryId', res.data.id)
+      setCurrentLibrary(res.data)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const deleteLibrary = async () => {

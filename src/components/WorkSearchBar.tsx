@@ -18,7 +18,7 @@ const WorkSearchBar = ({ searchQuery, setSearchQuery }: Props) => {
           name="workSearch"
           id="workSearch"
           className="block w-full rounded-xl border-gray-300 pl-10 focus:border-sky-500 focus:ring-sky-500 sm:text-sm p-2"
-          placeholder="Search for music"
+          placeholder='Search titles like "Homeward Bound" or composers like "Eric Whitacre"'
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           autoFocus

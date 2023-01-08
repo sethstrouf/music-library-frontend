@@ -5,7 +5,7 @@ export interface IUser {
   first_name: string,
   last_name: string,
   name: string,
-  password: string,
+  admin: boolean
   libraries: ILibrary[],
   attributes: {name?: string, email: string}
 }
@@ -16,7 +16,7 @@ export interface IWork {
   composer: string
   genre: string
   publishing_year: number
-  attributes: {title: string, composer: string, genre: string, publishing_year: number}
+  attributes: {title: string, composer: string, genre: string, publishing_year: number, image_url: string}
 }
 
 export interface ILibrary {
