@@ -8,12 +8,12 @@ import useStore from '../store'
 
 const NavBarSignedIn = () => {
 
+  const currentUser = useStore(state => state.currentUser)
   const setCurrentUser = useStore(state => state.setCurrentUser)
   const setAccessToken = useStore(state => state.setAccessToken)
   const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
   const setLibraryWorks = useStore(state => state.setLibraryWorks)
   const accessToken = useStore(state => state.accessToken)
-  const [userFromApi, setUserFromApi] = useState<IUser | null>(null)
 
   useEffect(() => {
     fetchCurrentUser()
@@ -26,9 +26,8 @@ const NavBarSignedIn = () => {
         url: `${import.meta.env.VITE_API_HOST}/api/v1/current_user`,
         headers: { Authorization: `${accessToken}` }
       })
-      setUserFromApi(res.data);
+      setCurrentUser(res.data)
     } catch (error) {
-      setUserFromApi(null)
       console.error(error)
     }
   }
@@ -78,13 +77,24 @@ const NavBarSignedIn = () => {
               ))}
             </div>
           </div>
-          <div className="ml-10 space-x-4 group">
-            <NavLink key={uuidv4()} to={'/myprofile'}>
-              <span className="p-3 mr-6 text-gray-600 font-bold border border-gray-700 rounded-full bg-gray-200 group-hover:bg-gray-300">{userFromApi !== null && userFromApi.first_name[0] + userFromApi.last_name[0]}</span>
-              <span className="absolute -translate-x-20 translate-y-10 text-sm group-hover:text-gray-800">My Profile</span>
-            </NavLink>
+          <div className="flex content-center ml-10 space-x-4 group">
+            <div className="mr-6">
+              <NavLink key={uuidv4()} to={'/myprofile'} >
+                <div className="w-18 h-18 text-center">
+                  {currentUser?.profile_photo_url
+                  ?
+                    <img className="inline -mt-2 -mb-2 h-12 w-12 font-bold border border-gray-700 rounded-full" src={currentUser!.profile_photo_url} alt="" />
+                  :
+                    <span className="p-3 text-gray-600 font-bold border border-gray-700 rounded-full bg-gray-200 group-hover:bg-gray-300">{currentUser !== null && currentUser.first_name[0] + currentUser.last_name[0]}</span>
+                  }
+                </div>
+                <div className="mt-2 w-full text-center">
+                  <span className="text-sm group-hover:text-gray-800">My Profile</span>
+                </div>
+              </NavLink>
+            </div>
             <button
-              className="inline-block py-1.5 px-4 border border-transparent rounded-md text-base font-medium bg-red-500 text-white hover:bg-red-600"
+              className="inline-block px-4 h-10 border border-transparent rounded-md text-base font-medium bg-red-500 text-white hover:bg-red-600"
               onClick={signOutUser}>
                 Sign Out
             </button>

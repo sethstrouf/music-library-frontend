@@ -66,9 +66,63 @@ const MyProfile = () => {
     }
   }
 
+  const handleImageUpload = async (e: any) => {
+    const photo = e.target.files[0]
+    if (photo.type == 'image/jpeg' || photo.type == 'image/png' ) {
+      const formData = new FormData();
+      formData.append("photo", photo);
+      try {
+        await axios({
+          method: 'patch',
+          url: `${import.meta.env.VITE_API_HOST}/api/v1/users/${currentUser!.id}`,
+          data: formData,
+          headers: { Authorization: `${accessToken}` }
+        })
+        updateCurrentUser()
+      } catch (err) {
+        console.error(err)
+      }
+    } else {
+      alertService.showError('File must be jpg or png')
+    }
+  }
+
+  const updateCurrentUser = async () => {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: `${import.meta.env.VITE_API_HOST}/api/v1/current_user`,
+        headers: { Authorization: `${accessToken}` }
+      })
+      setCurrentUser(res.data);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
 return (
     <div className='mx-auto py-12 w-10/12 md:w-8/12 lg:w-6/12'>
-      <form onSubmit={updateUser} className="space-y-8 divide-y divide-gray-200">
+          <div className="p-8 bg-white shadow-md rounded-md">
+            <div className='pb-5 border-b border-1 border-gray-200'>
+              <h3 className="text-lg font-medium leading-6 text-gray-800">Profile Photo</h3>
+              <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                This photo wil be visible by all users.
+              </p>
+            </div>
+            <div className='my-4'>
+              {currentUser!.profile_photo_url
+              ?
+                <img className="h-32 w-32 rounded-md" src={currentUser!.profile_photo_url} alt="" />
+              :
+                <div className='block h-32 w-32 text-center text-2xl rounded-md text-gray-600 font-bold border border-gray-700 bg-gray-200'>
+                  <span className='block mt-11'>{currentUser !== null && currentUser.first_name[0] + currentUser.last_name[0]}</span>
+                </div>
+              }
+            </div>
+            <input className="pt-2" type="file" name="newImage"accept="image/png, image/jpeg" onChange={(e) => handleImageUpload(e)} />
+          </div>
+
+      <form onSubmit={updateUser} className="mt-12 space-y-8 divide-y divide-gray-200 p-8 bg-white shadow-md rounded-md">
         <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
           <div className="space-y-6 sm:space-y-5">
             <div>
@@ -135,7 +189,7 @@ return (
         </div>
       </form>
 
-      <form onSubmit={changePassword} className="pt-12 space-y-8 divide-y divide-gray-200">
+      <form onSubmit={changePassword} className="mt-12 space-y-8 divide-y divide-gray-200 p-8 bg-white shadow-md rounded-md">
         <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
           <div className="space-y-6 sm:space-y-5">
             <div>

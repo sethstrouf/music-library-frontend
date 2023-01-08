@@ -6,6 +6,7 @@ export interface IUser {
   last_name: string,
   name: string,
   admin: boolean
+  profile_photo_url: string,
   libraries: ILibrary[],
   attributes: {name?: string, email: string}
 }
