@@ -74,7 +74,7 @@ const WorkSearchResultsList = ({ searchResults, setShowAddWorkToLibraryModal, se
                   <div className="flex-shrink-0">
                     {result.attributes.image_url
                     ?
-                      <img className="h-18 w-12" src={`${import.meta.env.VITE_API_HOST}${result.attributes.image_url}`} alt="" />
+                      <img className="h-18 w-12" src={result.attributes.image_url} alt="" />
                     :
                       <img className="h-18 w-12" src={noImageAvailable} alt="" />
                     }
