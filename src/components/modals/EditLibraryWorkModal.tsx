@@ -14,6 +14,7 @@ const EditLibraryWorkModal = ({ libraryWorkToUpdate, setLibraryWorkToUpdate} : P
   const accessToken = useStore(state => state.accessToken)
   const currentLibrary = useStore(state => state.currentLibrary)
   const setLibraryWorks = useStore(state => state.setLibraryWorks)
+  const getAndSetLibraryWorks = useStore(state => state.getAndSetLibraryWorks)
   const showEditLibraryWorkModal = useStore(state => state.showEditLibraryWorkModal)
   const setShowEditLibraryWorkModal = useStore(state => state.setShowEditLibraryWorkModal)
 
@@ -58,30 +59,11 @@ const EditLibraryWorkModal = ({ libraryWorkToUpdate, setLibraryWorkToUpdate} : P
         },
         headers: { Authorization: `${accessToken}` }
       })
-      getLibraryWorks()
+      getAndSetLibraryWorks()
     } catch (err) {
       console.error(err)
     } finally {
       setShowEditLibraryWorkModal(false)
-    }
-  }
-
-  const getLibraryWorks = async () => {
-    try {
-      const res = await axios({
-        method: 'get',
-        url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works`,
-        params: {
-          library_work: { library_id: currentLibrary?.id }
-        },
-        paramsSerializer: (params) => {
-          return qs.stringify(params)
-        },
-        headers: { Authorization: `${accessToken}` }
-      })
-      setLibraryWorks(res.data)
-    } catch (error) {
-      console.error(error)
     }
   }
 

@@ -12,13 +12,13 @@ const SignInForm = () => {
   const setCurrentUser = useStore(state => state.setCurrentUser)
   const setAccessToken = useStore(state => state.setAccessToken)
   const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
+  const getAndSetCurrentLibrary = useStore(state => state.getAndSetCurrentLibrary)
 
   const navigate = useNavigate()
   const location: any = useLocation()
   const from = location.state?.from?.pathname || '/mylibrary'
 
   const emailRef = useRef<any>()
-  const errorRef = useRef<any>()
 
   const [email, setEmail] = useState('')
   const [validEmail, setValidEmail] = useState(false)
@@ -55,7 +55,7 @@ const SignInForm = () => {
       setCurrentUser(res.data.data)
       setAccessToken(res.headers.authorization)
       if(res.data.data.libraries.length) {
-        fetchAndSetCurrentLibrary(res.data.data.libraries[0].id)
+        getAndSetCurrentLibrary(res.data.data.libraries[0].id)
       }
       setEmail('')
       setPwd('')
@@ -71,20 +71,6 @@ const SignInForm = () => {
       if (emailRef.current) {
         emailRef.current.focus()
       }
-    }
-  }
-
-  const fetchAndSetCurrentLibrary = async (libraryId: number) => {
-    try {
-      const res = await axios({
-        method: 'get',
-        url: `${import.meta.env.VITE_API_HOST}/api/v1/libraries/${libraryId}`,
-        headers: { Authorization: `${localStorage.getItem('accessToken')}` }
-      })
-      localStorage.setItem('currentLibraryId', libraryId.toString())
-      setCurrentLibrary(res.data)
-    } catch (error) {
-      console.error(error)
     }
   }
 

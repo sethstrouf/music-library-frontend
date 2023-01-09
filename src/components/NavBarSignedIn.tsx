@@ -2,7 +2,6 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { v4 as uuidv4 } from 'uuid'
-import { IUser } from "../common/types"
 import { alertService } from "../services/alert"
 import useStore from '../store'
 
@@ -10,27 +9,15 @@ const NavBarSignedIn = () => {
 
   const currentUser = useStore(state => state.currentUser)
   const setCurrentUser = useStore(state => state.setCurrentUser)
+  const getAndSetCurrentUser = useStore(state => state.getAndSetCurrentUser)
   const setAccessToken = useStore(state => state.setAccessToken)
   const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
   const setLibraryWorks = useStore(state => state.setLibraryWorks)
   const accessToken = useStore(state => state.accessToken)
 
   useEffect(() => {
-    fetchCurrentUser()
+    getAndSetCurrentUser()
   }, [accessToken])
-
-  const fetchCurrentUser = async () => {
-    try {
-      const res = await axios({
-        method: 'get',
-        url: `${import.meta.env.VITE_API_HOST}/api/v1/current_user`,
-        headers: { Authorization: `${accessToken}` }
-      })
-      setCurrentUser(res.data)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   const signOutUser = async () => {
     try {

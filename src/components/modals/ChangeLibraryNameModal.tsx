@@ -7,25 +7,12 @@ const ChangeLibraryNameModal = () => {
   const accessToken = useStore(state => state.accessToken)
   const currentLibrary = useStore(state => state.currentLibrary)
   const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
-  const setCurrentUser = useStore(state => state.setCurrentUser)
+  const getAndSetCurrentUser = useStore(state => state.getAndSetCurrentUser)
   const showChangeLibraryNameModal = useStore(state => state.showChangeLibraryNameModal)
   const setShowChangeLibraryNameModal = useStore(state => state.setShowChangeLibraryNameModal)
 
   const [libraryName, setLibraryName] = useState(currentLibrary?.attributes.name)
   const libraryNameInput = useRef(null)
-
-  const updateCurrentUser = async () => {
-    try {
-      const res = await axios({
-        method: 'get',
-        url: `${import.meta.env.VITE_API_HOST}/api/v1/current_user`,
-        headers: { Authorization: `${accessToken}` }
-      })
-      setCurrentUser(res.data);
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   const changeLibraryName = async (e: FormEvent | MouseEvent) => {
     e.preventDefault()
@@ -44,7 +31,7 @@ const ChangeLibraryNameModal = () => {
       } finally {
         setLibraryName('')
         setShowChangeLibraryNameModal(false)
-        updateCurrentUser()
+        getAndSetCurrentUser()
       }
     }
   }

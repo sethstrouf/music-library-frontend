@@ -18,6 +18,7 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props)
   const accessToken = useStore(state => state.accessToken)
   const currentLibrary = useStore(state => state.currentLibrary)
   const libraryWorks = useStore(state => state.libraryWorks)
+  const getAndSetLibraryWorks = useStore(state => state.getAndSetLibraryWorks)
   const setLibraryWorks = useStore(state => state.setLibraryWorks)
   const showEditLibraryWorkModal = useStore(state => state.showEditLibraryWorkModal)
   const setShowEditLibraryWorkModal = useStore(state => state.setShowEditLibraryWorkModal)
@@ -60,28 +61,9 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props)
         data: {library_work: {checked_out: `${!libraryWork.attributes.checked_out}` }},
         headers: { Authorization: `${accessToken}` }
       })
-      fetchUpdatedLibraryWorks()
+      getAndSetLibraryWorks()
     } catch (err) {
       console.error(err)
-    }
-  }
-
-  const fetchUpdatedLibraryWorks = async () => {
-    try {
-      const res = await axios({
-        method: 'get',
-        url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works`,
-        params: {
-          library_work: { library_id: currentLibrary?.id }
-        },
-        paramsSerializer: (params) => {
-          return qs.stringify(params)
-        },
-        headers: { Authorization: `${accessToken}` }
-      })
-      setLibraryWorks(res.data)
-    } catch (error) {
-      console.error(error)
     }
   }
 

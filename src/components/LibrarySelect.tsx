@@ -1,27 +1,14 @@
-import axios from "axios"
 import { ChangeEvent } from "react"
 import useStore from "../store"
 
 const LibrarySelect = () => {
-  const accessToken = useStore(state => state.accessToken)
   const currentUser = useStore(state => state.currentUser)
+  const getAndSetCurrentLibrary = useStore(state => state.getAndSetCurrentLibrary)
   const currentLibrary = useStore(state => state.currentLibrary)
-  const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
 
   const handleDropdownChange = async (e: ChangeEvent<HTMLSelectElement>) => {
-    const library_id = e.target.value
-
-    try {
-      const res = await axios({
-        method: 'get',
-        url: `${import.meta.env.VITE_API_HOST}/api/v1/libraries/${library_id}`,
-        headers: { Authorization: `${accessToken}` }
-      })
-      localStorage.setItem('currentLibraryId', res.data.id)
-      setCurrentLibrary(res.data)
-    } catch (error) {
-      console.error(error)
-    }
+    const libraryId = e.target.value
+    getAndSetCurrentLibrary(libraryId)
   }
 
   return (

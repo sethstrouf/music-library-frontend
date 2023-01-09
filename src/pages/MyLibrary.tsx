@@ -11,10 +11,12 @@ import { NavLink } from 'react-router-dom';
 const MyLibrary = () => {
   const accessToken = useStore(state => state.accessToken)
   const libraryWorks = useStore(state => state.libraryWorks)
+  const getAndSetLibraryWorks = useStore(state=> state.getAndSetLibraryWorks)
   const setLibraryWorks = useStore(state => state.setLibraryWorks)
   const currentLibrary = useStore(state => state.currentLibrary)
   const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
-  const setCurrentUser = useStore(state => state.setCurrentUser)
+  const getAndSetCurrentLibrary = useStore(state => state.getAndSetCurrentLibrary)
+  const getAndSetCurrentUser = useStore(state => state.getAndSetCurrentUser)
   const showChangeLibraryNameModal = useStore(state => state.showChangeLibraryNameModal)
   const setShowChangeLibraryNameModal = useStore(state => state.setShowChangeLibraryNameModal)
   const showAddLibraryModal = useStore(state => state.showAddLibraryModal)
@@ -28,39 +30,10 @@ const MyLibrary = () => {
     } else {
       document.title = 'My Library'
     }
-  }, [currentLibrary])
 
-  useEffect(() => {
-    if (!libraryWorks?.length && currentLibrary !== null) {
-      getLibraryWorks()
-    }
-  }, [])
-
-  useEffect(() => {
     setLibraryWorks([])
-    if (currentLibrary !== null) {
-      getLibraryWorks()
-    }
+    getAndSetLibraryWorks()
   }, [currentLibrary])
-
-  const getLibraryWorks = async () => {
-    try {
-      const res = await axios({
-        method: 'get',
-        url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works`,
-        params: {
-          library_work: { library_id: currentLibrary?.id }
-        },
-        paramsSerializer: (params) => {
-          return qs.stringify(params)
-        },
-        headers: { Authorization: `${accessToken}` }
-      })
-      setLibraryWorks(res.data)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   const deleteSelected = () => {
     selectedLibraryWorks.forEach(async selectedWork => {
@@ -70,27 +43,13 @@ const MyLibrary = () => {
           url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works/${selectedWork.id}`,
           headers: { Authorization: `${accessToken}` }
         })
-        getCurrentLibrary()
-        getLibraryWorks()
+        getAndSetCurrentLibrary(currentLibrary!.id)
+        getAndSetLibraryWorks()
         setSelectedLibraryWorks([])
       } catch (error) {
         console.error(error)
       }
     })
-  }
-
-  const getCurrentLibrary = async () => {
-    try {
-      const res = await axios({
-        method: 'get',
-        url: `${import.meta.env.VITE_API_HOST}/api/v1/libraries/${currentLibrary!.id}`,
-        headers: { Authorization: `${accessToken}` }
-      })
-      localStorage.setItem('currentLibraryId', res.data.id)
-      setCurrentLibrary(res.data)
-    } catch (error) {
-      console.error(error)
-    }
   }
 
   const deleteLibrary = async () => {
@@ -101,25 +60,12 @@ const MyLibrary = () => {
           url: `${import.meta.env.VITE_API_HOST}/api/v1/libraries/${currentLibrary.id}`,
           headers: { Authorization: `${accessToken}` }
         })
-        updateCurrentUser()
+        getAndSetCurrentUser()
         setCurrentLibrary(null)
         localStorage.removeItem('currentLibraryId');
       } catch (error) {
         console.error(error)
       }
-    }
-  }
-
-  const updateCurrentUser = async () => {
-    try {
-      const res = await axios({
-        method: 'get',
-        url: `${import.meta.env.VITE_API_HOST}/api/v1/current_user`,
-        headers: { Authorization: `${accessToken}` }
-      })
-      setCurrentUser(res.data);
-    } catch (error) {
-      console.error(error)
     }
   }
 
