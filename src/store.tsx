@@ -13,6 +13,7 @@ const useStore = create<IStoreState>((set, get) => ({
   showAddWorkToLibraryModal: false,
   showChangeLibraryNameModal: false,
   showEditLibraryWorkModal: false,
+  showConfirmDeleteLibraryModal: false,
   setCurrentUser: (user) => {
     set({ currentUser: user })
   },
@@ -39,6 +40,9 @@ const useStore = create<IStoreState>((set, get) => ({
   },
   setShowEditLibraryWorkModal: (boolean) => {
     set({ showEditLibraryWorkModal: boolean})
+  },
+  setShowConfirmDeleteLibraryModal: (boolean) => {
+    set({ showConfirmDeleteLibraryModal: boolean})
   },
 
   // API Calls

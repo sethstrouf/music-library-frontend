@@ -7,6 +7,7 @@ import LibrarySelect from '../components/LibrarySelect';
 import ChangeLibraryNameModal from '../components/modals/ChangeLibraryNameModal';
 import LibraryTable from '../components/LibraryTable';
 import { NavLink } from 'react-router-dom';
+import ConfirmDeleteLibraryModal from '../components/modals/ConfirmDeleteLibraryModal';
 
 const MyLibrary = () => {
   const accessToken = useStore(state => state.accessToken)
@@ -21,6 +22,8 @@ const MyLibrary = () => {
   const setShowChangeLibraryNameModal = useStore(state => state.setShowChangeLibraryNameModal)
   const showAddLibraryModal = useStore(state => state.showAddLibraryModal)
   const setShowAddLibraryModal = useStore(state => state.setShowAddLibraryModal)
+  const showConfirmDeleteLibraryModal = useStore(state => state.showConfirmDeleteLibraryModal)
+  const setShowConfirmDeleteLibraryModal = useStore(state => state.setShowConfirmDeleteLibraryModal)
 
   const [selectedLibraryWorks, setSelectedLibraryWorks] = useState<any[]>([])
 
@@ -52,27 +55,11 @@ const MyLibrary = () => {
     })
   }
 
-  const deleteLibrary = async () => {
-    if (currentLibrary) {
-      try {
-        await axios({
-          method: 'delete',
-          url: `${import.meta.env.VITE_API_HOST}/api/v1/libraries/${currentLibrary.id}`,
-          headers: { Authorization: `${accessToken}` }
-        })
-        getAndSetCurrentUser()
-        setCurrentLibrary(null)
-        localStorage.removeItem('currentLibraryId');
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  }
-
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8">
       {showAddLibraryModal && <AddLibraryModal />}
       {showChangeLibraryNameModal && <ChangeLibraryNameModal />}
+      {showConfirmDeleteLibraryModal && <ConfirmDeleteLibraryModal />}
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           {currentLibrary && <h1 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">{currentLibrary.attributes.name.toString()}</h1>}
@@ -100,7 +87,7 @@ const MyLibrary = () => {
             <button
               type="button"
               className="pt-2 pl-2 w-max text-left text-sm font-medium underline text-sky-600 hover:text-sky-700"
-              onClick={() => deleteLibrary()}
+              onClick={() => setShowConfirmDeleteLibraryModal(true)}
             >
               Delete library
             </button>

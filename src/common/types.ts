@@ -42,6 +42,7 @@ export interface IStoreState {
   showAddWorkToLibraryModal: boolean
   showChangeLibraryNameModal: boolean
   showEditLibraryWorkModal: boolean
+  showConfirmDeleteLibraryModal: boolean
   setCurrentUser: (user: IUser | null) => void
   setAccessToken: (token: string | null) => void
   setUsers: (users: [] | null) => void
@@ -51,6 +52,7 @@ export interface IStoreState {
   setShowAddWorkToLibraryModal: (boolean: boolean) => void
   setShowChangeLibraryNameModal: (boolean: boolean) => void
   setShowEditLibraryWorkModal: (boolean: boolean) => void
+  setShowConfirmDeleteLibraryModal: (boolean: boolean) => void
 
   // API Calls
   getAndSetCurrentUser: () => void
