@@ -1,13 +1,14 @@
 type Props = {
+  placeholder: string
   searchQuery: string
   setSearchQuery: (active: string) => void
 }
 
-const WorkSearchBar = ({ searchQuery, setSearchQuery }: Props) => {
+const WorkSearchBar = ({ placeholder, searchQuery, setSearchQuery }: Props) => {
   return (
     <div>
       <label htmlFor="workSearch" className="sr-only">
-        Search for music to add to your library
+        Search for music
       </label>
       <div className="relative mt-1 rounded-md">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -18,7 +19,7 @@ const WorkSearchBar = ({ searchQuery, setSearchQuery }: Props) => {
           name="workSearch"
           id="workSearch"
           className="block w-full rounded-xl border-gray-300 pl-10 focus:border-sky-500 focus:ring-sky-500 sm:text-sm p-2"
-          placeholder='Search titles like "Homeward Bound" or composers like "Eric Whitacre"'
+          placeholder={placeholder}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           autoFocus

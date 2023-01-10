@@ -23,7 +23,9 @@ const SearchWorks = () => {
   }, [])
 
   useEffect(() => {
-    handleSearch()
+    if (searchQuery.length > 0) {
+      handleSearch()
+    }
   }, [searchQuery])
 
   const handleSearchSubmit = (e: any) => {
@@ -60,7 +62,7 @@ const SearchWorks = () => {
 
       <div className='mx-auto pt-12'>
         <form onSubmit={(e) => handleSearchSubmit(e)}>
-          <WorkSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+          <WorkSearchBar placeholder='Search titles like "Homeward Bound" or composers like "Eric Whitacre"' searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         </form>
       </div>
 

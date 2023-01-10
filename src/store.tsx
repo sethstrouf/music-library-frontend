@@ -73,21 +73,23 @@ const useStore = create<IStoreState>((set, get) => ({
     }
   },
   getAndSetLibraryWorks: async () => {
-    try {
-      const res = await axios({
-        method: 'get',
-        url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works`,
-        params: {
-          library_work: { library_id: get().currentLibrary?.id }
-        },
-        paramsSerializer: (params) => {
-          return qs.stringify(params)
-        },
-        headers: { Authorization: `${get().accessToken}` }
-      })
-      get().setLibraryWorks(res.data)
-    } catch (error) {
-      console.error(error)
+    if (get().currentLibrary) {
+      try {
+        const res = await axios({
+          method: 'get',
+          url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works`,
+          params: {
+            library_work: { library_id: get().currentLibrary?.id }
+          },
+          paramsSerializer: (params) => {
+            return qs.stringify(params)
+          },
+          headers: { Authorization: `${get().accessToken}` }
+        })
+        get().setLibraryWorks(res.data)
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 }))
