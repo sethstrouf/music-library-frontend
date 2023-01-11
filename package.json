@@ -5,8 +5,8 @@
   "dependencies": {
     "@headlessui/react": "^1.7.7",
     "@tailwindcss/forms": "^0.5.3",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^28.1.6",
     "@types/node": "^18.7.1",
@@ -18,6 +18,7 @@
     "@vitejs/plugin-react-refresh": "^1.3.6",
     "axios": "^0.27.2",
     "immer": "^9.0.15",
+    "jsdom": "^21.0.0",
     "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -28,6 +29,7 @@
     "uuidv4": "^6.2.13",
     "vite": "^3.2.4",
     "vite-plugin-svgr": "^2.2.2",
+    "vitest": "^0.27.0",
     "web-vitals": "^2.1.4",
     "yarn": "^1.22.19",
     "zustand": "^4.0.0"
@@ -37,7 +39,7 @@
     "build": "tsc && vite build",
     "postinstall": "npm run build",
     "serve-heroku": "vite --host 0.0.0.0 --port $PORT preview",
-    "test": "tsc && vite build test",
+    "test": "vitest",
     "preview": "vite preview"
   },
   "eslintConfig": {
