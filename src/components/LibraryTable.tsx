@@ -16,10 +16,8 @@ type Props = {
 
 const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props) => {
   const accessToken = useStore(state => state.accessToken)
-  const currentLibrary = useStore(state => state.currentLibrary)
   const libraryWorks = useStore(state => state.libraryWorks)
   const getAndSetLibraryWorks = useStore(state => state.getAndSetLibraryWorks)
-  const setLibraryWorks = useStore(state => state.setLibraryWorks)
   const showEditLibraryWorkModal = useStore(state => state.showEditLibraryWorkModal)
   const setShowEditLibraryWorkModal = useStore(state => state.setShowEditLibraryWorkModal)
 
@@ -61,7 +59,7 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props)
         data: {library_work: {checked_out: `${!libraryWork.attributes.checked_out}` }},
         headers: { Authorization: `${accessToken}` }
       })
-      getAndSetLibraryWorks()
+      getAndSetLibraryWorks(1, 1)
     } catch (err) {
       console.error(err)
     }
@@ -69,7 +67,7 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props)
 
   return (
     <div className="w-screen md:w-full overflow-x-scroll">
-      {showEditLibraryWorkModal && <EditLibraryWorkModal libraryWorkToUpdate={libraryWorkToUpdate!} setLibraryWorkToUpdate={setLibraryWorkToUpdate} />}
+      {showEditLibraryWorkModal && <EditLibraryWorkModal libraryWorkToUpdate={libraryWorkToUpdate!} />}
       <table className="min-w-full table-fixed divide-y divide-gray-300">
         <thead className="bg-gray-100">
           <tr>

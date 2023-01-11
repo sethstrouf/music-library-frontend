@@ -32,12 +32,24 @@ export interface ILibraryWork {
   attributes: {index: number, quantity: number, last_performed: Date, checked_out: boolean, library: ILibrary, work: IWork}
 }
 
+export interface IMetadata {
+  count: number | null
+  from:  number | null
+  next:  number | null
+  page:  number | null
+  items: number | null
+  pages: number | null
+  prev:  number | null
+  to:    number | null
+}
+
 export interface IStoreState {
   currentUser: IUser | null
   accessToken: string | null
   users: IUser[] | null
   currentLibrary: ILibrary | null
   libraryWorks: ILibraryWork[] | null
+  libraryWorksMeta: IMetadata | null
   showAddLibraryModal: boolean
   showAddWorkToLibraryModal: boolean
   showChangeLibraryNameModal: boolean
@@ -48,6 +60,7 @@ export interface IStoreState {
   setUsers: (users: [] | null) => void
   setCurrentLibrary: (library: ILibrary | null) => void
   setLibraryWorks: (libraryWorks: [] | null) => void
+  setLibraryWorksMeta: (metadata: IMetadata) => void
   setShowAddLibraryModal: (boolean: boolean) => void
   setShowAddWorkToLibraryModal: (boolean: boolean) => void
   setShowChangeLibraryNameModal: (boolean: boolean) => void
@@ -57,5 +70,5 @@ export interface IStoreState {
   // API Calls
   getAndSetCurrentUser: () => void
   getAndSetCurrentLibrary: (libraryId: any) => void
-  getAndSetLibraryWorks: () => void
+  getAndSetLibraryWorks: (page: any, perPage: any) => Object
 }

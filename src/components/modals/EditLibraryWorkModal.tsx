@@ -7,13 +7,11 @@ import qs from 'qs'
 
 type Props = {
   libraryWorkToUpdate: ILibraryWork
-  setLibraryWorkToUpdate: (active: ILibraryWork) => void
 }
 
-const EditLibraryWorkModal = ({ libraryWorkToUpdate, setLibraryWorkToUpdate} : Props) => {
+const EditLibraryWorkModal = ({ libraryWorkToUpdate } : Props) => {
   const accessToken = useStore(state => state.accessToken)
-  const currentLibrary = useStore(state => state.currentLibrary)
-  const setLibraryWorks = useStore(state => state.setLibraryWorks)
+  const libraryWorksMeta = useStore(state => state.libraryWorksMeta)
   const getAndSetLibraryWorks = useStore(state => state.getAndSetLibraryWorks)
   const showEditLibraryWorkModal = useStore(state => state.showEditLibraryWorkModal)
   const setShowEditLibraryWorkModal = useStore(state => state.setShowEditLibraryWorkModal)
@@ -47,7 +45,7 @@ const EditLibraryWorkModal = ({ libraryWorkToUpdate, setLibraryWorkToUpdate} : P
     e.preventDefault()
 
     try {
-      const res = await axios({
+      await axios({
         method: 'patch',
         url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works/${libraryWorkToUpdate.id}`,
         data: {
@@ -59,7 +57,7 @@ const EditLibraryWorkModal = ({ libraryWorkToUpdate, setLibraryWorkToUpdate} : P
         },
         headers: { Authorization: `${accessToken}` }
       })
-      getAndSetLibraryWorks()
+      getAndSetLibraryWorks(libraryWorksMeta?.page, libraryWorksMeta?.items)
     } catch (err) {
       console.error(err)
     } finally {

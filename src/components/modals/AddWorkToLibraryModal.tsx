@@ -1,4 +1,4 @@
-import { FormEvent, Fragment, useState } from 'react'
+import { FormEvent, Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { alertService } from '../../services/alert'
 import axios from 'axios'
@@ -21,6 +21,8 @@ const AddWorkToLibraryModal = ({selectedWork, worksAlreadyInLibrary, setWorksAlr
   const [index, setIndex] = useState<any>('')
   const [quantity, setQuantity] = useState<any>('')
   const [lastPerformedDate, setLastPeformedDate] = useState<any>('')
+
+  const addButton = useRef<any>()
 
   const addWorkToLibrary = async (e: FormEvent | MouseEvent) => {
     e.preventDefault()
@@ -54,7 +56,7 @@ const AddWorkToLibraryModal = ({selectedWork, worksAlreadyInLibrary, setWorksAlr
 
   return (
     <Transition.Root show={showAddWorkToLibraryModal} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={() => setShowAddWorkToLibraryModal(false)}>
+      <Dialog as="div" initialFocus={addButton} className="relative z-10" onClose={() => setShowAddWorkToLibraryModal(false)}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -153,6 +155,7 @@ const AddWorkToLibraryModal = ({selectedWork, worksAlreadyInLibrary, setWorksAlr
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
+                    ref={addButton}
                     onClick={(e) => addWorkToLibrary(e)}
                   >
                     Add to Library

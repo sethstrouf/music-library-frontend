@@ -9,6 +9,7 @@ const useStore = create<IStoreState>((set, get) => ({
   users: [],
   currentLibrary: null,
   libraryWorks: [],
+  libraryWorksMeta: null,
   showAddLibraryModal: false,
   showAddWorkToLibraryModal: false,
   showChangeLibraryNameModal: false,
@@ -28,6 +29,9 @@ const useStore = create<IStoreState>((set, get) => ({
   },
   setLibraryWorks: (libraryWorks) => {
     set({ libraryWorks: libraryWorks})
+  },
+  setLibraryWorksMeta: (metadata) => {
+    set({ libraryWorksMeta: metadata})
   },
   setShowAddLibraryModal: (boolean) => {
     set({ showAddLibraryModal: boolean})
@@ -72,21 +76,25 @@ const useStore = create<IStoreState>((set, get) => ({
       console.error(error)
     }
   },
-  getAndSetLibraryWorks: async () => {
+  getAndSetLibraryWorks: async (page = 1, perPage = 10) => {
     if (get().currentLibrary) {
+      get().setLibraryWorks([])
       try {
         const res = await axios({
           method: 'get',
           url: `${import.meta.env.VITE_API_HOST}/api/v1/library_works`,
           params: {
-            library_work: { library_id: get().currentLibrary?.id }
+            library_work: { library_id: get().currentLibrary?.id },
+            page: page,
+            per_page: perPage
           },
           paramsSerializer: (params) => {
             return qs.stringify(params)
           },
           headers: { Authorization: `${get().accessToken}` }
         })
-        get().setLibraryWorks(res.data)
+        get().setLibraryWorks(res.data.data)
+        get().setLibraryWorksMeta(res.data.meta)
       } catch (error) {
         console.error(error)
       }

@@ -9,11 +9,13 @@ import LibraryTable from '../components/LibraryTable';
 import { NavLink } from 'react-router-dom';
 import ConfirmDeleteLibraryModal from '../components/modals/ConfirmDeleteLibraryModal';
 import WorkSearchBar from '../components/WorkSearchBar';
+import PaginationBar from '../components/PaginationBar';
 
 const MyLibrary = () => {
   const accessToken = useStore(state => state.accessToken)
   const libraryWorks = useStore(state => state.libraryWorks)
   const setLibraryWorks = useStore(state => state.setLibraryWorks)
+  const libraryWorksMeta = useStore(state => state.libraryWorksMeta)
   const getAndSetLibraryWorks = useStore(state=> state.getAndSetLibraryWorks)
   const currentLibrary = useStore(state => state.currentLibrary)
   const getAndSetCurrentLibrary = useStore(state => state.getAndSetCurrentLibrary)
@@ -24,6 +26,8 @@ const MyLibrary = () => {
   const showConfirmDeleteLibraryModal = useStore(state => state.showConfirmDeleteLibraryModal)
   const setShowConfirmDeleteLibraryModal = useStore(state => state.setShowConfirmDeleteLibraryModal)
 
+  const [page, setPage] = useState<number>(1)
+  const [perPage, setPerPage] = useState<number>(25)
   const [selectedLibraryWorks, setSelectedLibraryWorks] = useState<any[]>([])
   const [searchQuery, setSearchQuery] = useState<string>('')
 
@@ -33,10 +37,17 @@ const MyLibrary = () => {
     } else {
       document.title = 'My Library'
     }
-
-    setLibraryWorks([])
-    getAndSetLibraryWorks()
+    fetchLibraryWorks()
   }, [currentLibrary])
+
+
+  useEffect(() => {
+    fetchLibraryWorks()
+  }, [page, perPage])
+
+  const fetchLibraryWorks = () => {
+    getAndSetLibraryWorks(page, perPage)
+  }
 
   const deleteSelected = () => {
     selectedLibraryWorks.forEach(async selectedWork => {
@@ -47,7 +58,7 @@ const MyLibrary = () => {
           headers: { Authorization: `${accessToken}` }
         })
         getAndSetCurrentLibrary(currentLibrary!.id)
-        getAndSetLibraryWorks()
+        fetchLibraryWorks()
         setSelectedLibraryWorks([])
       } catch (error) {
         console.error(error)
@@ -57,8 +68,7 @@ const MyLibrary = () => {
 
   useEffect(() => {
     if (searchQuery.length === 0) {
-      setLibraryWorks([])
-      getAndSetLibraryWorks()
+      fetchLibraryWorks()
     }
     if (searchQuery.length > 0) {
       handleSearch()
@@ -146,12 +156,15 @@ const MyLibrary = () => {
           <WorkSearchBar placeholder='Search your library' searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         </form>
       </div>
-      <div className="mt-8 flex flex-col">
+      <div className='pt-8'>
+        <PaginationBar perPage={perPage} setPerPage={setPerPage} setPage={setPage} />
+      </div>
+      <div className="flex flex-col">
         {libraryWorks?.length
         ?
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+              <div className="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5">
                 {selectedLibraryWorks.length > 0 && (
                   <div className="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
                     <button
