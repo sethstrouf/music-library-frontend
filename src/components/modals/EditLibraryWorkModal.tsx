@@ -114,7 +114,6 @@ const EditLibraryWorkModal = ({ libraryWorkToUpdate } : Props) => {
                             type="text"
                             name="index"
                             id="index"
-                            autoComplete="given-name"
                             className="block w-44 mx-auto sm:mx-0 max-w-lg rounded-md shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:max-w-xs sm:text-sm text-center sm:text-left"
                             value={index}
                             onChange={(e) => {setIndex(e.target.value)}}
@@ -134,7 +133,6 @@ const EditLibraryWorkModal = ({ libraryWorkToUpdate } : Props) => {
                             type="text"
                             name="quantity"
                             id="quantity"
-                            autoComplete="given-name"
                             className="block w-44 mx-auto sm:mx-0 max-w-lg rounded-md shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:max-w-xs sm:text-sm text-center sm:text-left"
                             value={quantity}
                             onChange={(e) => {setQuantity(e.target.value)}}
