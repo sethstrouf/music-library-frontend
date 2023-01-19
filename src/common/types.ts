@@ -8,7 +8,9 @@ export interface IUser {
   admin: boolean
   profile_photo_url: string
   libraries: ILibrary[]
-  attributes: {name?: string, email: string}
+  following: IUser[]
+  followers: IUser[]
+  attributes: {first_name: string, last_name: string, name?: string, email: string, profile_photo_url: string, libraries: ILibrary[]}
 }
 
 export interface IWork {
@@ -61,6 +63,8 @@ export interface IStoreState {
   showConfirmDeleteLibraryModal: boolean
   showEditWorkModal: boolean
   showAddWorkModal: boolean
+  showSearchColleaguesModal: boolean
+  showColleagueLibraryModal: boolean
   setCurrentUser: (user: IUser | null) => void
   setAccessToken: (token: string | null) => void
   setUsers: (users: [] | null) => void
@@ -74,6 +78,8 @@ export interface IStoreState {
   setShowConfirmDeleteLibraryModal: (boolean: boolean) => void
   setShowEditWorkModal: (boolean: boolean) => void
   setShowAddWorkModal: (boolean: boolean) => void
+  setShowSearchColleaguesModal: (boolean: boolean) => void
+  setShowColleagueLibraryModal: (boolean: boolean) => void
 
   // API Calls
   getAndSetCurrentUser: () => void

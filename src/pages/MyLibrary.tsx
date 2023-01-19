@@ -182,8 +182,8 @@ const MyLibrary = () => {
           </div>
         :
           <>
-            {currentLibrary && <p className="mt-2 text-sm text-gray-700 font-bold">Your library is empty! Add a work to begin using Songsemble.</p> }
-            {!currentLibrary && <p className="mt-2 text-sm text-gray-700 font-bold">Add a new library to begin!</p> }
+            {currentLibrary && <p className="mt-2 text-sm text-gray-700 font-bold text-center">Your library is empty! Add a work to begin using Songsemble.</p> }
+            {!currentLibrary && <p className="mt-2 text-sm text-gray-700 font-bold text-center">Add a new library to begin!</p> }
           </>
         }
       </div>

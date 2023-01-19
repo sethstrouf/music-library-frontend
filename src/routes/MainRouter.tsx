@@ -12,6 +12,7 @@ import RequireAuth from '../components/RequireAuth'
 import RequireUnAuth from '../components/RequireUnAuth'
 import PersistLogin from '../components/PersistLogin'
 import SearchWorks from '../pages/SearchWorks'
+import MyColleagues from '../pages/MyColleagues'
 
 const MainRouter = () => {
   return (
@@ -33,6 +34,7 @@ const MainRouter = () => {
         <Route element={<RequireAuth />}>
           <Route path="/myprofile" element={<MyProfile />} />
           <Route path="/mylibrary" element={<MyLibrary />} />
+          <Route path="/mycolleagues" element={<MyColleagues />} />
           <Route path="/searchworks" element={<SearchWorks />} />
         </Route>
 
