@@ -66,7 +66,7 @@ const ColleagueCard = ({ user, hideLibraries, getColleagues } : Props) => {
   }
 
   return (
-    <div className="border-b border-l border-r border-gray-200 bg-white px-4 py-5 sm:px-6">
+    <div className="border-t border-r border-l rounded-md border-gray-200 bg-white px-4 py-5 sm:px-6">
       <div className="-ml-4 -mt-4 flex flex-col flex-wrap items-center justify-between md:flex-row md:flex-nowrap">
         <div className="ml-4 mt-4">
           <div className="flex items-center">

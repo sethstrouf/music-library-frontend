@@ -2,14 +2,6 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import useStore from '../store'
 import qs from 'qs';
-import AddLibraryModal from '../components/modals/AddLibraryModal';
-import LibrarySelect from '../components/LibrarySelect';
-import ChangeLibraryNameModal from '../components/modals/ChangeLibraryNameModal';
-import LibraryTable from '../components/LibraryTable';
-import { NavLink } from 'react-router-dom';
-import ConfirmDeleteLibraryModal from '../components/modals/ConfirmDeleteLibraryModal';
-import WorkSearchBar from '../components/WorkSearchBar';
-import PaginationBar from '../components/PaginationBar';
 import { IUser } from '../common/types';
 import ColleagueCard from '../components/ColleagueCard';
 import ColleagueSearchBar from '../components/ColleagueSearchBar';
@@ -18,22 +10,11 @@ import SearchColleaguesModal from '../components/modals/SearchColleaguesModal';
 const MyColleagues = () => {
   const accessToken = useStore(state => state.accessToken)
   const currentUser = useStore(state => state.currentUser)
-  const libraryWorks = useStore(state => state.libraryWorks)
-  const setLibraryWorks = useStore(state => state.setLibraryWorks)
-  const libraryWorksMeta = useStore(state => state.libraryWorksMeta)
-  const getAndSetLibraryWorks = useStore(state=> state.getAndSetLibraryWorks)
-  const currentLibrary = useStore(state => state.currentLibrary)
-  const getAndSetCurrentLibrary = useStore(state => state.getAndSetCurrentLibrary)
-  const showChangeLibraryNameModal = useStore(state => state.showChangeLibraryNameModal)
-  const setShowChangeLibraryNameModal = useStore(state => state.setShowChangeLibraryNameModal)
-  const showAddLibraryModal = useStore(state => state.showAddLibraryModal)
-  const setShowAddLibraryModal = useStore(state => state.setShowAddLibraryModal)
   const showSearchColleaguesModal = useStore(state => state.showSearchColleaguesModal)
   const setShowSearchColleaguesModal = useStore(state => state.setShowSearchColleaguesModal)
 
   const [page, setPage] = useState<number>(1)
   const [perPage, setPerPage] = useState<number>(25)
-  const [selectedLibraryWorks, setSelectedLibraryWorks] = useState<any[]>([])
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [colleagues, setColleagues] = useState<IUser[]>()
 
@@ -108,10 +89,7 @@ const MyColleagues = () => {
           <ColleagueSearchBar placeholder='Search your colleagues' searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         </form>
       </div>
-      <div className='pt-8'>
-        <PaginationBar perPage={perPage} setPerPage={setPerPage} setPage={setPage} />
-      </div>
-      <div className='flex flex-col'>
+      <div className='flex flex-col pt-4'>
         {colleagues && colleagues.length == 0 && <p className="mt-12 text-center text-sm text-gray-700 font-bold">Not following any colleagues</p>}
         {colleagues && colleagues.map((followedUser: IUser) => (
           <ColleagueCard key={followedUser.id} user={followedUser} hideLibraries={false} getColleagues={getColleagues} />

@@ -15,7 +15,6 @@ const MyLibrary = () => {
   const accessToken = useStore(state => state.accessToken)
   const libraryWorks = useStore(state => state.libraryWorks)
   const setLibraryWorks = useStore(state => state.setLibraryWorks)
-  const libraryWorksMeta = useStore(state => state.libraryWorksMeta)
   const getAndSetLibraryWorks = useStore(state=> state.getAndSetLibraryWorks)
   const currentLibrary = useStore(state => state.currentLibrary)
   const getAndSetCurrentLibrary = useStore(state => state.getAndSetCurrentLibrary)

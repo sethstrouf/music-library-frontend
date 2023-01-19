@@ -3,14 +3,11 @@ import { Dialog, Transition } from '@headlessui/react'
 import { alertService } from '../../services/alert'
 import axios from 'axios'
 import useStore from '../../store'
-import LibrarySelect from '../LibrarySelect'
-import { IWork } from '../../common/types'
 import TextInput from '../TextInput'
 import SelectInput from '../SelectInput'
 
 const AddWorkModal = () => {
   const accessToken = useStore(state => state.accessToken)
-  const currentLibrary = useStore(state => state.currentLibrary)
   const showAddWorkModal = useStore(state => state.showAddWorkModal)
   const setShowAddWorkModal = useStore(state => state.setShowAddWorkModal)
 

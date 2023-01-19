@@ -1,4 +1,4 @@
-import { FormEvent, Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import axios from 'axios'
 import useStore from '../../store'
@@ -13,9 +13,6 @@ type Props = {
 
 const SearchColleaguesModal = ({ getColleagues } : Props) => {
   const accessToken = useStore(state => state.accessToken)
-  const setLibraryWorks = useStore(state => state.setLibraryWorks)
-  const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
-  const getAndSetCurrentUser = useStore(state => state.getAndSetCurrentUser)
   const showSearchColleaguesModal = useStore(state => state.showSearchColleaguesModal)
   const setShowSearchColleaguesModal = useStore(state => state.setShowSearchColleaguesModal)
 

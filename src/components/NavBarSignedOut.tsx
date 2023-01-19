@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 const NavBarSignedOut = () => {
   const navigation = [
     { name: 'Home', to: '/'},
-    { name: 'Demo', to: '/demo' },
+    { name: 'Features', to: '/features' },
     { name: 'Pricing', to: '/pricing' },
   ]
 

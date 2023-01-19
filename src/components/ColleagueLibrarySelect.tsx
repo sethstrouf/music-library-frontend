@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react"
-import { ILibrary, IUser } from "../common/types"
+import { IUser } from "../common/types"
 import useStore from "../store"
 import ColleagueLibraryModal from "./modals/ColleagueLibraryModal"
 

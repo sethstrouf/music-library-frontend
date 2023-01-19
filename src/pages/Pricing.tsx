@@ -67,7 +67,7 @@ const Pricing = () => {
 
             <p className="absolute top-0 -translate-y-1/2 transform rounded-full bg-sky-500 py-1.5 px-4 text-sm font-semibold text-white">Most popular</p>
             <p className="mt-4 flex items-baseline text-gray-800">
-              <span className="text-5xl font-bold tracking-tight">$49</span>
+              <span className="text-5xl font-bold tracking-tight">$99</span>
               <span className="ml-1 text-xl font-semibold">/year</span>
             </p>
             <p className="mt-6 text-gray-500">A plan that scales with your rapidly growing business.</p>
@@ -115,7 +115,7 @@ const Pricing = () => {
           <div className="flex-1">
             <h3 className="text-xl font-semibold text-gray-800">Organization</h3>
             <p className="mt-4 flex items-baseline text-gray-800">
-              <span className="text-5xl font-bold tracking-tight">$99</span>
+              <span className="text-5xl font-bold tracking-tight">$249</span>
               <span className="ml-1 text-xl font-semibold">/year</span>
             </p>
             <p className="mt-6 text-gray-500">Dedicated support and infrastructure for your company.</p>

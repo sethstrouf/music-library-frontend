@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { NavLink } from "react-router-dom"
 import { v4 as uuidv4 } from 'uuid'
 import { alertService } from "../services/alert"
@@ -40,7 +40,7 @@ const NavBarSignedIn = () => {
 
   const navigation = [
     { name: 'Home', to: '/'},
-    { name: 'Demo', to: '/demo' },
+    { name: 'Features', to: '/features' },
     { name: 'Pricing', to: '/pricing' },
     { name: 'My Library', to: '/mylibrary' },
     { name: 'My Colleagues', to: '/mycolleagues' },

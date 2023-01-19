@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
-import { FormEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IWork } from '../common/types'
 import AddWorkToLibraryModal from '../components/modals/AddWorkToLibraryModal'
 import LibrarySelect from '../components/LibrarySelect'

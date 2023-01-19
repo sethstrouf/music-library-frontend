@@ -3,7 +3,6 @@ import { Dialog, Transition } from '@headlessui/react'
 import { alertService } from '../../services/alert'
 import axios from 'axios'
 import useStore from '../../store'
-import LibrarySelect from '../LibrarySelect'
 import { IWork } from '../../common/types'
 import TextInput from '../TextInput'
 import SelectInput from '../SelectInput'
@@ -15,7 +14,6 @@ type Props = {
 
 const EditWorkModal = ({ handleSearch, selectedWork } : Props) => {
   const accessToken = useStore(state => state.accessToken)
-  const currentLibrary = useStore(state => state.currentLibrary)
   const showEditWorkModal = useStore(state => state.showEditWorkModal)
   const setShowEditWorkModal = useStore(state => state.setShowEditWorkModal)
 

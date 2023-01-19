@@ -3,7 +3,6 @@ import { Dialog, Transition } from '@headlessui/react'
 import useStore from '../../store'
 import { ILibraryWork } from '../../common/types'
 import axios from 'axios'
-import qs from 'qs'
 
 type Props = {
   libraryWorkToUpdate: ILibraryWork

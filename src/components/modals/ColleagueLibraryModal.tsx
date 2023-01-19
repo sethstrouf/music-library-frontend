@@ -1,11 +1,9 @@
-import { FormEvent, Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import axios from 'axios'
 import useStore from '../../store'
-import ColleagueSearchBar from '../ColleagueSearchBar'
-import { ILibrary, ILibraryWork, IUser, IWork } from '../../common/types'
+import { ILibrary } from '../../common/types'
 import qs from 'qs'
-import ColleagueCard from '../ColleagueCard'
 import ColleagueLibraryTable from '../ColleagueLibraryTable'
 import WorkSearchBar from '../WorkSearchBar'
 
