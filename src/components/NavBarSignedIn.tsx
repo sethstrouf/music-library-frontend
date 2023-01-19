@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom"
 import { v4 as uuidv4 } from 'uuid'
 import { alertService } from "../services/alert"
 import useStore from '../store'
+import logo from '../images/songsemble_logo.png'
 
 const NavBarSignedIn = () => {
 
@@ -54,8 +55,8 @@ const NavBarSignedIn = () => {
           <div className="flex items-center">
             <NavLink className='h-10 w-auto' to='/'>
               <img
-                className="h-10 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-mark.svg?color=blue&shade=600"
+                className="h-12 w-auto"
+                src={logo}
                 alt="Logo"
               />
             </NavLink>
