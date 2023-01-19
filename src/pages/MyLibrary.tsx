@@ -176,7 +176,7 @@ const MyLibrary = () => {
                     </button>
                   </div>
                 )}
-                <LibraryTable selectedLibraryWorks={selectedLibraryWorks} setSelectedLibraryWorks={setSelectedLibraryWorks} />
+                <LibraryTable selectedLibraryWorks={selectedLibraryWorks} setSelectedLibraryWorks={setSelectedLibraryWorks}  page={page} perPage={perPage} />
               </div>
             </div>
           </div>

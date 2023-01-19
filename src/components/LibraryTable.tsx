@@ -12,9 +12,11 @@ function classNames(...classes : any) {
 type Props = {
   selectedLibraryWorks: ILibraryWork[]
   setSelectedLibraryWorks: (active: ILibraryWork[]) => void
+  page: number,
+  perPage: number
 }
 
-const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props) => {
+const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks, page, perPage} : Props) => {
   const accessToken = useStore(state => state.accessToken)
   const libraryWorks = useStore(state => state.libraryWorks)
   const getAndSetLibraryWorks = useStore(state => state.getAndSetLibraryWorks)
@@ -59,7 +61,7 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks } : Props)
         data: {library_work: {checked_out: `${!libraryWork.attributes.checked_out}` }},
         headers: { Authorization: `${accessToken}` }
       })
-      getAndSetLibraryWorks(1, 1)
+      getAndSetLibraryWorks(page, perPage)
     } catch (err) {
       console.error(err)
     }
