@@ -135,7 +135,12 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks, page, per
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{libraryWork.attributes.work.composer}</td>
               <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{libraryWork.attributes.quantity}</td>
-              <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{new Date(libraryWork.attributes.last_performed).toDateString()}</td>
+              {libraryWork.attributes.last_performed
+              ?
+                <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">{new Date(libraryWork.attributes.last_performed).toDateString()}</td>
+              :
+                <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500"></td>
+              }
               <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
                 <input type="checkbox" checked={libraryWork.attributes.checked_out} onChange={(e) => handleCheckedOutChange(e, libraryWork)} />
               </td>
