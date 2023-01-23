@@ -2,6 +2,8 @@ import { FormEvent, useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import useStore from '../store'
 import { useLocation, useNavigate } from 'react-router-dom'
+import qs from 'qs'
+import { alertService } from '../services/alert'
 
 /*eslint no-control-regex: 0*/
 const EMAIL_REGEX = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
@@ -11,7 +13,6 @@ const SignInForm = () => {
 
   const setCurrentUser = useStore(state => state.setCurrentUser)
   const setAccessToken = useStore(state => state.setAccessToken)
-  const setCurrentLibrary = useStore(state => state.setCurrentLibrary)
   const getAndSetCurrentLibrary = useStore(state => state.getAndSetCurrentLibrary)
 
   const navigate = useNavigate()
@@ -28,9 +29,15 @@ const SignInForm = () => {
 
   const [errorMsg, setErrorMsg] = useState('')
 
+  const queryParams = new URLSearchParams(window.location.search)
+  const emailFromResetPassword = queryParams.get("email")
+
   useEffect(() => {
     if (emailRef.current) {
       emailRef.current.focus()
+    }
+    if (emailFromResetPassword) {
+      setEmail(emailFromResetPassword)
     }
   }, [])
 
@@ -74,6 +81,26 @@ const SignInForm = () => {
     }
   }
 
+  const sendResetPasswordEmail = async () => {
+    if (email != '' && validEmail) {
+      try {
+        await axios({
+          method: 'post',
+          url: `${import.meta.env.VITE_API_HOST}/api/v1/reset_password`,
+          params: { email: email },
+          paramsSerializer: (params) => {
+            return qs.stringify(params)
+          },
+        })
+        alertService.showSuccess('Check email for your reset password link')
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      setErrorMsg('Enter valid email address')
+    }
+  }
+
   return (
     <>
       <section className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
@@ -106,6 +133,7 @@ const SignInForm = () => {
                 onChange={(e) => setEmail(e.target.value.toLowerCase())}
                 required
                 aria-invalid={validEmail ? 'false' : 'true'}
+                value={email}
                 />
             </div>
 
@@ -125,9 +153,9 @@ const SignInForm = () => {
             </div>
 
             <div className='text-sm text-right'>
-              <p className='cursor-pointer font-medium text-sky-600 hover:text-sky-500'>
+              <a onClick={() => sendResetPasswordEmail()} className='cursor-pointer font-medium text-sky-600 hover:text-sky-500'>
                 Forgot your password?
-              </p>
+              </a>
             </div>
             <div>
               <button

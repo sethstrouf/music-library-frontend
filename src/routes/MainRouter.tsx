@@ -13,6 +13,7 @@ import RequireUnAuth from '../components/RequireUnAuth'
 import PersistLogin from '../components/PersistLogin'
 import SearchWorks from '../pages/SearchWorks'
 import MyColleagues from '../pages/MyColleagues'
+import ResetPassword from '../pages/ResetPassword'
 
 const MainRouter = () => {
   return (
@@ -23,6 +24,7 @@ const MainRouter = () => {
         <Route path="/features" element={<Features />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/about" element={<About />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* only access if unauthorized */}
         <Route element={<RequireUnAuth />}>
