@@ -88,7 +88,8 @@ const SearchColleaguesModal = ({ getColleagues } : Props) => {
                 </div>
                 <div className="mt-5 sm:mt-6">
                 {colleagues && colleagues.map((followedUser: IUser) => (
-                  <ColleagueCard key={followedUser.id} user={followedUser} hideLibraries={true} getColleagues={getColleagues} />
+                  <ColleagueCard key={followedUser.id} user={followedUser} hideLibraries={true} getColleagues={getColleagues} setColleagueLibraryId={function (active: any): void {throw new Error('Function not implemented.')
+                  } } />
                 ))}
                 </div>
               </Dialog.Panel>

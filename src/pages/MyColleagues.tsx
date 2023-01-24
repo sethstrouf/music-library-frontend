@@ -6,17 +6,19 @@ import { IUser } from '../common/types';
 import ColleagueCard from '../components/ColleagueCard';
 import ColleagueSearchBar from '../components/ColleagueSearchBar';
 import SearchColleaguesModal from '../components/modals/SearchColleaguesModal';
+import ColleagueLibraryModal from '../components/modals/ColleagueLibraryModal';
 
 const MyColleagues = () => {
   const accessToken = useStore(state => state.accessToken)
   const currentUser = useStore(state => state.currentUser)
   const showSearchColleaguesModal = useStore(state => state.showSearchColleaguesModal)
   const setShowSearchColleaguesModal = useStore(state => state.setShowSearchColleaguesModal)
+  const showColleagueLibraryModal = useStore(state => state.showColleagueLibraryModal)
 
-  const [page, setPage] = useState<number>(1)
-  const [perPage, setPerPage] = useState<number>(25)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [colleagues, setColleagues] = useState<IUser[]>()
+
+  const [colleagueLibraryId, setColleagueLibraryId] = useState<any>()
 
   useEffect(() => {
     document.title = 'My Colleagues'
@@ -70,6 +72,7 @@ const MyColleagues = () => {
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8">
       {showSearchColleaguesModal && <SearchColleaguesModal getColleagues={getColleagues} />}
+      {colleagueLibraryId && showColleagueLibraryModal && <ColleagueLibraryModal libraryId={colleagueLibraryId} />}
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
         <h1 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">My Colleagues</h1>
@@ -92,7 +95,7 @@ const MyColleagues = () => {
       <div className='flex flex-col pt-4'>
         {colleagues && colleagues.length == 0 && <p className="mt-12 text-center text-sm text-gray-700 font-bold">Not following any colleagues</p>}
         {colleagues && colleagues.map((followedUser: IUser) => (
-          <ColleagueCard key={followedUser.id} user={followedUser} hideLibraries={false} getColleagues={getColleagues} />
+          <ColleagueCard key={followedUser.id} user={followedUser} hideLibraries={false} getColleagues={getColleagues} setColleagueLibraryId={setColleagueLibraryId} />
         ))}
       </div>
     </div>

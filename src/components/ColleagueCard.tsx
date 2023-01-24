@@ -8,9 +8,10 @@ type Props = {
   user: IUser
   hideLibraries: boolean
   getColleagues: () => void
+  setColleagueLibraryId: (active: any) => void
 }
 
-const ColleagueCard = ({ user, hideLibraries, getColleagues } : Props) => {
+const ColleagueCard = ({ user, hideLibraries, getColleagues, setColleagueLibraryId } : Props) => {
   const accessToken = useStore(state => state.accessToken)
   const currentUser = useStore(state => state.currentUser)
   const getAndSetCurrentUser = useStore(state => state.getAndSetCurrentUser)
@@ -93,7 +94,7 @@ const ColleagueCard = ({ user, hideLibraries, getColleagues } : Props) => {
               ?
               <p className="text-sm t0ext-gray-800">This colleague does not have a library.</p>
               :
-                <ColleagueLibrarySelect user={user} />
+                <ColleagueLibrarySelect user={user} setColleagueLibraryId={setColleagueLibraryId} />
               }
             </div>
           :
@@ -106,23 +107,20 @@ const ColleagueCard = ({ user, hideLibraries, getColleagues } : Props) => {
             type="button"
             className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-600"
             onClick={() => unfollow(user)}
-          >
-            <i className="fa-solid fa-user-minus mt-1 mr-2 h-4 w-4 text-white"></i>
-            <span>Unfollow</span>
-          </button>
-
+            >
+              <i className="fa-solid fa-user-minus mt-1 mr-2 h-4 w-4 text-white"></i>
+              <span>Unfollow</span>
+            </button>
           :
-          <button
-          type="button"
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-sky-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-600"
-          onClick={() => follow(user)}
-        >
-          <i className="fa-solid fa-user-plus mt-1 mr-2 h-4 w-4 text-white"></i>
-          <span>Follow</span>
-        </button>
+            <button
+              type="button"
+              className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-sky-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-600"
+              onClick={() => follow(user)}
+            >
+              <i className="fa-solid fa-user-plus mt-1 mr-2 h-4 w-4 text-white"></i>
+              <span>Follow</span>
+            </button>
           }
-
-
         </div>
       </div>
     </div>

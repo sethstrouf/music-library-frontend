@@ -1,19 +1,19 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { IUser } from "../common/types"
 import useStore from "../store"
-import ColleagueLibraryModal from "./modals/ColleagueLibraryModal"
 
 type Props = {
   user: IUser
+  setColleagueLibraryId: (active: any) => void
 }
 
-const ColleagueLibrarySelect = ({ user } : Props) => {
-  const showColleagueLibraryModal = useStore(state => state.showColleagueLibraryModal)
+const ColleagueLibrarySelect = ({ user, setColleagueLibraryId } : Props) => {
   const setShowColleagueLibraryModal = useStore(state => state.setShowColleagueLibraryModal)
 
   const [libraryId, setLibraryId] = useState<number>()
 
   useEffect(() => {
+    // Set initial library so 'View Library' link works
     if (user.attributes.libraries.length) {
       setLibraryId(user.attributes.libraries[0].id)
     } else {
@@ -21,18 +21,21 @@ const ColleagueLibrarySelect = ({ user } : Props) => {
     }
   }, [])
 
-
-  const handleDropdownChange = async (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleDropdownChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const libraryId = parseInt(e.target.value)
-    setLibraryId(libraryId)
+    setColleagueLibraryId(libraryId)
+    setShowColleagueLibraryModal(true)
+  }
+
+  const handleViewLibrary = () => {
+    setColleagueLibraryId(libraryId)
     setShowColleagueLibraryModal(true)
   }
 
   return (
     <>
         <div className='w-full ml-4 sm:ml-0'>
-          {libraryId && showColleagueLibraryModal && <ColleagueLibraryModal libraryId={libraryId} />}
-          <label htmlFor="librarySelect" className="block text-center pb-1 text-sm text-gray-800 underline hover:text-gray-600 cursor-pointer" onClick={() => setShowColleagueLibraryModal(true)}>
+          <label htmlFor="librarySelect" className="block text-center pb-1 text-sm text-gray-800 underline hover:text-gray-600 cursor-pointer" onClick={() => handleViewLibrary()}>
             View Library
           </label>
           <select
