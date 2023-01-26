@@ -30,14 +30,18 @@ const SignInForm = () => {
   const [errorMsg, setErrorMsg] = useState('')
 
   const queryParams = new URLSearchParams(window.location.search)
-  const emailFromResetPassword = queryParams.get("email")
+  const emailParam = queryParams.get("email")
+  const passwordParam = queryParams.get("password")
 
   useEffect(() => {
     if (emailRef.current) {
       emailRef.current.focus()
     }
-    if (emailFromResetPassword) {
-      setEmail(emailFromResetPassword)
+    if (emailParam) {
+      setEmail(emailParam)
+    }
+    if (passwordParam) {
+      setPwd(passwordParam)
     }
   }, [])
 
@@ -149,6 +153,7 @@ const SignInForm = () => {
                 onChange={(e) => setPwd(e.target.value)}
                 required
                 aria-invalid={validPwd ? 'false' : 'true'}
+                value={pwd}
               />
             </div>
 
