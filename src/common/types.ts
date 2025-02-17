@@ -49,6 +49,12 @@ export interface IMetadata {
   to:    number | null
 }
 
+// Make the option type more specific
+interface ISelectOption {
+  label: string
+  value: string
+}
+
 export interface IStoreState {
   currentUser: IUser | null
   accessToken: string | null
@@ -87,12 +93,12 @@ export interface IStoreState {
   getAndSetLibraryWorks: (page: any, perPage: any) => Object
 
   // Constant Options
-  DURATIONS: Array<object>
-  TEMPI: Array<object>
-  GENRES: Array<object>
-  SEASONS: Array<object>
-  ENSEMBLES: Array<object>
-  VOICINGS: Array<object>
-  INSTRUMENTATIONS: Array<object>
-  DIFFICULTIES: Array<object>
+  DURATIONS: ISelectOption[]
+  TEMPI: ISelectOption[]
+  GENRES: ISelectOption[]
+  SEASONS: ISelectOption[]
+  ENSEMBLES: ISelectOption[]
+  VOICINGS: ISelectOption[]
+  INSTRUMENTATIONS: ISelectOption[]
+  DIFFICULTIES: ISelectOption[]
 }

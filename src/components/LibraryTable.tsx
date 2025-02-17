@@ -15,6 +15,23 @@ type Props = {
   perPage: number
 }
 
+type TableHeader = {
+  label: string
+  align?: string
+  width?: string
+  minWidth?: string
+}
+
+const TABLE_HEADERS: TableHeader[] = [
+  { label: '', width: 'w-12 sm:w-16' },
+  { label: 'Index', align: 'text-center' },
+  { label: 'Title', align: 'text-left', minWidth: 'min-w-[12rem]' },
+  { label: 'Composer', align: 'text-left' },
+  { label: 'Quantity', align: 'text-center' },
+  { label: 'Last Performed', align: 'text-center' },
+  { label: 'Checked Out?', align: 'text-center' }
+] as const
+
 const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks, page, perPage} : Props) => {
   const accessToken = useStore(state => state.accessToken)
   const libraryWorks = useStore(state => state.libraryWorks)
@@ -72,33 +89,20 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks, page, per
       <table className="min-w-full table-fixed divide-y divide-gray-300">
         <thead className="bg-gray-100">
           <tr>
-            <th scope="col" className="relative w-12 px-6 sm:w-16 sm:px-8">
-              <input
-                type="checkbox"
-                className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500 sm:left-6"
-                ref={checkbox}
-                checked={checked}
-                onChange={toggleAll}
-              />
-            </th>
-            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-800">
-              Index
-            </th>
-            <th scope="col" className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-800">
-              Title
-            </th>
-            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-800">
-              Composer
-            </th>
-            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-800">
-              Quantity
-            </th>
-            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-800">
-              Last Performed
-            </th>
-            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-800">
-              Checked Out?
-            </th>
+            {TABLE_HEADERS.map((header, index) => (
+              <th
+                key={index}
+                scope="col"
+                className={classNames(
+                  'px-3 py-3.5 text-sm font-semibold text-gray-800',
+                  header.align,
+                  header.width,
+                  header.minWidth
+                )}
+              >
+                {header.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
