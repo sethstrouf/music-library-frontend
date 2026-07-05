@@ -4,7 +4,7 @@ React + Vite frontend for the Songsemble music library app.
 
 ## Requirements
 
-- Node.js 18+
+- Node.js 20+
 
 ## Local setup
 
