@@ -4,45 +4,54 @@ import LibraryImage from '../images/library.png'
 import SearchImage from '../images/search.png'
 import ColleaguesImage from '../images/colleagues.png'
 
-const Demo = () => {
+const FEATURES = [
+  {
+    title: 'Connect with colleagues',
+    description: 'Follow other directors and explore their libraries to find new repertoire.',
+    image: ColleaguesImage,
+  },
+  {
+    title: 'Manage multiple libraries',
+    description: 'Run several ensembles? Keep each library organized in one place.',
+    image: MultipleLibrariesImage,
+  },
+  {
+    title: 'Track your inventory',
+    description: 'Record catalog numbers, copy counts, last performed dates, and checkout status.',
+    image: LibraryImage,
+  },
+  {
+    title: 'Search and add music',
+    description: 'Find works in the shared catalog and add them to your library in a few clicks.',
+    image: SearchImage,
+  },
+]
 
+const Features = () => {
   useEffect(() => {
-    document.title = 'Features'
+    document.title = 'Features — Songsemble'
   }, [])
 
   return (
-    <div className="py-12 px-4 sm:px-6 lg:px-8">
-      <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-gray-800 sm:leading-none lg:text-6xl">Features</h1>
+    <div className="page-container">
+      <h1 className="page-title">Features</h1>
+      <p className="page-subtitle">
+        Built for music directors who need more than a spreadsheet.
+      </p>
 
-      <div className='mt-12 flex flex-col'>
-        <div className='p-4 border rounded-md shadow-md border-gray-300'>
-          <h2 className='mb-12 text-2xl sm:text-3xl text-center'>Connect with colleagues and view their libraries</h2>
-          <img src={ColleaguesImage} className='mx-auto' />
-        </div>
-      </div>
-
-      <div className='mt-12 flex flex-col'>
-        <div className='p-4 border rounded-md shadow-md border-gray-300'>
-          <h2 className='mb-12 text-2xl sm:text-3xl text-center'>Maintain multiple libraries</h2>
-          <img src={MultipleLibrariesImage} className='mx-auto' />
-        </div>
-      </div>
-
-      <div className='mt-12 flex flex-col'>
-        <div className='p-4 border rounded-md shadow-md border-gray-300'>
-          <h2 className='mb-12 text-2xl sm:text-3xl text-center'>Track index, quantity, performance dates, and inventory</h2>
-          <img src={LibraryImage} className='mx-auto' />
-        </div>
-      </div>
-
-      <div className='mt-12 flex flex-col'>
-        <div className='p-4 border rounded-md shadow-md border-gray-300'>
-          <h2 className='mb-12 text-2xl sm:text-3xl text-center'>Easily search music to add to your library</h2>
-          <img src={SearchImage} className='mx-auto' />
-        </div>
+      <div className="mt-12 space-y-8">
+        {FEATURES.map((feature) => (
+          <article key={feature.title} className="feature-card">
+            <h2 className="text-center text-xl font-semibold text-slate-900 sm:text-2xl">
+              {feature.title}
+            </h2>
+            <p className="mb-8 mt-2 text-center text-slate-600">{feature.description}</p>
+            <img src={feature.image} alt="" className="mx-auto max-w-full rounded-lg" />
+          </article>
+        ))}
       </div>
     </div>
   )
 }
 
-export default Demo
+export default Features

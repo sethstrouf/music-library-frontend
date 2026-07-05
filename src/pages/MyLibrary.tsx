@@ -102,90 +102,70 @@ const MyLibrary = () => {
   }
 
   return (
-    <div className="py-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-container">
       {showAddLibraryModal && <AddLibraryModal />}
       {showChangeLibraryNameModal && <ChangeLibraryNameModal />}
       {showConfirmDeleteLibraryModal && <ConfirmDeleteLibraryModal />}
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-          {currentLibrary && <h1 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">{currentLibrary.attributes.name.toString()}</h1>}
-          {!currentLibrary && <h1 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">No Current Library</h1>}
-          <div className='pt-4 flex flex-col md:flex-row gap-4'>
+
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="page-title">
+            {currentLibrary ? currentLibrary.attributes.name.toString() : 'My Library'}
+          </h1>
+          <div className="mt-4">
             <LibrarySelect />
           </div>
-          <div className="pt-1 text-sky-600">
-            <button
-              type="button"
-              className="pt-2 pl-2 w-max text-left text-sm font-medium underline hover:text-sky-700"
-              onClick={() => setShowAddLibraryModal(true)}
-            >
-              Add library
+          <div className="mt-3 flex flex-wrap gap-4">
+            <button type="button" className="text-link-subtle" onClick={() => setShowAddLibraryModal(true)}>
+              New library
             </button>
-            &nbsp;&nbsp;&nbsp;|
-            <button
-              type="button"
-              className="pt-2 pl-2 w-max text-left text-sm font-medium underline text-sky-600 hover:text-sky-700"
-              onClick={() => setShowChangeLibraryNameModal(true)}
-            >
-              Change name
+            <button type="button" className="text-link-subtle" onClick={() => setShowChangeLibraryNameModal(true)}>
+              Rename library
             </button>
-            &nbsp;&nbsp;&nbsp;|
-            <button
-              type="button"
-              className="pt-2 pl-2 w-max text-left text-sm font-medium underline text-sky-600 hover:text-sky-700"
-              onClick={() => setShowConfirmDeleteLibraryModal(true)}
-            >
+            <button type="button" className="text-link-subtle text-red-600 hover:text-red-700 hover:decoration-red-300" onClick={() => setShowConfirmDeleteLibraryModal(true)}>
               Delete library
             </button>
           </div>
         </div>
-        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <NavLink to={'/searchworks'}>
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:w-auto"
-              >
-              + Add to library
-            </button>
-          </NavLink>
-        </div>
+        <NavLink to="/searchworks">
+          <button type="button" className="btn-primary whitespace-nowrap">
+            + Add to library
+          </button>
+        </NavLink>
       </div>
-      <div className='pt-8'>
-        <form className='text-center' onSubmit={(e) => handleSearchSubmit(e)}>
-          <WorkSearchBar placeholder='Search your library' searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        </form>
-      </div>
-      <div className='pt-8'>
-        <PaginationBar perPage={perPage} setPerPage={setPerPage} setPage={setPage} />
-      </div>
-      <div className="flex flex-col">
-        {libraryWorks?.length
-        ?
-          <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5">
-                {selectedLibraryWorks.length > 0 && (
-                  <div className="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
-                    <button
-                      type="button"
-                      className="inline-flex items-center rounded border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
-                      onClick={() => deleteSelected()}
-                    >
-                      Delete all
-                    </button>
-                  </div>
-                )}
-                <LibraryTable selectedLibraryWorks={selectedLibraryWorks} setSelectedLibraryWorks={setSelectedLibraryWorks}  page={page} perPage={perPage} />
+
+      <form className="mt-8" onSubmit={(e) => handleSearchSubmit(e)}>
+        <WorkSearchBar placeholder="Search by title or composer…" searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      </form>
+
+      {libraryWorks?.length ? (
+        <div className="mt-8">
+          <PaginationBar perPage={perPage} setPerPage={setPerPage} setPage={setPage} />
+          <div className="table-shell relative rounded-t-none">
+            {selectedLibraryWorks.length > 0 && (
+              <div className="absolute left-14 top-0 z-10 flex h-12 items-center sm:left-16">
+                <button type="button" className="btn-danger px-3 py-1.5 text-xs" onClick={() => deleteSelected()}>
+                  Delete selected ({selectedLibraryWorks.length})
+                </button>
               </div>
-            </div>
+            )}
+            <LibraryTable
+              selectedLibraryWorks={selectedLibraryWorks}
+              setSelectedLibraryWorks={setSelectedLibraryWorks}
+              page={page}
+              perPage={perPage}
+            />
           </div>
-        :
-          <>
-            {currentLibrary && <p className="mt-2 text-sm text-gray-700 font-bold text-center">Your library is empty! Add a work to begin using Songsemble.</p> }
-            {!currentLibrary && <p className="mt-2 text-sm text-gray-700 font-bold text-center">Add a new library to begin!</p> }
-          </>
-        }
-      </div>
+        </div>
+      ) : (
+        <div className="card mt-8 text-center">
+          <p className="font-medium text-slate-700">
+            {currentLibrary
+              ? 'This library is empty. Search for works to add your first piece.'
+              : 'Create a library to start building your collection.'}
+          </p>
+        </div>
+      )}
     </div>
   )
 }

@@ -25,13 +25,13 @@ const TABLE_HEADERS: TableHeader[] = [
   { label: 'Title', align: 'text-left', minWidth: 'min-w-[12rem]' },
   { label: 'Composer', align: 'text-left' },
   { label: 'Quantity', align: 'text-center' },
-  { label: 'Last Performed', align: 'text-center' },
-  { label: 'Checked Out?', align: 'text-center' },
+  { label: 'Last performed', align: 'text-center' },
+  { label: 'Checked out', align: 'text-center' },
 ]
 
 const getRowClassName = (libraryWork: ILibraryWork, selectedLibraryWorks: ILibraryWork[]) => {
-  if (libraryWork.attributes.checked_out) return 'bg-red-200'
-  if (selectedLibraryWorks.includes(libraryWork)) return 'bg-gray-50'
+  if (libraryWork.attributes.checked_out) return 'bg-red-50'
+  if (selectedLibraryWorks.includes(libraryWork)) return 'bg-brand-50/60'
   return undefined
 }
 
@@ -63,42 +63,34 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks, page, per
   }
 
   return (
-    <div className="w-screen md:w-full overflow-x-scroll">
+    <div className="w-full overflow-x-auto">
       {showEditLibraryWorkModal && libraryWorkToUpdate && (
         <EditLibraryWorkModal libraryWorkToUpdate={libraryWorkToUpdate} />
       )}
-      <table className="min-w-full table-fixed divide-y divide-gray-300">
-        <thead className="bg-gray-100">
+      <table className="min-w-full divide-y divide-slate-200">
+        <thead className="table-head">
           <tr>
             {TABLE_HEADERS.map((header) => (
               <th
                 key={header.label || 'select'}
                 scope="col"
-                className={classNames(
-                  'px-3 py-3.5 text-sm font-semibold text-gray-800',
-                  header.align,
-                  header.width,
-                  header.minWidth
-                )}
+                className={classNames('table-cell', header.align, header.width, header.minWidth)}
               >
                 {header.label}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-200 bg-white">
+        <tbody className="divide-y divide-slate-100 bg-white">
           {libraryWorks?.map((libraryWork) => (
-            <tr
-              key={libraryWork.id}
-              className={getRowClassName(libraryWork, selectedLibraryWorks)}
-            >
+            <tr key={libraryWork.id} className={getRowClassName(libraryWork, selectedLibraryWorks)}>
               <td className="relative w-12 px-6 sm:w-16 sm:px-8">
                 {selectedLibraryWorks.includes(libraryWork) && (
-                  <div className="absolute inset-y-0 left-0 w-0.5 bg-sky-600" />
+                  <div className="absolute inset-y-0 left-0 w-1 bg-brand-500" />
                 )}
                 <input
                   type="checkbox"
-                  className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500 sm:left-6"
+                  className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500 sm:left-6"
                   value={libraryWork.id}
                   checked={selectedLibraryWorks.includes(libraryWork)}
                   onChange={(e) =>
@@ -110,35 +102,30 @@ const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks, page, per
                   }
                 />
               </td>
-              <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
-                {libraryWork.attributes.index}
-              </td>
+              <td className="table-cell text-center">{libraryWork.attributes.index}</td>
               <td
                 className={classNames(
-                  'whitespace-nowrap py-4 pr-3 text-sm font-medium',
-                  selectedLibraryWorks.includes(libraryWork) ? 'text-sky-600' : 'text-gray-800'
+                  'table-cell font-medium',
+                  selectedLibraryWorks.includes(libraryWork) ? 'text-brand-700' : 'text-slate-900'
                 )}
               >
-                <button onClick={() => handleUpdateClick(libraryWork)} className="hover:underline">
+                <button onClick={() => handleUpdateClick(libraryWork)} className="text-left hover:underline">
                   {libraryWork.attributes.work.title}
                 </button>
               </td>
-              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                {libraryWork.attributes.work.composer}
-              </td>
-              <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
-                {libraryWork.attributes.quantity}
-              </td>
-              <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
+              <td className="table-cell">{libraryWork.attributes.work.composer}</td>
+              <td className="table-cell text-center">{libraryWork.attributes.quantity}</td>
+              <td className="table-cell text-center">
                 {libraryWork.attributes.last_performed
-                  ? new Date(libraryWork.attributes.last_performed).toDateString()
-                  : null}
+                  ? new Date(libraryWork.attributes.last_performed).toLocaleDateString()
+                  : '—'}
               </td>
-              <td className="whitespace-nowrap text-center px-3 py-4 text-sm text-gray-500">
+              <td className="table-cell text-center">
                 <input
                   type="checkbox"
                   checked={libraryWork.attributes.checked_out}
                   onChange={(e) => handleCheckedOutChange(e, libraryWork)}
+                  className="rounded border-slate-300 text-brand-600 focus:ring-brand-500"
                 />
               </td>
             </tr>

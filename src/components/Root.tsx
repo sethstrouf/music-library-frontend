@@ -3,28 +3,21 @@ import MainRouter from '../routes/MainRouter'
 import Footer from './Footer'
 import NavBarSignedOut from './NavBarSignedOut'
 import NavBarSignedIn from './NavBarSignedIn'
-import useStore from '../store';
+import useStore from '../store'
 
 const Root = () => {
-
-  const currentUser = useStore(state => state.currentUser)
+  const currentUser = useStore((state) => state.currentUser)
 
   return (
-    <div className='flex flex-col min-h-screen'>
+    <div className="flex min-h-screen flex-col">
       <BrowserRouter>
-      <nav>
-        {currentUser ?
-          <NavBarSignedIn />
-          :
-          <NavBarSignedOut />
-        }
-      </nav>
-      <main className='flex-grow md:w-10/12 max-w-7xl mx-auto'>
-        <MainRouter />
-      </main>
-      <footer className='p-8 md:mt-0 md:order-1'>
-        <Footer />
-      </footer>
+        <nav>{currentUser ? <NavBarSignedIn /> : <NavBarSignedOut />}</nav>
+        <main className="mx-auto w-full max-w-7xl flex-grow px-4 sm:px-6 lg:px-8">
+          <MainRouter />
+        </main>
+        <footer>
+          <Footer />
+        </footer>
       </BrowserRouter>
     </div>
   )

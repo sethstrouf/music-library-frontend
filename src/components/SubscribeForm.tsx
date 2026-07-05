@@ -54,7 +54,7 @@ const SubscribeForm = () => {
     e.preventDefault()
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_HOST}/api/signup`, {user: {email: email, password: pwd, first_name: firstName, last_name: lastName}}, {withCredentials: true})
-      alertService.showSuccess('Subscribed! Welcome!')
+      alertService.showSuccess('Welcome to Songsemble!')
       localStorage.setItem('accessToken', res.headers.authorization)
       setCurrentUser(res.data.data)
       setAccessToken(res.headers.authorization)
@@ -63,128 +63,108 @@ const SubscribeForm = () => {
       navigate('/mylibrary', { replace: true })
     } catch (err: any) {
       if (err?.response.status === 0) {
-        setErrorMsg('No Server Response')
+        setErrorMsg('Unable to reach the server. Please try again.')
       } else if (err?.response.status === 400) {
-        setErrorMsg('Email Already Used')
+        setErrorMsg('That email is already registered.')
       } else {
-        setErrorMsg('Registration Failed')
+        setErrorMsg('Registration failed. Please try again.')
       }
       errorRef.current.focus()
     }
   }
 
   return (
-    <>
-      <section className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
-        <div className='md:w-96 w-72 space-y-8'>
-          <div>
-            <h1 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-700'>
-              Register your account
-            </h1>
-          </div>
+    <section className="flex min-h-[70vh] items-center justify-center py-12">
+      <div className="auth-card">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Create your account</h1>
+          <p className="mt-2 text-sm text-slate-600">Free to start — no credit card required</p>
+        </div>
 
-          <div>
-            <div className={`p-1 bg-red-300 border rounded-md font-medium ${!errorMsg && 'hidden'}`}>
-              <i className='fa-regular fa-circle-xmark px-2' />
-              <span>{errorMsg}</span>
-            </div>
+        {errorMsg && (
+          <div className="alert-error" role="alert" ref={errorRef} tabIndex={-1}>
+            {errorMsg}
           </div>
+        )}
 
-          <form className='mt-8 space-y-6' onSubmit={registerUser}>
+        <form className="space-y-4" onSubmit={registerUser}>
+          <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label htmlFor='firstName' className='sr-only'>
-                First Name:
-              </label>
+              <label htmlFor="firstName" className="sr-only">First name</label>
               <input
-                type='text'
-                id='firstName'
-                className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
-                placeholder='First name'
-                autoComplete='off'
+                type="text"
+                id="firstName"
+                className="input-field"
+                placeholder="First name"
+                autoComplete="off"
                 onChange={(e) => setFirstName(e.target.value)}
                 required
-                />
+              />
             </div>
-
             <div>
-              <label htmlFor='lastName' className='sr-only'>
-                Last Name:
-              </label>
+              <label htmlFor="lastName" className="sr-only">Last name</label>
               <input
-                type='text'
-                id='lastName'
-                className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
-                placeholder='Last name'
-                autoComplete='off'
+                type="text"
+                id="lastName"
+                className="input-field"
+                placeholder="Last name"
+                autoComplete="off"
                 onChange={(e) => setLastName(e.target.value)}
                 required
-                />
-            </div>
-
-            <div>
-              <label htmlFor='email' className='sr-only'>
-                Email:
-              </label>
-              <input
-                type='text'
-                id='email'
-                className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
-                placeholder='Email address'
-                autoComplete='off'
-                onChange={(e) => setEmail(e.target.value.toLowerCase())}
-                required
-                aria-invalid={validEmail ? 'false' : 'true'}
-                aria-describedby='emailidnote'
-                onFocus={() => setEmailFocus(true)}
-                onBlur={() => setEmailFocus(false)}
-                />
-              <p id='emailidnote' className={`max-w-fit min-w-full border rounded-md p-1 pl-2 mt-1 text-sm bg-gray-700 text-gray-50 ${(!emailFocus || validEmail || !email) && 'hidden'}`}>
-                Enter a valid email address.
-              </p>
-            </div>
-
-            <div>
-              <label htmlFor='password' className='sr-only'>
-                Password:
-              </label>
-              <input
-                type='password'
-                id='password'
-                className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
-                placeholder='Password'
-                onChange={(e) => setPwd(e.target.value)}
-                required
-                aria-invalid={validPwd ? 'false' : 'true'}
-                aria-describedby='pwdnote'
-                onFocus={() => setPwdFocus(true)}
-                onBlur={() => setPwdFocus(false)}
               />
-              <div id='pwdnote' className={`max-w-fit min-w-full border rounded-md p-1 mt-1 text-sm bg-gray-700 text-gray-50 ${(!pwdFocus || validPwd) && 'hidden'}`}>
-                <ul className='list-disc ml-6'>
-                  <li>8 to 25 characters.</li>
-                  <li>Must include uppercase and lowercase letters, a number, and a special character.</li>
-                  <li>Allowed special characters:
-                    <span aria-label='exclamation mark'> !</span>
-                    <span aria-label='at symbol'> @</span>
-                    <span aria-label='hashtag'> #</span>
-                    <span aria-label='dollar sign'> $</span>
-                    <span aria-label='percent'> %</span>
-                  </li>
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="email" className="sr-only">Email</label>
+            <input
+              type="text"
+              id="email"
+              className="input-field"
+              placeholder="Email address"
+              autoComplete="off"
+              onChange={(e) => setEmail(e.target.value.toLowerCase())}
+              required
+              aria-invalid={validEmail ? 'false' : 'true'}
+              aria-describedby="emailidnote"
+              onFocus={() => setEmailFocus(true)}
+              onBlur={() => setEmailFocus(false)}
+            />
+            {emailFocus && !validEmail && email && (
+              <p id="emailidnote" className="alert-hint">Enter a valid email address.</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="password" className="sr-only">Password</label>
+            <input
+              type="password"
+              id="password"
+              className="input-field"
+              placeholder="Password"
+              onChange={(e) => setPwd(e.target.value)}
+              required
+              aria-invalid={validPwd ? 'false' : 'true'}
+              aria-describedby="pwdnote"
+              onFocus={() => setPwdFocus(true)}
+              onBlur={() => setPwdFocus(false)}
+            />
+            {pwdFocus && !validPwd && (
+              <div id="pwdnote" className="alert-hint">
+                <ul className="ml-4 list-disc space-y-1">
+                  <li>8 to 25 characters</li>
+                  <li>Uppercase, lowercase, number, and special character (! @ # $ %)</li>
                 </ul>
               </div>
-            </div>
+            )}
+          </div>
 
-            <div>
-              <button
-                disabled={!validEmail || !validPwd}
-                className='group relative flex w-full justify-center rounded-md border border-transparent bg-sky-600 py-2 px-4 text-sm font-medium text-white hover:bg-sky-700 disabled:bg-gray-400'>
-                  Sign Up
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
-    </>
+          <button type="submit" disabled={!validEmail || !validPwd} className="btn-primary w-full py-2.5">
+            Create account
+          </button>
+        </form>
+      </div>
+    </section>
   )
 }
 

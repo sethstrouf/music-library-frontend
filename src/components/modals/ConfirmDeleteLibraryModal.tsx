@@ -25,9 +25,9 @@ const ConfirmDeleteLibraryModal = () => {
         getAndSetCurrentUser()
         setCurrentLibrary(null)
         localStorage.removeItem('currentLibraryId');
-        alertService.showSuccess('Library deleted successfully!')
+        alertService.showSuccess('Library deleted.')
       } catch (error) {
-        alertService.showError('Unable to delete library')
+        alertService.showError('Unable to delete library. Please try again.')
         console.error(error)
       } finally {
         setShowConfirmDeleteLibraryModal(false)
@@ -65,28 +65,28 @@ const ConfirmDeleteLibraryModal = () => {
                 <div>
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-800">
-                      Are You Sure?
+                      Delete this library?
                     </Dialog.Title>
-                    <div className="mt-2 text-sm">
-                      This action is permanent and not recoverable.
+                    <div className="mt-2 text-sm text-slate-600">
+                      This permanently removes the library and all works in it. This cannot be undone.
                     </div>
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
+                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
                     onClick={() => deleteLibrary()}
                   >
-                    Yes, delete this library
+                    Delete library
                   </button>
                   <button
                     type="button"
-                    className="mt-3 inline-flex w-full justify-center py-1.5 border border-transparent rounded-md text-base font-medium bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"
+                    className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"
                     ref={deleteButtonRef}
                     onClick={() => setShowConfirmDeleteLibraryModal(false)}
                   >
-                    No
+                    Cancel
                   </button>
                 </div>
               </Dialog.Panel>

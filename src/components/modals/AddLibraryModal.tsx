@@ -67,18 +67,18 @@ const AddLibraryModal = () => {
                 <div>
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-800">
-                      Create Library
+                      New library
                     </Dialog.Title>
                     <div className="mt-2">
                       <label htmlFor="libraryName" className="sr-only">
-                        Library Name
+                        Library name
                       </label>
                       <input
                         type="text"
                         name="libraryName"
                         id="libraryName"
                         className="mt-4 mb-8 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
-                        placeholder="Name your library"
+                        placeholder="e.g. Concert Choir, Jazz Band"
                         value={libraryName}
                         ref={libraryNameInput}
                         onChange={(e) => setLibraryName(e.target.value)}
@@ -92,7 +92,7 @@ const AddLibraryModal = () => {
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
                     onClick={(e) => createLibrary(e)}
                   >
-                    Create Library
+                    Create library
                   </button>
                   <button
                     type="button"

@@ -43,7 +43,7 @@ const AddWorkToLibraryModal = ({selectedWork, worksAlreadyInLibrary, setWorksAlr
         headers: { Authorization: `${accessToken}` }
       })
       setWorksAlreadyInLibrary([...worksAlreadyInLibrary, res.data.data.attributes.work.id.toString()])
-      alertService.showSuccess(`${selectedWork!.attributes.title} has been added to ${currentLibrary?.attributes.name}!`)
+      alertService.showSuccess(`Added "${selectedWork!.attributes.title}" to ${currentLibrary?.attributes.name}.`)
     } catch (err) {
       console.error(err)
     } finally {
@@ -84,7 +84,7 @@ const AddWorkToLibraryModal = ({selectedWork, worksAlreadyInLibrary, setWorksAlr
                 <form className='text-center sm:text-left' onSubmit={(e) => addWorkToLibrary(e)}>
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-800">
-                      Add Library Information
+                      Add to library
                     </Dialog.Title>
                     <div className="mt-6 mb-4 sm:pl-24 sm:-ml-2">
                       <LibrarySelect />
@@ -95,7 +95,7 @@ const AddWorkToLibraryModal = ({selectedWork, worksAlreadyInLibrary, setWorksAlr
                     <div className="sm:pl-20 space-y-6 sm:space-y-5">
                       <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:pt-5">
                         <label htmlFor="index" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                          Library Index
+                          Library index
                           <span className='text-xs italic text-gray-400'> (optional)</span>
                         </label>
                         <div className="mt-1 sm:col-span-2 sm:mt-0">
@@ -133,13 +133,13 @@ const AddWorkToLibraryModal = ({selectedWork, worksAlreadyInLibrary, setWorksAlr
                     <div className="sm:pl-20 space-y-6 sm:space-y-5 pt-4">
                       <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:pt-5">
                         <label htmlFor="last-performed" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                          Last Performed
+                          Last performed
                           <span className='text-xs italic text-gray-400'> (optional)</span>
                         </label>
                         <div className="mt-1 sm:col-span-2 sm:mt-0">
                           <input type="date" id="last-performed" name="last-performed"
                             min="1900-01-01"
-                            max="2023-12-31"
+                            max={`${new Date().getFullYear()}-12-31`}
                             className="block w-44 mx-auto sm:mx-0 max-w-lg rounded-md shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:max-w-xs sm:text-sm text-center sm:text-left"
                             value={lastPerformedDate}
                             onChange={(e) => {setLastPeformedDate(e.target.value)}}

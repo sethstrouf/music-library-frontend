@@ -77,11 +77,11 @@ const SearchColleaguesModal = ({ getColleagues } : Props) => {
                 <div>
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-800">
-                      Search Colleagues
+                      Find colleagues
                     </Dialog.Title>
                     <div className="mt-2">
                       <form className='text-center' onSubmit={(e) => handleSearchSubmit(e)}>
-                        <ColleagueSearchBar placeholder='Search your colleagues' searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+                        <ColleagueSearchBar placeholder="Search by name or email…" searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                       </form>
                     </div>
                   </div>

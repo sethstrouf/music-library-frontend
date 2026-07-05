@@ -119,7 +119,7 @@ const ColleagueLibraryModal = ({ libraryId } : Props) => {
                     <Dialog.Title as="h3" className="mb-4 text-lg font-medium leading-6 text-gray-800">
                       {library?.attributes.name}
                     </Dialog.Title>
-                    <WorkSearchBar placeholder='Search library' searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+                    <WorkSearchBar placeholder="Search this library…" searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                     <div className="mt-4">
                       <ColleagueLibraryTable libraryWorks={libraryWorks} />
                     </div>

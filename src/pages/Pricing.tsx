@@ -1,163 +1,86 @@
 import { useEffect } from 'react'
 
-const Pricing = () => {
+const CheckIcon = () => (
+  <svg className="h-5 w-5 flex-shrink-0 text-brand-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+  </svg>
+)
 
+const TIERS = [
+  {
+    name: 'Free',
+    price: '$0',
+    description: 'Everything you need to catalog your first ensemble.',
+    features: ['1 library', 'Up to 100 works', 'Basic search', 'Community support'],
+    cta: 'Start for free',
+    highlighted: false,
+  },
+  {
+    name: 'Individual',
+    price: '$99',
+    description: 'For directors with multiple ensembles and growing collections.',
+    features: ['2 libraries', 'Up to 1,000 works each', 'Advanced search', 'Priority email support'],
+    cta: 'Get Individual',
+    highlighted: true,
+  },
+  {
+    name: 'Organization',
+    price: '$249',
+    description: 'For schools and organizations with several directors on staff.',
+    features: ['3 libraries per user', 'Unlimited works', 'Full colleague network', 'Dedicated support'],
+    cta: 'Contact sales',
+    highlighted: false,
+  },
+]
+
+const Pricing = () => {
   useEffect(() => {
-    document.title = 'Pricing'
+    document.title = 'Pricing — Songsemble'
   }, [])
 
   return (
-    <div className="py-12 px-4 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">Pricing</h1>
-      <p className="mt-6 max-w-4xl text-xl text-gray-500">Choose an affordable plan that's packed with the best features for you and your organization.</p>
+    <div className="page-container">
+      <h1 className="page-title">Pricing</h1>
+      <p className="page-subtitle">
+        Simple annual plans for individuals and organizations.
+      </p>
 
-      {/* Tiers */}
-      <div className="mt-24 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
-        <div className="relative flex flex-col rounded-2xl border border-gray-200 bg-white p-8 shadow-md">
-          <div className="flex-1">
-            <h3 className="text-xl font-semibold text-gray-800">Free</h3>
-            <p className="mt-4 flex items-baseline text-gray-800">
-              <span className="text-5xl font-bold tracking-tight">$0</span>
-              <span className="ml-1 text-xl font-semibold">/year</span>
+      <div className="mt-16 grid gap-8 lg:grid-cols-3">
+        {TIERS.map((tier) => (
+          <div
+            key={tier.name}
+            className={`relative flex flex-col rounded-2xl border p-8 ${
+              tier.highlighted
+                ? 'border-brand-500 bg-white shadow-elevated ring-1 ring-brand-500'
+                : 'border-slate-200 bg-white shadow-soft'
+            }`}
+          >
+            {tier.highlighted && (
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand-600 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                Most popular
+              </span>
+            )}
+            <h3 className="text-xl font-semibold text-slate-900">{tier.name}</h3>
+            <p className="mt-4 flex items-baseline text-slate-900">
+              <span className="text-5xl font-bold tracking-tight">{tier.price}</span>
+              <span className="ml-1 text-lg font-medium text-slate-500">/year</span>
             </p>
-            <p className="mt-6 text-gray-500">The essentials to provide your best work for clients.</p>
-
-            {/* Feature list */}
-            <ul role="list" className="mt-6 space-y-6">
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">1 library</span>
-              </li>
-
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">Up to 100 works per library</span>
-              </li>
-
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">Access to basic reports</span>
-              </li>
-
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">48-hour support response time</span>
-              </li>
+            <p className="mt-4 text-sm leading-relaxed text-slate-600">{tier.description}</p>
+            <ul className="mt-8 flex-1 space-y-4">
+              {tier.features.map((feature) => (
+                <li key={feature} className="flex items-start gap-3 text-sm text-slate-600">
+                  <CheckIcon />
+                  {feature}
+                </li>
+              ))}
             </ul>
+            <button
+              className={`mt-8 w-full ${tier.highlighted ? 'btn-primary py-3' : 'btn-secondary py-3'}`}
+            >
+              {tier.cta}
+            </button>
           </div>
-
-          <a href="#" className="bg-sky-50 text-sky-700 hover:bg-sky-100 mt-8 block w-full py-3 px-6 border border-transparent rounded-md text-center font-medium">Annual billing</a>
-        </div>
-
-        <div className="relative flex flex-col rounded-2xl border border-gray-200 bg-white p-8 shadow-md">
-          <div className="flex-1">
-            <h3 className="text-xl font-semibold text-gray-800">Individual</h3>
-
-            <p className="absolute top-0 -translate-y-1/2 transform rounded-full bg-sky-500 py-1.5 px-4 text-sm font-semibold text-white">Most popular</p>
-            <p className="mt-4 flex items-baseline text-gray-800">
-              <span className="text-5xl font-bold tracking-tight">$99</span>
-              <span className="ml-1 text-xl font-semibold">/year</span>
-            </p>
-            <p className="mt-6 text-gray-500">A plan that scales with your rapidly growing business.</p>
-
-            {/* Feature list */}
-            <ul role="list" className="mt-6 space-y-6">
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">2 libraries</span>
-              </li>
-
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">Up to 1000 works per library</span>
-              </li>
-
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">Access to advanced reports</span>
-              </li>
-
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">24-hour support response time</span>
-              </li>
-            </ul>
-          </div>
-
-          <a href="#" className="bg-sky-500 text-white hover:bg-sky-600 mt-8 block w-full py-3 px-6 border border-transparent rounded-md text-center font-medium">Annual billing</a>
-        </div>
-
-        <div className="relative flex flex-col rounded-2xl border border-gray-200 bg-white p-8 shadow-md">
-          <div className="flex-1">
-            <h3 className="text-xl font-semibold text-gray-800">Organization</h3>
-            <p className="mt-4 flex items-baseline text-gray-800">
-              <span className="text-5xl font-bold tracking-tight">$249</span>
-              <span className="ml-1 text-xl font-semibold">/year</span>
-            </p>
-            <p className="mt-6 text-gray-500">Dedicated support and infrastructure for your company.</p>
-
-            {/* Feature list */}
-            <ul role="list" className="mt-6 space-y-6">
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">3 libraries per user</span>
-              </li>
-
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">Unlimited works per library</span>
-              </li>
-
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">Access to advanced reports</span>
-              </li>
-
-              <li className="flex">
-                {/* Heroicon name: outline/check */}
-                <svg className="h-6 w-6 flex-shrink-0 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="ml-3 text-gray-500">1-hour, dedicated support response time</span>
-              </li>
-            </ul>
-          </div>
-
-          <a href="#" className="bg-sky-50 text-sky-700 hover:bg-sky-100 mt-8 block w-full py-3 px-6 border border-transparent rounded-md text-center font-medium">Annual billing</a>
-        </div>
+        ))}
       </div>
     </div>
   )

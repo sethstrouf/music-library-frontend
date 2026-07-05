@@ -61,7 +61,7 @@ const WorkSearchResultsList = ({ searchResults, setShowAddWorkToLibraryModal, se
         console.error(err)
       }
     } else {
-      alertService.showError('File must be jpg or png')
+      alertService.showError('Please upload a JPG or PNG image.')
     }
   }
 
@@ -72,11 +72,11 @@ const WorkSearchResultsList = ({ searchResults, setShowAddWorkToLibraryModal, se
         url: `${import.meta.env.VITE_API_HOST}/api/v1/works/${work.id}`,
         headers: { Authorization: `${accessToken}` }
       })
-      alertService.showSuccess('Work removed')
+      alertService.showSuccess('Work removed from catalog.')
       handleSearch()
     } catch (err) {
       console.error(err)
-      alertService.showError('Unable to delete work')
+      alertService.showError('Unable to remove work. Please try again.')
     }
   }
 
@@ -119,11 +119,11 @@ const WorkSearchResultsList = ({ searchResults, setShowAddWorkToLibraryModal, se
                     </div>
                     <div className="mt-2 md:mt-0">
                       <div>
-                        <p className="text-sm text-gray-800">
-                          Published: {result.attributes.publishing_year}
+                        <p className="text-sm text-slate-600">
+                          Published {result.attributes.publishing_year ?? '—'}
                         </p>
-                        <p className="mt-2 flex items-center text-sm text-gray-800">
-                          Genre: {result.attributes.genre}
+                        <p className="mt-1 text-sm capitalize text-slate-600">
+                          {result.attributes.genre?.replace(/_/g, ' ') ?? 'Genre unknown'}
                         </p>
                       </div>
                     </div>
@@ -132,26 +132,23 @@ const WorkSearchResultsList = ({ searchResults, setShowAddWorkToLibraryModal, se
                 <div>
                   {result.id && worksAlreadyInLibrary.includes(result.id)
                   ?
-                    <p className="pr-3 text-sm text-gray-700 italic">In library</p>
+                    <p className="pr-3 text-sm italic text-slate-500">Already in library</p>
                   :
                     <button
                       type="button"
-                      className={`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium
-                      text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:w-auto
-                      ${!currentLibrary ? "bg-gray-400 pointer-events-none" : "bg-sky-600"}`}
+                      className={`btn-primary ${!currentLibrary ? 'pointer-events-none opacity-40' : ''}`}
                       onClick={() => handleAdd(result)}
                     >
-                      + Add
+                      Add to library
                     </button>
                   }
                   {currentUser!.admin &&
                     <button
                     type="button"
-                    className='ml-2 inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium
-                    text-white shadow-sm bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:w-auto'
+                    className="btn-danger ml-2"
                     onClick={() => handleDelete(result)}
                     >
-                      - Delete
+                      Remove
                     </button>
                   }
                 </div>
@@ -165,6 +162,3 @@ const WorkSearchResultsList = ({ searchResults, setShowAddWorkToLibraryModal, se
 }
 
 export default WorkSearchResultsList
-function setState(): [any, any] {
-  throw new Error("Function not implemented.")
-}

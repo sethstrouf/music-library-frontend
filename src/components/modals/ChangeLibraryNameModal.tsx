@@ -66,7 +66,7 @@ const ChangeLibraryNameModal = () => {
                 <div>
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-800">
-                      Change Library Name
+                      Rename library
                     </Dialog.Title>
                     <div className="mt-2">
                       <label htmlFor="libraryName" className="sr-only">
@@ -90,7 +90,7 @@ const ChangeLibraryNameModal = () => {
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
                     onClick={(e) => changeLibraryName(e)}
                   >
-                    Update Name
+                    Save name
                   </button>
                   <button
                     type="button"

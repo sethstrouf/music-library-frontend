@@ -73,11 +73,11 @@ const SignInForm = () => {
       navigate(from, { replace: true })
     } catch (err: any) {
       if (err?.response.status === 0) {
-        setErrorMsg('No Server Response')
+        setErrorMsg('Unable to reach the server. Please try again.')
       } else if (err?.response.status === 401) {
-        setErrorMsg('Invalid Email or Password')
+        setErrorMsg('Incorrect email or password.')
       } else {
-        setErrorMsg('Sign In Failed')
+        setErrorMsg('Sign-in failed. Please try again.')
       }
       if (emailRef.current) {
         emailRef.current.focus()
@@ -96,83 +96,72 @@ const SignInForm = () => {
             return qs.stringify(params)
           },
         })
-        alertService.showSuccess('Check email for your reset password link')
+        alertService.showSuccess('Check your email for a password reset link.')
       } catch (error) {
         console.error(error)
       }
     } else {
-      setErrorMsg('Enter valid email address')
+      setErrorMsg('Enter a valid email address to reset your password.')
     }
   }
 
   return (
-    <>
-      <section className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
-        <div className='md:w-96 w-72 space-y-8'>
-          <div>
-            <h1 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-700'>
-              Sign in to your account
-            </h1>
-          </div>
-
-          <div>
-            <div className={`p-1 bg-red-300 border rounded-md font-medium ${!errorMsg && 'hidden'}`}>
-              <i className='fa-regular fa-circle-xmark px-2' />
-              <span>{errorMsg}</span>
-            </div>
-          </div>
-
-          <form className='mt-8 space-y-6' onSubmit={signInUser}>
-            <div>
-              <label htmlFor='email' className='sr-only'>
-                Email:
-              </label>
-              <input
-                type='text'
-                id='email'
-                className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
-                placeholder='Email address'
-                ref={emailRef}
-                autoComplete='off'
-                onChange={(e) => setEmail(e.target.value.toLowerCase())}
-                required
-                aria-invalid={validEmail ? 'false' : 'true'}
-                value={email}
-                />
-            </div>
-
-            <div>
-              <label htmlFor='password' className='sr-only'>
-                Password:
-              </label>
-              <input
-                type='password'
-                id='password'
-                className='relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-800 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none sm:text-sm'
-                placeholder='Password'
-                onChange={(e) => setPwd(e.target.value)}
-                required
-                aria-invalid={validPwd ? 'false' : 'true'}
-                value={pwd}
-              />
-            </div>
-
-            <div className='text-sm text-right'>
-              <a onClick={() => sendResetPasswordEmail()} className='cursor-pointer font-medium text-sky-600 hover:text-sky-500'>
-                Forgot your password?
-              </a>
-            </div>
-            <div>
-              <button
-                disabled={!validEmail || !validPwd}
-                className='group relative flex w-full justify-center rounded-md border border-transparent bg-sky-600 py-2 px-4 text-sm font-medium text-white hover:bg-sky-700 disabled:bg-gray-400'>
-                  Sign In
-              </button>
-            </div>
-          </form>
+    <section className="flex min-h-[70vh] items-center justify-center py-12">
+      <div className="auth-card">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
+          <p className="mt-2 text-sm text-slate-600">Sign in to manage your libraries</p>
         </div>
-      </section>
-    </>
+
+        {errorMsg && (
+          <div className="alert-error" role="alert">
+            {errorMsg}
+          </div>
+        )}
+
+        <form className="space-y-5" onSubmit={signInUser}>
+          <div>
+            <label htmlFor="email" className="sr-only">Email</label>
+            <input
+              type="text"
+              id="email"
+              className="input-field"
+              placeholder="Email address"
+              ref={emailRef}
+              autoComplete="off"
+              onChange={(e) => setEmail(e.target.value.toLowerCase())}
+              required
+              aria-invalid={validEmail ? 'false' : 'true'}
+              value={email}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className="sr-only">Password</label>
+            <input
+              type="password"
+              id="password"
+              className="input-field"
+              placeholder="Password"
+              onChange={(e) => setPwd(e.target.value)}
+              required
+              aria-invalid={validPwd ? 'false' : 'true'}
+              value={pwd}
+            />
+          </div>
+
+          <div className="text-right">
+            <button type="button" onClick={() => sendResetPasswordEmail()} className="text-link text-sm">
+              Forgot password?
+            </button>
+          </div>
+
+          <button type="submit" disabled={!validEmail || !validPwd} className="btn-primary w-full py-2.5">
+            Sign in
+          </button>
+        </form>
+      </div>
+    </section>
   )
 }
 

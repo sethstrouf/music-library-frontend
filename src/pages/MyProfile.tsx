@@ -20,7 +20,7 @@ const MyProfile = () => {
   const [validConfirmPwd, setValidConfirmPwd] = useState(false)
 
   useEffect(() => {
-    document.title = 'User Profile'
+    document.title = 'My Profile — Songsemble'
   }, [])
 
   useEffect(() => {
@@ -41,10 +41,10 @@ const MyProfile = () => {
           data: {user: {first_name: firstName, last_name: lastName}},
           headers: { Authorization: `${accessToken}` }
         })
-      alertService.showSuccess('Your profile has updated successfully!')
+      alertService.showSuccess('Profile updated.')
       setCurrentUser(res.data.data)
     } catch (err: any) {
-      alertService.showError('Update failed')
+      alertService.showError('Unable to update profile.')
       console.error(err);
     }
   }
@@ -58,10 +58,10 @@ const MyProfile = () => {
           data: { user: { password: pwd, password_confirmation: confirmPwd } },
           headers: { Authorization: `${accessToken}` }
         })
-      alertService.showSuccess('Your password has been changed!')
+      alertService.showSuccess('Password updated.')
       setCurrentUser(res.data.data)
     } catch (err: any) {
-      alertService.showError('Password change failed')
+      alertService.showError('Unable to update password.')
       console.error(err);
     }
   }
@@ -83,7 +83,7 @@ const MyProfile = () => {
         console.error(err)
       }
     } else {
-      alertService.showError('File must be jpg or png')
+      alertService.showError('Please upload a JPG or PNG image.')
     }
   }
 
@@ -105,8 +105,8 @@ return (
           <div className="p-8 bg-white shadow-md rounded-md">
             <div className='pb-5 border-b border-1 border-gray-200'>
               <h3 className="text-lg font-medium leading-6 text-gray-800">Profile Photo</h3>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                This photo wil be visible by all users.
+              <p className="mt-1 max-w-2xl text-sm text-slate-500">
+                Visible to other Songsemble users.
               </p>
             </div>
             <div className='my-4'>
@@ -127,8 +127,8 @@ return (
           <div className="space-y-6 sm:space-y-5">
             <div>
               <h3 className="text-lg font-medium leading-6 text-gray-800">Profile</h3>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                This information will be displayed publicly so be careful what you share.
+              <p className="mt-1 max-w-2xl text-sm text-slate-500">
+                Your name appears on your profile and in colleague searches.
               </p>
             </div>
 

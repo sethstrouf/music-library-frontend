@@ -66,18 +66,18 @@ const EditWorkModal = ({ handleSearch, selectedWork } : Props) => {
         headers: { Authorization: `${accessToken}` }
       })
       handleSearch()
-      alertService.showSuccess(`${selectedWork?.attributes.title} updated successfully!`)
+      alertService.showSuccess('Work updated.')
       setShowEditWorkModal(false)
     } catch (err) {
       console.error(err)
       if (title == '') {
-        alertService.showError('Title required')
+        alertService.showError('Title is required.')
       }
       if (composer == '' && arranger == '') {
-        alertService.showError('Composer or arranger required')
+        alertService.showError('Composer or arranger is required.')
       }
       if (title != '' && composer != '' && arranger != '') {
-        alertService.showError('Failed to update')
+        alertService.showError('Unable to update work. Please try again.')
       }
     }
   }

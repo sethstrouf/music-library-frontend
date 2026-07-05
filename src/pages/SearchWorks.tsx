@@ -10,12 +10,12 @@ import useStore from '../store'
 import AddWorkModal from '../components/modals/AddWorkModal'
 
 const SearchWorks = () => {
-  const accessToken = useStore(state => state.accessToken)
-  const currentUser = useStore(state => state.currentUser)
-  const showAddWorkToLibraryModal = useStore(state => state.showAddWorkToLibraryModal)
-  const setShowAddWorkToLibraryModal = useStore(state => state.setShowAddWorkToLibraryModal)
-  const showAddWorkModal = useStore(state => state.showAddWorkModal)
-  const setShowAddWorkModal = useStore(state => state.setShowAddWorkModal)
+  const accessToken = useStore((state) => state.accessToken)
+  const currentUser = useStore((state) => state.currentUser)
+  const showAddWorkToLibraryModal = useStore((state) => state.showAddWorkToLibraryModal)
+  const setShowAddWorkToLibraryModal = useStore((state) => state.setShowAddWorkToLibraryModal)
+  const showAddWorkModal = useStore((state) => state.showAddWorkModal)
+  const setShowAddWorkModal = useStore((state) => state.setShowAddWorkModal)
 
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [searchResults, setSearchResults] = useState<IWork[]>([])
@@ -23,7 +23,7 @@ const SearchWorks = () => {
   const [worksAlreadyInLibrary, setWorksAlreadyInLibrary] = useState<number[]>([])
 
   useEffect(() => {
-    document.title = 'SearchWorks'
+    document.title = 'Add Music — Songsemble'
   }, [])
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const SearchWorks = () => {
     }
   }, [searchQuery])
 
-  const handleSearchSubmit = (e: any) => {
+  const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     handleSearch()
   }
@@ -43,12 +43,10 @@ const SearchWorks = () => {
         method: 'get',
         url: `${import.meta.env.VITE_API_HOST}/api/v1/search_works`,
         params: {
-          works_query: { query: searchQuery }
+          works_query: { query: searchQuery },
         },
-        paramsSerializer: (params) => {
-          return qs.stringify(params)
-        },
-        headers: { Authorization: `${accessToken}` }
+        paramsSerializer: (params) => qs.stringify(params),
+        headers: { Authorization: `${accessToken}` },
       })
       setSearchResults(res.data)
     } catch (error) {
@@ -57,33 +55,49 @@ const SearchWorks = () => {
   }
 
   return (
-    <div className="py-12 px-4 sm:px-6 lg:px-8">
-      {showAddWorkToLibraryModal && <AddWorkToLibraryModal selectedWork={selectedWork} worksAlreadyInLibrary={worksAlreadyInLibrary} setWorksAlreadyInLibrary={setWorksAlreadyInLibrary} />}
+    <div className="page-container">
+      {showAddWorkToLibraryModal && (
+        <AddWorkToLibraryModal
+          selectedWork={selectedWork}
+          worksAlreadyInLibrary={worksAlreadyInLibrary}
+          setWorksAlreadyInLibrary={setWorksAlreadyInLibrary}
+        />
+      )}
       {showAddWorkModal && <AddWorkModal />}
 
-      <h1 className="text-3xl pb-6 font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">Search Works</h1>
+      <h1 className="page-title">Add Music</h1>
+      <p className="page-subtitle">
+        Search the catalog and add works to your library.
+      </p>
 
-      <LibrarySelect />
-
-      {currentUser!.admin &&
-        <button
-        type="button"
-        className="mt-4 inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:w-auto"
-        onClick={() => setShowAddWorkModal(true)}
-        >
-          + Add New Work
-        </button>
-      }
-
-      <div className='mx-auto pt-12'>
-        <form onSubmit={(e) => handleSearchSubmit(e)}>
-          <WorkSearchBar placeholder='Search titles like "Homeward Bound" or composers like "Eric Whitacre"' searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        </form>
+      <div className="mt-6">
+        <LibrarySelect />
       </div>
 
-      <div className='pt-12'>
-        <WorkSearchResultsList searchResults={searchResults} setShowAddWorkToLibraryModal={setShowAddWorkToLibraryModal} setSelectedWork={setSelectedWork} selectedWork={selectedWork}
-                               worksAlreadyInLibrary={worksAlreadyInLibrary} setWorksAlreadyInLibrary={setWorksAlreadyInLibrary} handleSearch={handleSearch} />
+      {currentUser!.admin && (
+        <button type="button" className="btn-secondary mt-4" onClick={() => setShowAddWorkModal(true)}>
+          Add work to catalog
+        </button>
+      )}
+
+      <form className="mt-8" onSubmit={handleSearchSubmit}>
+        <WorkSearchBar
+          placeholder='Try "Homeward Bound" or "Eric Whitacre"'
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+      </form>
+
+      <div className="mt-8">
+        <WorkSearchResultsList
+          searchResults={searchResults}
+          setShowAddWorkToLibraryModal={setShowAddWorkToLibraryModal}
+          setSelectedWork={setSelectedWork}
+          selectedWork={selectedWork}
+          worksAlreadyInLibrary={worksAlreadyInLibrary}
+          setWorksAlreadyInLibrary={setWorksAlreadyInLibrary}
+          handleSearch={handleSearch}
+        />
       </div>
     </div>
   )

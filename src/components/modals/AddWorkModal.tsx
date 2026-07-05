@@ -59,18 +59,18 @@ const AddWorkModal = () => {
         data: { work: data },
         headers: { Authorization: `${accessToken}` }
       })
-      alertService.showSuccess(`New work created successfully!`)
+      alertService.showSuccess('Work added to catalog.')
       setShowAddWorkModal(false)
     } catch (err) {
       console.error(err)
       if (title == '') {
-        alertService.showError('Title required')
+        alertService.showError('Title is required.')
       }
       if (composer == '' && arranger == '') {
-        alertService.showError('Composer or arranger required')
+        alertService.showError('Composer or arranger is required.')
       }
       if (title != '' && composer != '' && arranger != '') {
-        alertService.showError('Unable to create work')
+        alertService.showError('Unable to create work. Please try again.')
       }
     }
   }
@@ -105,7 +105,7 @@ const AddWorkModal = () => {
                 <form className='text-center sm:text-left' onSubmit={(e) => updateWork(e)}>
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-800">
-                      Create New Work
+                      Add work to catalog
                     </Dialog.Title>
                   </div>
 

@@ -16,6 +16,8 @@ const App = () => {
         pauseOnFocusLoss={false}
         pauseOnHover={false}
         transition={Slide}
+        theme="colored"
+        toastClassName="!rounded-lg !shadow-elevated"
       />
     </>
   )

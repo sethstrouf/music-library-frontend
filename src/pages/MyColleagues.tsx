@@ -70,32 +70,38 @@ const MyColleagues = () => {
   }
 
   return (
-    <div className="py-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-container">
       {showSearchColleaguesModal && <SearchColleaguesModal getColleagues={getColleagues} />}
       {colleagueLibraryId && showColleagueLibraryModal && <ColleagueLibraryModal libraryId={colleagueLibraryId} />}
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl sm:leading-none lg:text-6xl">My Colleagues</h1>
+
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="page-title">My Colleagues</h1>
+          <p className="page-subtitle">Follow other directors and explore their repertoire.</p>
         </div>
-        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:w-auto"
-            onClick={() => setShowSearchColleaguesModal(true)}
-            >
-            + Search for colleagues
-          </button>
-        </div>
+        <button type="button" className="btn-primary whitespace-nowrap" onClick={() => setShowSearchColleaguesModal(true)}>
+          Find colleagues
+        </button>
       </div>
-      <div className='pt-8'>
-        <form className='text-center' onSubmit={(e) => handleSearchSubmit(e)}>
-          <ColleagueSearchBar placeholder='Search your colleagues' searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        </form>
-      </div>
-      <div className='flex flex-col pt-4'>
-        {colleagues && colleagues.length == 0 && <p className="mt-12 text-center text-sm text-gray-700 font-bold">Not following any colleagues</p>}
-        {colleagues && colleagues.map((followedUser: IUser) => (
-          <ColleagueCard key={followedUser.id} user={followedUser} hideLibraries={false} getColleagues={getColleagues} setColleagueLibraryId={setColleagueLibraryId} />
+
+      <form className="mt-8" onSubmit={(e) => handleSearchSubmit(e)}>
+        <ColleagueSearchBar placeholder="Search by name…" searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      </form>
+
+      <div className="mt-8 space-y-4">
+        {colleagues && colleagues.length === 0 && (
+          <div className="card text-center">
+            <p className="text-slate-600">You&apos;re not following anyone yet. Search for colleagues to connect.</p>
+          </div>
+        )}
+        {colleagues?.map((followedUser: IUser) => (
+          <ColleagueCard
+            key={followedUser.id}
+            user={followedUser}
+            hideLibraries={false}
+            getColleagues={getColleagues}
+            setColleagueLibraryId={setColleagueLibraryId}
+          />
         ))}
       </div>
     </div>
