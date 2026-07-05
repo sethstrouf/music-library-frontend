@@ -1,42 +1,36 @@
 # Music Library Frontend
 
-React + Vite frontend for the music library app.
+React + Vite frontend for the Songsemble music library app.
 
-## Setup
+## Requirements
+
+- Node.js 18+
+
+## Local setup
 
 ```bash
 npm install
+npm start
 ```
 
-## Available Scripts
+The app runs at [http://localhost:5173](http://localhost:5173).
 
-### `git push heroku main`
+Create `.env.development.local` and set `VITE_API_HOST` to your API URL (for example `http://localhost:3000`).
 
-Deploy frontend to [https://strouf-music-library-app.herokuapp.com/](https://strouf-music-library-app.herokuapp.com/).
+## Scripts
 
-### `npm start`
+| Command | Description |
+| --- | --- |
+| `npm start` | Run the dev server |
+| `npm test` | Run tests with Vitest |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview the production build |
+| `npm run serve-heroku` | Serve the production build on `$PORT` |
 
-Runs the app in development mode. Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
+## Deployment
 
-The page reloads when you make changes.
+```bash
+git push heroku main
+```
 
-### `npm test`
-
-Launches the test runner in interactive watch mode.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.
-
-### `npm run preview`
-
-Serves the production build locally for testing.
-
-### `npm run serve-heroku`
-
-Serves the production build on the port specified by `$PORT` (used for Heroku).
-
-## Configuration
-
-- Auth0 domain and audience keys — development: `.env.development.local`, production: Heroku config
-- React version: 18.2
+Production app: [https://strouf-music-library-app.herokuapp.com/](https://strouf-music-library-app.herokuapp.com/)
