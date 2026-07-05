@@ -30,7 +30,7 @@ const TABLE_HEADERS: TableHeader[] = [
   { label: 'Quantity', align: 'text-center' },
   { label: 'Last Performed', align: 'text-center' },
   { label: 'Checked Out?', align: 'text-center' }
-] as const
+]
 
 const LibraryTable = ({ selectedLibraryWorks, setSelectedLibraryWorks, page, perPage} : Props) => {
   const accessToken = useStore(state => state.accessToken)

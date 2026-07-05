@@ -31,7 +31,6 @@
     "vite-plugin-svgr": "^2.2.2",
     "vitest": "^0.27.0",
     "web-vitals": "^2.1.4",
-    "yarn": "^1.22.19",
     "zustand": "^4.0.0"
   },
   "scripts": {
